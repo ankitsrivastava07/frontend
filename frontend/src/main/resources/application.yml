@@ -1,0 +1,17 @@
+spring:
+  application:
+     name:  home-controller
+  freemarker:
+    suffix: .ftl
+
+server:
+  port: 8080
+
+hystrix:
+   command:
+      default:
+         execution:
+            iso lation:
+               thread:
+                  timeoutInMilliseconds: 30000
+
