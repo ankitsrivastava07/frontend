@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link rel="stylesheet" href="login-form/css/font.css">
-	<link rel="stylesheet" href="login-form/css/style.css">
-<script src="login-form/js/jquery.min.js"></script>
-<script src="login-form/js/validate.js"></script>
+	<link rel="stylesheet" href="/login-form/css/font.css">
+	<link rel="stylesheet" href="/login-form/css/style.css">
+<script src="/login-form/js/jquery.min.js"></script>
+<script src="/login-form/js/validate.js"></script>
 
 	</head>
 	<style>
@@ -82,9 +82,8 @@ background-color: #fdf6f6;
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Login</button>
 	            	<span>Don't have an account?
-	            	<a href="/register">Create Account</a>
+	            	<a href="/e-procurement/register">Create Account</a>
 	            	</span>
-									
 	            </div>
 	          </form>
 	        </div>
@@ -94,7 +93,7 @@ background-color: #fdf6f6;
 		</div>
 	</section>
 	
-	<script src="login-form/js/login.js"></script>
+	<script src="/login-form/js/login.js"></script>
 	</body>
 </html>
 

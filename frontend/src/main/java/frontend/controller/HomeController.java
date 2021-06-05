@@ -2,7 +2,6 @@ package frontend.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,17 +13,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-
 import frontend.service.ApiGatewayRequestUri;
 import frontend.service.ChangePasswordResponseStatus;
 import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/e-procurement")
 public class HomeController {
 
 	@Autowired
@@ -33,17 +29,18 @@ public class HomeController {
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
 
-	@GetMapping({ "/", "/home" })
+	@GetMapping({"", "/","/home" })
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
 		model.addObject("userName", "");
 
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null)
-			model.addObject("userName", tokenStatus.getFirstName());
-
+		/*
+		 * TokenStatus tokenStatus = frontendService.isValidToken(request, response); if
+		 * (tokenStatus != null) model.addObject("userName",
+		 * tokenStatus.getFirstName());
+		 */
 		return model;
 	}
 
