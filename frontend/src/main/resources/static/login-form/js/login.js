@@ -62,7 +62,7 @@ function login(formData) {
 		$.ajax({
 
 			type: "POST",
-			url: "/e-procurement/signin",
+			url: "/signin",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			cache: false,
@@ -97,7 +97,7 @@ function changePassword(formData) {
 		$.ajax({
 
 			type: "POST",
-			url: "/e-procurement/change-password",
+			url: "/change-password",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			cache: false,

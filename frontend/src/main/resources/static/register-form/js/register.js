@@ -85,7 +85,7 @@ $(document).ready(function() {
 
 			$.ajax({
 				type: "POST",
-				url: "/e-procurement/register",
+				url: "/register",
 				contentType: "application/json",
 				data: JSON.stringify(formData),
 				cache: false,

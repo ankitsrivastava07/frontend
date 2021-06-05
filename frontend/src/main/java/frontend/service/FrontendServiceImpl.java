@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import frontend.controller.ChangePasswordRequestDto;
 
@@ -33,8 +32,10 @@ public class FrontendServiceImpl implements FrontendService {
 			for (Cookie cookie : cookies)
 
 				if (cookie.getName().equalsIgnoreCase("session_Token")) {
-					cookie.setValue(token);
-					cookie.setPath("/");
+
+					Cookie cook = new Cookie("session_Token", token);
+					response.addCookie(cook);
+
 					return;
 				}
 
@@ -60,7 +61,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return userName;
 	}
 
-	//@HystrixCommand(fallbackMethod = "defaultFallbackMethodHandleRequest")
+	// @HystrixCommand(fallbackMethod = "defaultFallbackMethodHandleRequest")
 	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
 
 		String token = getToken(request);

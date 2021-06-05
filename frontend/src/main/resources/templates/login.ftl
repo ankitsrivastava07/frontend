@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link rel="stylesheet" href="/login-form/css/font.css">
-	<link rel="stylesheet" href="/login-form/css/style.css">
-<script src="/login-form/js/jquery.min.js"></script>
-<script src="/login-form/js/validate.js"></script>
+	<link rel="stylesheet" href="login-form/css/font.css">
+	<link rel="stylesheet" href="login-form/css/style.css">
+<script src="login-form/js/jquery.min.js"></script>
+<script src="login-form/js/validate.js"></script>
 
 	</head>
 	<style>
@@ -84,6 +84,7 @@ background-color: #fdf6f6;
 	            	<span>Don't have an account?
 	            	<a href="/register">Create Account</a>
 	            	</span>
+									
 	            </div>
 	          </form>
 	        </div>
@@ -93,7 +94,7 @@ background-color: #fdf6f6;
 		</div>
 	</section>
 	
-	<script src="/login-form/js/login.js"></script>
+	<script src="login-form/js/login.js"></script>
 	</body>
 </html>
 
