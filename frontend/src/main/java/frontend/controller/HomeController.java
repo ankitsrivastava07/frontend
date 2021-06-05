@@ -20,7 +20,7 @@ import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
 @Controller
-@RequestMapping("/e-procurement")
+@RequestMapping("")
 public class HomeController {
 
 	@Autowired

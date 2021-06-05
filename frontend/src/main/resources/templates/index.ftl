@@ -91,8 +91,8 @@
 										<li><a href="/e-procurement/signout-from-alldevices">Sign out from all device</a></li> 
                                     </ul>
                               <#else>
-                              <li><a href="/e-procurement/signin">Sign in</a></li>
-                              <li><a href="/e-procurement/register">Sign up</a></li>      
+                              <li><a href="/signin">Sign in</a></li>
+                              <li><a href="/register">Sign up</a></li>      
 							</#if>
 							</li>
 							</ul>

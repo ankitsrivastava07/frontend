@@ -111,7 +111,7 @@ input[type=number] {
 							<div class="p-t-15">
 									<button class="btn btn--radius-2 btn--blue" id="submit" type="submit">Submit</button>
 									<span class="align-right">Alredy have an account 
-									<a href="/e-procurement/signin">Sign in</button></span>
+									<a href="/signin">Sign in</button></span>
 							</div>
 					</form>
 				</div>

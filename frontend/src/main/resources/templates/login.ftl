@@ -82,7 +82,7 @@ background-color: #fdf6f6;
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Login</button>
 	            	<span>Don't have an account?
-	            	<a href="/e-procurement/register">Create Account</a>
+	            	<a href="/register">Create Account</a>
 	            	</span>
 	            </div>
 	          </form>
