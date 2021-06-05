@@ -24,7 +24,7 @@ import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class HomeController {
 
 	@Autowired
@@ -33,7 +33,7 @@ public class HomeController {
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
 
-	@GetMapping({ "/", "/home" })
+	@GetMapping({ "", "/", "/home" })
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView();
@@ -183,7 +183,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/error", method = RequestMethod.GET)
 	public ModelAndView errorHandle(HttpServletRequest request) {
-		
+
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
 		if (status != null) {
