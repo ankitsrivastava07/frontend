@@ -1,9 +1,7 @@
 package frontend.controller;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,8 +105,8 @@ public class HomeController {
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mv = new ModelAndView();
-
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		// frontendService.isValidToken(request, response);
+		TokenStatus tokenStatus = null;
 
 		if (tokenStatus != null && !tokenStatus.isStatus()) {
 
@@ -181,26 +179,30 @@ public class HomeController {
 		return new ModelAndView("redirect:" + "/");
 	}
 
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	public ModelAndView errorHandle(HttpServletRequest request) {
+	/*
+	 * @RequestMapping(value = "/error", method = RequestMethod.GET) public
+	 * ModelAndView errorHandle(HttpServletRequest request) {
+	 * 
+	 * Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+	 * 
+	 * if (status != null) {
+	 * 
+	 * Integer statusCode = Integer.valueOf(status.toString());
+	 * 
+	 * if (statusCode == HttpStatus.NOT_FOUND.value()) return new
+	 * ModelAndView("error/error-404");
+	 * 
+	 * else if (statusCode == HttpStatus.TOO_MANY_REQUESTS.value()) return new
+	 * ModelAndView("error/error-429");
+	 * 
+	 * else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value())
+	 * 
+	 * 
+	 * return new ModelAndView("/error/error-500");
+	 * 
+	 * }
+	 * 
+	 * return new ModelAndView("forward:" + "error/error"); }
+	 */
 
-		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-		if (status != null) {
-
-			Integer statusCode = Integer.valueOf(status.toString());
-
-			if (statusCode == HttpStatus.NOT_FOUND.value())
-				return new ModelAndView("error/error-404");
-
-			else if (statusCode == HttpStatus.TOO_MANY_REQUESTS.value())
-				return new ModelAndView("error/error-429");
-
-			else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value())
-				return new ModelAndView("forward:" + "/error/error-500");
-
-		}
-
-		return new ModelAndView("forward:" + "error/error");
-	}
 }

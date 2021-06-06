@@ -25,15 +25,15 @@ public class MyErrorController implements ErrorController {
 			Integer statusCode = Integer.valueOf(status.toString());
 
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
-				ModelAndView mv = new ModelAndView("forward:" + "/error");
+				ModelAndView mv = new ModelAndView("redirect:" + "/error");
 				mv.setViewName("error/error-404");
 				return mv;
 			} else if (statusCode == HttpStatus.TOO_MANY_REQUESTS.value())
-				return new ModelAndView("error/error-429");
+				return new ModelAndView("redirect:" + "error/error-429");
 
 			else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 
-				ModelAndView mv = new ModelAndView("forward:" + "/error");
+				ModelAndView mv = new ModelAndView("forward:"+"/");
 				mv.setViewName("error/error-500");
 				return mv;
 			}
