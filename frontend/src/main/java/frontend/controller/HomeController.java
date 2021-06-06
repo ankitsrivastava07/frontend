@@ -105,8 +105,8 @@ public class HomeController {
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mv = new ModelAndView();
-		// frontendService.isValidToken(request, response);
-		TokenStatus tokenStatus = null;
+
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 
 		if (tokenStatus != null && !tokenStatus.isStatus()) {
 
@@ -204,5 +204,5 @@ public class HomeController {
 	 * 
 	 * return new ModelAndView("forward:" + "error/error"); }
 	 */
-
+	
 }
