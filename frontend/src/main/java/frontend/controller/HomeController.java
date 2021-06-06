@@ -31,17 +31,18 @@ public class HomeController {
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
 
-	@GetMapping({ "", "/", "/home" })
+	@GetMapping({ "", "/home" })
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
 		model.addObject("userName", "");
 
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null)
-			model.addObject("userName", tokenStatus.getFirstName());
-
+		/*
+		 * TokenStatus tokenStatus = frontendService.isValidToken(request, response); if
+		 * (tokenStatus != null) model.addObject("userName",
+		 * tokenStatus.getFirstName());
+		 */
 		return model;
 	}
 
@@ -204,5 +205,5 @@ public class HomeController {
 	 * 
 	 * return new ModelAndView("forward:" + "error/error"); }
 	 */
-	
+
 }
