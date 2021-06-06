@@ -31,7 +31,7 @@ public class HomeController {
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
 
-	@GetMapping({ "", "/home" })
+	@GetMapping({ "/", "/home" })
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView();
