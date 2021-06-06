@@ -13,7 +13,7 @@
 <title>Sign up Form</title>
 <script src="register-form/vendor/jquery/jquery.min.js"></script>
 <script src="login-form/js/validate.js"></script>
-
+<script src="/login-form/js/cookie.js" type="text/javascript"></script>
 <!-- Icons font CSS-->
 <link
 	href="register-form/vendor/mdi-font/css/material-design-iconic-font.min.css"
