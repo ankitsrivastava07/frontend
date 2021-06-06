@@ -61,7 +61,6 @@ public class FrontendServiceImpl implements FrontendService {
 		return userName;
 	}
 
-	// @HystrixCommand(fallbackMethod = "defaultFallbackMethodHandleRequest")
 	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
 
 		String token = getToken(request);
@@ -94,7 +93,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	public ChangePasswordResponseStatus changePassword(String password, String token) {
+	public TokenStatus changePassword(String password, String token) {
 
 		ChangePasswordRequestDto dto = new ChangePasswordRequestDto();
 
@@ -108,9 +107,9 @@ public class FrontendServiceImpl implements FrontendService {
 
 		dto.setToken(map);
 
-		ChangePasswordResponseStatus changePasswordResponseStatus = apiGatewayRequestUri.changePassword(dto).getBody();
+		TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(dto).getBody();
 
-		return changePasswordResponseStatus;
+		return tokenStatus;
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<CreateUserResponseStatus> register(@RequestBody CreateUserRequestDto createUserRequestDto);
 
 	@PostMapping("/users/change-password")
-	public ResponseEntity<ChangePasswordResponseStatus> changePassword(
+	public ResponseEntity<TokenStatus> changePassword(
 			@RequestBody ChangePasswordRequestDto changePasswordRequest);
 
 	@PostMapping("/users/get-first-name")

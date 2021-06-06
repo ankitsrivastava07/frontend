@@ -80,7 +80,7 @@ function login(formData) {
 
 				if (response.responseText == "Success")
 					window.location.href = "/"
-                 $("#password").val("");
+				$("#password").val("");
 			},
 			error: function(error) {
 				alert("Something went wrong  please try again later")
@@ -106,11 +106,28 @@ function changePassword(formData) {
 				xhr.setRequestHeader('session_Token', cookie);
 			},
 			success: function(response) {
-			},
-			complete: function(response) {
 
-				if (response.statusText == "success")
+				setTimeout(function() {
+
+					$.each(response.errorMessage, function(key, value) {
+
+						if ($(".input-group span").length == 0 || $(".input-group span").length == undefined) {
+							var span = $('<span />').addClass(key + '-error error').html(value);
+							$("#" + key).after(span);
+						}
+						else {
+							$("#" + key).html(value);
+						}
+					});
+				}, 500);
+
+				if (response.status)
 					window.location.href = "/"
+
+				if (!response.status) {
+					alert(response.message);
+					window.location.href = "/signin"
+				}
 			},
 			error: function(error) {
 				alert("Something went wrong  please try again later")
@@ -157,7 +174,7 @@ jQuery('#change-password').validate({
 		changePassword(formData)
 	}
 
-})
+});
 
 window.addEventListener("pageshow", function(event) {
 	var historyTraversal = event.persisted ||

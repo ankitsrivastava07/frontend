@@ -92,18 +92,17 @@ $(document).ready(function() {
 				success: function(response) {
 
 					setTimeout(function() {
-						var len = $(".input-group span").length;
 
-						if ($(".input-group span").length == 0 || $(".input-group span").length == undefined) {
-							$(".error").remove();
+						$.each(response.errorMessage, function(key, value) {
 
-							$.each(response.errorMessage, function(key, value) {
+							if ($(".input-group span").length == 0 || $(".input-group span").length == undefined) {
 								var span = $('<span />').addClass(key + '-error error').html(value);
 								$("#" + key).after(span);
-							});
-						} else {
-							$("#" + key).html(value);
-						}
+							}
+							else {
+								$("#" + key).html(value);
+							}
+						});
 					}, 500);
 
 					if (response.status) {
