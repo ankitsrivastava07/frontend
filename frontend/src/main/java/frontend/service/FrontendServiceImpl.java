@@ -135,4 +135,19 @@ public class FrontendServiceImpl implements FrontendService {
 		return "redirect:/error";
 	}
 
+	public void removeToken(HttpServletRequest request, HttpServletResponse response) {
+
+		Cookie cookies[] = request.getCookies();
+
+		if (cookies != null)
+
+			for (Cookie cookie : cookies)
+
+				if (cookie.getName().equalsIgnoreCase("session_Token")) {
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+					return;
+				}
+	}
+
 }
