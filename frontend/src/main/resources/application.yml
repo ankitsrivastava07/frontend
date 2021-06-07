@@ -18,7 +18,11 @@ hystrix:
 eureka:
   client:
     serviceUrl:
-        defaultZone: http://eureka-server-microservice:8761/eureka/
+        defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
 
 feign:
   client:
