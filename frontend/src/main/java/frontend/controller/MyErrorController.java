@@ -33,12 +33,13 @@ public class MyErrorController implements ErrorController {
 
 			else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 
-				ModelAndView mv = new ModelAndView("forward:"+"/");
+				ModelAndView mv = new ModelAndView("forward:" + "/");
 				mv.setViewName("error/error-500");
 				return mv;
 			}
 		}
-		return new ModelAndView("forward:" + "error/error");
+
+		return new ModelAndView("error/error");
 	}
 
 	@Override

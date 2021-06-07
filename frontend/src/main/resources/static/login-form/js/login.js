@@ -83,7 +83,8 @@ function login(formData) {
 				$("#password").val("");
 			},
 			error: function(error) {
-				alert("Something went wrong  please try again later")
+				url = window.location.pathname.replace(/\/+$/, '') + "/error";
+				window.location.replace(url)
 			}
 		})
 	}
@@ -130,6 +131,8 @@ function changePassword(formData) {
 				}
 			},
 			error: function(error) {
+				url = window.location.pathname.replace(/\/+$/, ''); + "/error";
+				window.location.replace(url)
 				alert("Something went wrong  please try again later")
 			}
 		})
