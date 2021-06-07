@@ -116,7 +116,8 @@ $(document).ready(function() {
 					$(".error").remove();
 				},
 				error: function(error) {
-					alert("Something went wrong please try again later")
+					url = window.location.pathname.replace(/\/+$/, '') + "/error";
+					window.location.replace(url)
 				}
 			})
 		}

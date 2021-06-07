@@ -131,7 +131,7 @@ function changePassword(formData) {
 				}
 			},
 			error: function(error) {
-				url = window.location.pathname.replace(/\/+$/, ''); + "/error";
+				url = window.location.pathname.replace(/\/+$/, '') + "/error";
 				window.location.replace(url)
 				alert("Something went wrong  please try again later")
 			}

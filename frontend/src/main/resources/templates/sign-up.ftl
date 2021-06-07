@@ -11,27 +11,27 @@
 
 <!-- Title Page-->
 <title>Sign up Form</title>
-<script src="register-form/vendor/jquery/jquery.min.js"></script>
-<script src="login-form/js/validate.js"></script>
+<script src="/register-form/vendor/jquery/jquery.min.js"></script>
+<script src="/login-form/js/validate.js"></script>
 <script src="/login-form/js/cookie.js" type="text/javascript"></script>
 <!-- Icons font CSS-->
 <link
 	href="register-form/vendor/mdi-font/css/material-design-iconic-font.min.css"
 	rel="stylesheet" media="all">
 <link
-	href="register-form/vendor/font-awesome-4.7/css/font-awesome.min.css"
+	href="/register-form/vendor/font-awesome-4.7/css/font-awesome.min.css"
 	rel="stylesheet" media="all">
 <!-- Font special for pages-->
-<link href="register-form/css/font.css" rel="stylesheet">
+<link href="/register-form/css/font.css" rel="stylesheet">
 
 <!-- Vendor CSS-->
-<link href="register-form/vendor/select2/select2.min.css"
+<link href="/register-form/vendor/select2/select2.min.css"
 	rel="stylesheet" media="all">
-<link href="register-form/vendor/datepicker/daterangepicker.css"
+<link href="/register-form/vendor/datepicker/daterangepicker.css"
 	rel="stylesheet" media="all">
 
 <!-- Main CSS-->
-<link href="register-form/css/main.css" rel="stylesheet" media="all">
+<link href="/register-form/css/main.css" rel="stylesheet" media="all">
 </head>
 
 <style>
@@ -119,7 +119,7 @@ input[type=number] {
 		</div>
 	</div>
 	<!-- Main JS-->
-	<script src="register-form/js/register.js"></script>
+	<script src="/register-form/js/register.js"></script>
 
 </body>
 
