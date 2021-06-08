@@ -117,7 +117,7 @@ $(document).ready(function() {
 				},
 				error: function(error) {
 					url = window.location.pathname.replace(/\/+$/, '') + "/error";
-					window.location.replace(url)
+					window.location.replace(url);
 				}
 			})
 		}
