@@ -18,7 +18,7 @@ hystrix:
 eureka:
   client:
     serviceUrl:
-        defaultZone: http://herokuapp.com:8761/eureka/
+        defaultZone: http://localhost.herokuapp.com/eureka/
   instance:
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
