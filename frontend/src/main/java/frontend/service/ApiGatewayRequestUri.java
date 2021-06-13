@@ -28,7 +28,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<String> getFirstName(@RequestBody String token);
 
 	@PostMapping("/token-session/validate-token")
-	public ResponseEntity<TokenStatus> isValidToken(@RequestBody String jwt);
+	public ResponseEntity<TokenStatus> isValidToken(@RequestBody(required=false) String jwt);
 
 	@PostMapping("/token-session/invalidate-token")
 	public ResponseEntity<TokenStatus> invalidateToken(@RequestBody String token);

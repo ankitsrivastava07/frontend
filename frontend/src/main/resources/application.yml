@@ -1,27 +1,25 @@
+server:
+  port: 8080
+
 spring:
   application:
      name:  home-controller
   freemarker:
     suffix: .ftl
 
-server:
-  port: 8080
-
-hystrix:
-   command:
-      default:
-         execution:
-            iso lation:
-               thread:
-                  timeoutInMilliseconds: 30000
-
-eureka:
-  client:
-        defaultZone: http://eureka-server-microservice.herokuapp.com:8761/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /info
-    healthCheckUrlPath: /health
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+      
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true      
 
 feign:
   client:

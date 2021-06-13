@@ -90,9 +90,8 @@ $(document).ready(function() {
 				data: JSON.stringify(formData),
 				cache: false,
 				success: function(response) {
-
+					$(".input-group span").remove();
 					setTimeout(function() {
-
 						$.each(response.errorMessage, function(key, value) {
 
 							if ($(".input-group span").length == 0 || $(".input-group span").length == undefined) {
@@ -108,18 +107,23 @@ $(document).ready(function() {
 					if (response.status) {
 						$('#signup-form')[0].reset();
 						$.removeCookie('session_Token', { path: '/' });
-						alert("Successfully Registered your account please proceed to login");
-						window.location.href = "/signin"
+						window.location.href = "/"
 					}
 				},
-				complete: function() {
-					$(".error").remove();
-				},
-				error: function(error) {
-					url = window.location.pathname.replace(/\/+$/, '') + "/error";
-					window.location.replace(url);
+				error: function(xhr, ajaxOptions, thrownError) {
+
+					$(".alert").remove();
+					setTimeout(function() {
+						if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+							$(".title").after(("<div class='alert alert-danger' role='alert'>" + xhr.responseText + "</div>"));
+							$(".alert").html(xhr.responseText);
+
+						} else {
+							$(".alert").html(xhr.responseText);
+						}
+					}, 500);
 				}
-			})
+			});
 		}
 	}
 
@@ -127,6 +131,8 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 	$('#email,#mobile').keyup(function() {
-		$(".error").remove();
+		if ($(".input-group span").length == 0 || $(".input-group span").length == undefined) {
+			$(".error").remove();
+		}
 	});
 });

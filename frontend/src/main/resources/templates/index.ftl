@@ -84,7 +84,7 @@
 								<li><a href="/"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 							<#if userName?has_content>
 						<li class="dropdown1">
-						<a href="/signin"><i class="fa fa-angle-down"></i>Hello, Ankit</a>
+						<a href="/signin"><i class="fa fa-angle-down"></i>Hello, ${userName}</a>
                                     <ul role="menu" class="sub-menu" id="menu">
                                         <li><a href="/signout">Sign out</a></li>
 										<li><a href="/change-password">Change password</a></li> 

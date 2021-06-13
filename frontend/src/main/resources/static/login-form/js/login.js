@@ -66,16 +66,20 @@ function login(formData) {
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			cache: false,
-			beforeSend: function() {
-				$(".alert").remove();
-			},
 			success: function(response) {
 			},
 			complete: function(response) {
 
 				$(".alert").remove();
 				setTimeout(function() {
-					$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.responseText + "</div>"));
+
+					if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+
+						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.responseText + "</div>"));
+					} else {
+						$(".alert").html(response.responseText);
+					}
+
 				}, 500);
 
 				if (response.responseText == "Success")

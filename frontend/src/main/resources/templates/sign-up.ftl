@@ -56,6 +56,24 @@ input[type=number] {
 	color: #da534d;
 	padding: 3px 0px;
 }
+
+.alert-danger{
+background-color: #fdf6f6;
+    border-color: #de7575;
+    color: #c20707;
+}
+
+.alert{
+    padding: 12px;
+    margin-top: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-size-adjust: auto;
+    font-size: 14px;
+    text-align: center;
+
+}
+
 </style>
 
 <body>

@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-
 import frontend.controller.ChangePasswordRequestDto;
+import frontend.controller.CreateUserRequestDto;
+import frontend.controller.CreateUserResponseStatus;
+import frontend.controller.LoginStatus;
+import frontend.controller.UserCredential;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
-@DefaultProperties(defaultFallback = "defaultFallbackMethodHandleRequest")
 @Service
 public class FrontendServiceImpl implements FrontendService {
 
@@ -61,6 +63,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return userName;
 	}
 
+	@CircuitBreaker(name = "jwt-session", fallbackMethod = "defaultFallbackMethodHandleRequest")
 	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
 
 		String token = getToken(request);
@@ -130,8 +133,42 @@ public class FrontendServiceImpl implements FrontendService {
 		return tokenStatus;
 	}
 
-	public String defaultFallbackMethodHandleRequest() {
-
-		return "redirect:/error";
+	@Override
+	@CircuitBreaker(name = "user-service", fallbackMethod = "loginFallBackMethod")
+	public LoginStatus createAuthenticationToken(UserCredential userCredential) {
+		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
+		return loginStatus;
 	}
+
+	public LoginStatus loginFallBackMethod(Throwable exception) {
+
+		LoginStatus loginStatus = new LoginStatus();
+		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
+		return loginStatus;
+	}
+
+	@Override
+	@CircuitBreaker(name = "user-service", fallbackMethod = "registerFallBackMethod")
+	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
+			HttpServletResponse response) {
+		CreateUserResponseStatus status = apiGatewayRequestUri.register(createUserRequestDto).getBody();
+		setCookie(request, response, status.getToken());
+		return status;
+	}
+
+	public CreateUserResponseStatus registerFallBackMethod(Throwable exception) {
+		CreateUserResponseStatus createUserResponseStatus = new CreateUserResponseStatus();
+		createUserResponseStatus.setMessage("Sorry Server is currently down.Please try again later");
+		createUserResponseStatus.setHttpStatus(503);
+		return createUserResponseStatus;
+	}
+
+	public TokenStatus defaultFallbackMethodHandleRequest(Throwable exception) {
+
+		TokenStatus tokenStatus = new TokenStatus();
+		System.out.println(exception.getMessage());
+		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		return tokenStatus;
+	}
+
 }
