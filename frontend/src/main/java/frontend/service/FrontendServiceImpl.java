@@ -31,8 +31,9 @@ public class FrontendServiceImpl implements FrontendService {
 
 		Cookie cookies[] = request.getCookies();
 
-		boolean flag = true;
-
+		boolean isJSESSIONID = true;
+		boolean isCookies = true;
+		
 		if (cookies != null) {
 			for (Cookie cookie : cookies)
 
@@ -40,28 +41,34 @@ public class FrontendServiceImpl implements FrontendService {
 
 					cookie.setValue(token);
 					cookie.setPath("/");
-					cookie.setMaxAge(60 * 20);
+					cookie.setMaxAge(60 * 30);
 					response.addCookie(cookie);
+					isCookies=false;
 				}
 
 				else if (cookie.getName().equals("JSESSIONID")) {
 					cookie.setValue(String.valueOf(randomNumber));
 					cookie.setPath("/");
-					flag = false;
+					isJSESSIONID = false;
 					cookie.setMaxAge(60 * 50);
 					response.addCookie(cookie);
 				}
 
 		}
 
-		if (flag) {
+		if (isJSESSIONID) {
 			Cookie jessionCookie = new Cookie("JSESSIONID", String.valueOf(randomNumber));
 			jessionCookie.setPath("/");
 			jessionCookie.setMaxAge(60 * 50);
 			response.addCookie(jessionCookie);
 			return;
 		}
-
+       if(isCookies) {
+    	   Cookie cookie = new Cookie("session_Token", token);
+    	   cookie.setPath("/");
+    	   cookie.setMaxAge(60 * 50);
+			response.addCookie(cookie);
+       }
 	}
 
 	public String getToken(HttpServletRequest request) {

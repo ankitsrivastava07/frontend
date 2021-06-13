@@ -105,7 +105,6 @@ $(document).ready(function() {
 					}, 500);
 
 					if (response.logined) {
-						alert("You are loged in")
 						$('#signup-form')[0].reset();
 						location.reload(true);
 					}
@@ -136,9 +135,17 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-	$('#email,#mobile').keyup(function() {
-		if ($(".input-group span").length == 0 || $(".input-group span").length == undefined) {
+
+	$('#mobile').keyup(function() {
+		if (!$(".input-group span").length == 0 || $(".input-group span").length == undefined) {
 			$(".error").remove();
 		}
 	});
+	
+	$('#email').keyup(function() {
+		if (!$(".input-group span").length == 0 || $(".input-group span").length == undefined) {
+			$(".error").remove();
+		}
+	});
+	
 });

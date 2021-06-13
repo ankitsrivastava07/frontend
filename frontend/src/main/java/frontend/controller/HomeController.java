@@ -42,7 +42,7 @@ public class HomeController {
 	public ResponseEntity<?> login(@RequestBody UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response) throws JsonProcessingException {
 
-		LoginStatus loginStatus = frontendService.createAuthenticationToken(userCredential,request,response);
+		LoginStatus loginStatus = frontendService.createAuthenticationToken(userCredential, request, response);
 
 		if (loginStatus.isStatus())
 			frontendService.setCookie(request, response, loginStatus.getToken());
@@ -80,16 +80,18 @@ public class HomeController {
 		createUserRequestDto.setEmail(email);
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		tokenStatus.setAccessToken(null);
-		tokenStatus.setMessage(null);
-		tokenStatus.setFirstName(null);
-		tokenStatus.setLogined(true);
+
 		if (tokenStatus != null && tokenStatus.isStatus()) {
+
+			tokenStatus.setAccessToken(null);
+			tokenStatus.setMessage(null);
+			tokenStatus.setFirstName(null);
+			tokenStatus.setLogined(true);
 			return new ResponseEntity<>(tokenStatus, HttpStatus.OK);
 		}
 
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto, request, response);
-		if (!status.isStatus() && status.getHttpStatus()!=null && status.getHttpStatus() == 503)
+		if (!status.isStatus() && status.getHttpStatus() != null && status.getHttpStatus() == 503)
 			return new ResponseEntity<>(status.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
 
 		else if (!status.isStatus())
