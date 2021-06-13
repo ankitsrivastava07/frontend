@@ -46,23 +46,19 @@ public class FrontendServiceImpl implements FrontendService {
 					isCookies=false;
 				}
 
-				else if (cookie.getName().equals("JSESSIONID")) {
-					cookie.setValue(String.valueOf(randomNumber));
-					cookie.setPath("/");
-					isJSESSIONID = false;
-					cookie.setMaxAge(60 * 50);
-					response.addCookie(cookie);
-				}
-
+			/*
+			 * else if (cookie.getName().equals("JSESSIONID")) {
+			 * cookie.setValue(String.valueOf(randomNumber)); cookie.setPath("/");
+			 * isJSESSIONID = false; cookie.setMaxAge(60 * 50); response.addCookie(cookie);
+			 * }
+			 */
 		}
 
-		if (isJSESSIONID) {
-			Cookie jessionCookie = new Cookie("JSESSIONID", String.valueOf(randomNumber));
-			jessionCookie.setPath("/");
-			jessionCookie.setMaxAge(60 * 50);
-			response.addCookie(jessionCookie);
-			return;
-		}
+		/*
+		 * if (isJSESSIONID) { Cookie jessionCookie = new Cookie("JSESSIONID",
+		 * String.valueOf(randomNumber)); jessionCookie.setPath("/");
+		 * jessionCookie.setMaxAge(60 * 50); response.addCookie(jessionCookie); }
+		 */
        if(isCookies) {
     	   Cookie cookie = new Cookie("session_Token", token);
     	   cookie.setPath("/");
