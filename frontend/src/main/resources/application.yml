@@ -7,23 +7,14 @@ spring:
   freemarker:
     suffix: .ftl
 
-logging:
-  level:
-    reactor:
-      netty: INFO
-    org:
-      springframework:
-        cloud:
-          gateway: TRACE
-      
-resilience4j.circuitbreaker:
-  configs:
-    default:
-      registerHealthIndicator: true      
-
 feign:
   client:
     config:
-      default:
+      api-gateway:
         connectTimeout: 120000
         readTimeout: 120000
+        loggerLevel: basic 
+
+logging.level.frontend.service.ApiGatewayRequestUri: DEBUG
+feign.compression.request.enabled: true
+feign.compression.response.enabled: true
