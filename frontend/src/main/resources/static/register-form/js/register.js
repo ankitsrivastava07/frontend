@@ -104,6 +104,12 @@ $(document).ready(function() {
 						});
 					}, 500);
 
+					if (response.logined) {
+						alert("You are loged in")
+						$('#signup-form')[0].reset();
+						location.reload(true);
+					}
+
 					if (response.status) {
 						$('#signup-form')[0].reset();
 						$.removeCookie('session_Token', { path: '/' });

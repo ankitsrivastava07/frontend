@@ -20,8 +20,10 @@ public interface FrontendService {
 
 	TokenStatus removeAllTokens(HttpServletRequest request);
 
-	LoginStatus createAuthenticationToken(UserCredential userCredential);
+	LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
+			HttpServletResponse response);
 
-	CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto,HttpServletRequest request, HttpServletResponse response);
+	CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
+			HttpServletResponse response);
 
 }

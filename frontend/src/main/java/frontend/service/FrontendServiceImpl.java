@@ -24,26 +24,43 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
 
+	private long randomNumber = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
+
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response, String token) {
 
 		Cookie cookies[] = request.getCookies();
 
-		if (cookies != null)
+		boolean flag = true;
 
+		if (cookies != null) {
 			for (Cookie cookie : cookies)
 
 				if (cookie.getName().equalsIgnoreCase("session_Token")) {
 
-					Cookie cook = new Cookie("session_Token", token);
-					response.addCookie(cook);
-
-					return;
+					cookie.setValue(token);
+					cookie.setPath("/");
+					cookie.setMaxAge(60 * 20);
+					response.addCookie(cookie);
 				}
 
-		Cookie cookie = new Cookie("session_Token", token);
+				else if (cookie.getName().equals("JSESSIONID")) {
+					cookie.setValue(String.valueOf(randomNumber));
+					cookie.setPath("/");
+					flag = false;
+					cookie.setMaxAge(60 * 50);
+					response.addCookie(cookie);
+				}
 
-		response.addCookie(cookie);
+		}
+
+		if (flag) {
+			Cookie jessionCookie = new Cookie("JSESSIONID", String.valueOf(randomNumber));
+			jessionCookie.setPath("/");
+			jessionCookie.setMaxAge(60 * 50);
+			response.addCookie(jessionCookie);
+			return;
+		}
 
 	}
 
@@ -135,8 +152,13 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name = "user-service", fallbackMethod = "loginFallBackMethod")
-	public LoginStatus createAuthenticationToken(UserCredential userCredential) {
+	public LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
+
+		if (loginStatus.isStatus())
+			setCookie(request, response, loginStatus.getToken());
 		return loginStatus;
 	}
 

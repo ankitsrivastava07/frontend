@@ -9,6 +9,8 @@ public class TokenStatus {
 
 	private boolean status;
 
+	private boolean logined;
+	
 	private String message;
 	
 	private LocalDateTime createdAt;
