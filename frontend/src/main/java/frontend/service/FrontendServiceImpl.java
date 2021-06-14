@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import frontend.controller.ChangePasswordRequestDto;
 import frontend.controller.CreateUserRequestDto;
@@ -24,6 +26,9 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
 
+	@Autowired
+	private RestTemplate restTemplate;
+
 	private long randomNumber = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
 
 	@Override
@@ -33,7 +38,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 		boolean isJSESSIONID = true;
 		boolean isCookies = true;
-		
+
 		if (cookies != null) {
 			for (Cookie cookie : cookies)
 
@@ -43,7 +48,7 @@ public class FrontendServiceImpl implements FrontendService {
 					cookie.setPath("/");
 					cookie.setMaxAge(60 * 30);
 					response.addCookie(cookie);
-					isCookies=false;
+					isCookies = false;
 				}
 
 			/*
@@ -59,12 +64,12 @@ public class FrontendServiceImpl implements FrontendService {
 		 * String.valueOf(randomNumber)); jessionCookie.setPath("/");
 		 * jessionCookie.setMaxAge(60 * 50); response.addCookie(jessionCookie); }
 		 */
-       if(isCookies) {
-    	   Cookie cookie = new Cookie("session_Token", token);
-    	   cookie.setPath("/");
-    	   cookie.setMaxAge(60 * 50);
+		if (isCookies) {
+			Cookie cookie = new Cookie("session_Token", token);
+			cookie.setPath("/");
+			cookie.setMaxAge(60 * 50);
 			response.addCookie(cookie);
-       }
+		}
 	}
 
 	public String getToken(HttpServletRequest request) {
@@ -92,7 +97,10 @@ public class FrontendServiceImpl implements FrontendService {
 
 		if (Objects.nonNull(token) && !token.isEmpty()) {
 
-			tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
+			tokenStatus = restTemplate.postForEntity(GatewayConstantURI.VALIDATE_TOKEN, token, TokenStatus.class)
+					.getBody();
+
+			// tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
 
 			if (tokenStatus.isStatus())
 				setCookie(request, response, tokenStatus.getAccessToken());
@@ -111,7 +119,10 @@ public class FrontendServiceImpl implements FrontendService {
 
 		if (Objects.nonNull(token) && !token.isEmpty())
 
-			tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
+			tokenStatus = restTemplate.postForEntity(GatewayConstantURI.INVALIDATE_TOKEN, token, TokenStatus.class)
+					.getBody();
+
+		// tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
 
 	}
 
@@ -130,7 +141,10 @@ public class FrontendServiceImpl implements FrontendService {
 
 		dto.setToken(map);
 
-		TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(dto).getBody();
+		TokenStatus tokenStatus = restTemplate
+				.postForEntity(GatewayConstantURI.CHANGEPASSWORDREQUEST, token, TokenStatus.class).getBody();
+
+		// TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(dto).getBody();
 
 		return tokenStatus;
 	}
@@ -148,7 +162,10 @@ public class FrontendServiceImpl implements FrontendService {
 
 		dto.setToken(map);
 
-		TokenStatus tokenStatus = apiGatewayRequestUri.invalidateTokens(dto).getBody();
+		TokenStatus tokenStatus = restTemplate
+				.postForEntity(GatewayConstantURI.INVALIDATE_TOKENS, token, TokenStatus.class).getBody();
+		// TokenStatus tokenStatus =
+		// apiGatewayRequestUri.invalidateTokens(dto).getBody();
 
 		return tokenStatus;
 	}
@@ -158,6 +175,11 @@ public class FrontendServiceImpl implements FrontendService {
 	public LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response) {
 
+		/*
+		 * LoginStatus loginStatus = restTemplate
+		 * .postForEntity(GatewayConstantURI.AUTHENTICATE, userCredential,
+		 * LoginStatus.class).getBody();
+		 */
 		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
 
 		if (loginStatus.isStatus())
@@ -176,7 +198,13 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name = "user-service", fallbackMethod = "registerFallBackMethod")
 	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
-		CreateUserResponseStatus status = apiGatewayRequestUri.register(createUserRequestDto).getBody();
+
+		CreateUserResponseStatus status = restTemplate
+				.postForEntity(GatewayConstantURI.CREATE_REQUEST, createUserRequestDto, CreateUserResponseStatus.class)
+				.getBody();
+
+		// CreateUserResponseStatus status =
+		// apiGatewayRequestUri.register(createUserRequestDto).getBody();
 		setCookie(request, response, status.getToken());
 		return status;
 	}

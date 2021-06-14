@@ -4,11 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
-import feign.Logger;
+import frontend.service.GatewayConstantURI;
 
 @SpringBootApplication
-@EnableFeignClients
+@EnableFeignClients("frontend.*")
 public class FrontendApplication {
 
 	public static void main(String[] args) {
@@ -16,8 +18,11 @@ public class FrontendApplication {
 	}
 
 	@Bean
-	Logger.Level feignLoggerLevel() {
-		return Logger.Level.FULL;
+	public RestTemplate restTemplateBean() {
+		SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+		factory.setBufferRequestBody(true);
+		RestTemplate restTemplate=new RestTemplate(factory);
+		return restTemplate;
 	}
 
 }

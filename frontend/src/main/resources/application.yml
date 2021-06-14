@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+
+logging:
+  level:
+   org.apache.http: DEBUG
+
+
 spring:
   application:
      name:  home-controller

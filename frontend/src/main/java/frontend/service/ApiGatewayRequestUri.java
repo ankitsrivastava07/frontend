@@ -11,7 +11,7 @@ import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 
-@FeignClient(name = "spring-cloud-gateway", url = "http://cloud-gateway-spring.herokuapp.com/")
+@FeignClient(name="gateway",url="http://cloud-gateway-spring.herokuapp.com/")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
@@ -21,14 +21,13 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<CreateUserResponseStatus> register(@RequestBody CreateUserRequestDto createUserRequestDto);
 
 	@PostMapping("/users/change-password")
-	public ResponseEntity<TokenStatus> changePassword(
-			@RequestBody ChangePasswordRequestDto changePasswordRequest);
+	public ResponseEntity<TokenStatus> changePassword(@RequestBody ChangePasswordRequestDto changePasswordRequest);
 
 	@PostMapping("/users/get-first-name")
 	public ResponseEntity<String> getFirstName(@RequestBody String token);
 
 	@PostMapping("/token-session/validate-token")
-	public ResponseEntity<TokenStatus> isValidToken(@RequestBody(required=false) String jwt);
+	public ResponseEntity<TokenStatus> isValidToken(@RequestBody(required = false) String jwt);
 
 	@PostMapping("/token-session/invalidate-token")
 	public ResponseEntity<TokenStatus> invalidateToken(@RequestBody String token);
