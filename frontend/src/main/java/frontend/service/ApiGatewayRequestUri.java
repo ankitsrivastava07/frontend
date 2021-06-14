@@ -11,7 +11,7 @@ import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 
-@FeignClient(name = "api-gateway", url = "localhost:8765")
+@FeignClient(name = "spring-cloud-gateway", url = "localhost:8765")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
