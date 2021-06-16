@@ -3,15 +3,11 @@ package frontend.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import frontend.controller.ChangePasswordRequestDto;
 import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
@@ -28,9 +24,6 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
-
-	@Autowired
-	private RestTemplate restTemplate;
 
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response, String token) {
@@ -79,10 +72,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 		if (Objects.nonNull(token) && !token.isEmpty()) {
 
-			tokenStatus = restTemplate.postForEntity(GatewayConstantURI.VALIDATE_TOKEN, token, TokenStatus.class)
-					.getBody();
-
-			// tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
+			tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
 
 			if (tokenStatus.isStatus())
 				setCookie(request, response, tokenStatus.getAccessToken());
@@ -101,10 +91,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 		if (Objects.nonNull(token) && !token.isEmpty())
 
-			tokenStatus = restTemplate.postForEntity(GatewayConstantURI.INVALIDATE_TOKEN, token, TokenStatus.class)
-					.getBody();
-
-		// tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
+			tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
 
 	}
 
@@ -123,10 +110,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 		dto.setToken(map);
 
-		TokenStatus tokenStatus = restTemplate
-				.postForEntity(GatewayConstantURI.CHANGEPASSWORDREQUEST, token, TokenStatus.class).getBody();
-
-		// TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(dto).getBody();
+		TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(dto).getBody();
 
 		return tokenStatus;
 	}
@@ -144,17 +128,14 @@ public class FrontendServiceImpl implements FrontendService {
 
 		dto.setToken(map);
 
-		TokenStatus tokenStatus = restTemplate
-				.postForEntity(GatewayConstantURI.INVALIDATE_TOKENS, token, TokenStatus.class).getBody();
-		// TokenStatus tokenStatus =
-		// apiGatewayRequestUri.invalidateTokens(dto).getBody();
+		TokenStatus tokenStatus = apiGatewayRequestUri.invalidateTokens(dto).getBody();
 
 		return tokenStatus;
 	}
 
 	@Override
-	@RateLimiter(name="100")
-	@CircuitBreaker(name="user-service",fallbackMethod = "loginFallBackMethod")
+	@RateLimiter(name = "100")
+	@CircuitBreaker(name = "user-service", fallbackMethod = "loginFallBackMethod")
 	public LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -173,8 +154,8 @@ public class FrontendServiceImpl implements FrontendService {
 		return loginStatus;
 	}
 
-	public LoginStatus loginFallBackMethod(UserCredential userCredential,  HttpServletRequest request,
-			HttpServletResponse response,Throwable exception) {
+	public LoginStatus loginFallBackMethod(UserCredential userCredential, HttpServletRequest request,
+			HttpServletResponse response, Throwable exception) {
 
 		LoginStatus loginStatus = new LoginStatus();
 		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
@@ -189,18 +170,12 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@RateLimiter(name = "50", fallbackMethod = "registerFallBackMethod")
-	@TimeLimiter(name = "50000")
+	@RateLimiter(name = "100", fallbackMethod = "registerFallBackMethod")
 	@CircuitBreaker(name = "user-service", fallbackMethod = "registerFallBackMethod")
 	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		CreateUserResponseStatus status = restTemplate
-				.postForEntity(GatewayConstantURI.CREATE_REQUEST, createUserRequestDto, CreateUserResponseStatus.class)
-				.getBody();
-
-		// CreateUserResponseStatus status =
-		// apiGatewayRequestUri.register(createUserRequestDto).getBody();
+		CreateUserResponseStatus status = apiGatewayRequestUri.register(createUserRequestDto).getBody();
 		setCookie(request, response, status.getToken());
 		return status;
 	}
