@@ -153,8 +153,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@CircuitBreaker(name = "user-service", fallbackMethod = "loginFallBackMethod")
-	@RateLimiter(name="100")
+	@CircuitBreaker(name="user-service",fallbackMethod = "loginFallBackMethod")
 	public LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -162,16 +161,19 @@ public class FrontendServiceImpl implements FrontendService {
 		map.put("email", userCredential.getEmail());
 		map.put("password", userCredential.getPassword());
 
-		// LoginStatus loginStatus = restTemplate.postForObject(GatewayConstantURI.AUTHENTICATE, map, LoginStatus.class);
+		// LoginStatus loginStatus =
+		// restTemplate.postForObject(GatewayConstantURI.AUTHENTICATE, map,
+		// LoginStatus.class);
 
-		 LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
+		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
 
 		if (loginStatus.isStatus())
 			setCookie(request, response, loginStatus.getToken());
 		return loginStatus;
 	}
 
-	public LoginStatus loginFallBackMethod(Throwable exception) {
+	public LoginStatus loginFallBackMethod(UserCredential userCredential,  HttpServletRequest request,
+			HttpServletResponse response,Throwable exception) {
 
 		LoginStatus loginStatus = new LoginStatus();
 		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
@@ -184,7 +186,7 @@ public class FrontendServiceImpl implements FrontendService {
 		loginStatus.setMessage("Sorry Server is taking too long to response.Please try again later");
 		return loginStatus;
 	}
-	
+
 	@Override
 	@RateLimiter(name = "50", fallbackMethod = "registerFallBackMethod")
 	@TimeLimiter(name = "50000")

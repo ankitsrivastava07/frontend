@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import frontend.service.GatewayConstantURI;
-
 @SpringBootApplication
 @EnableFeignClients("frontend.*")
 public class FrontendApplication {
@@ -21,7 +19,7 @@ public class FrontendApplication {
 	public RestTemplate restTemplateBean() {
 		SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 		factory.setBufferRequestBody(false);
-		RestTemplate restTemplate=new RestTemplate(factory);
+		RestTemplate restTemplate = new RestTemplate(factory);
 		return restTemplate;
 	}
 

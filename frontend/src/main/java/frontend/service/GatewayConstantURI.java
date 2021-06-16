@@ -6,7 +6,7 @@ public class GatewayConstantURI {
 
 	public static final String VALIDATE_TOKEN = "http://cloud-gateway-spring.herokuapp.com/token-session/validate-token";
 	
-	public static final String AUTHENTICATE = "http://cloud-gateway-spring.herokuapp.com/users/login";
+	public static final String AUTHENTICATE = "http://localhost:8765/users/login";
 	
 	public static final String CREATE_REQUEST = "http://cloud-gateway-spring.herokuapp.com/users/register";
 	
