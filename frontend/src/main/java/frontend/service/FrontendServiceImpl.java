@@ -153,6 +153,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
+	@RateLimiter(name="100")
 	@CircuitBreaker(name="user-service",fallbackMethod = "loginFallBackMethod")
 	public LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response) {

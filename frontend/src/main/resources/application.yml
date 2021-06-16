@@ -7,21 +7,12 @@ spring:
   freemarker:
     suffix: .ftl
 
-logging:
-  level:
-    reactor:
-      netty: INFO
-    org:
-      springframework:
-        cloud:
-          gateway: TRACE
-
 feign:
   client:
     config:
       default:
         connectTimeout: 500000000
         readTimeout: 500000000
-         
+        logger-level: FULL 
 feign.compression.request.enabled: true
 feign.compression.response.enabled: true
