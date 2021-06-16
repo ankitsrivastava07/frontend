@@ -20,7 +20,7 @@ public class FrontendApplication {
 	@Bean
 	public RestTemplate restTemplateBean() {
 		SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-		factory.setBufferRequestBody(true);
+		factory.setBufferRequestBody(false);
 		RestTemplate restTemplate=new RestTemplate(factory);
 		return restTemplate;
 	}

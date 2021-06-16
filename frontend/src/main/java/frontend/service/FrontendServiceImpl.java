@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,9 +18,13 @@ import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 
 @Service
 public class FrontendServiceImpl implements FrontendService {
+
+	private static final String BACKEND = null;
 
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
@@ -29,15 +32,10 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private long randomNumber = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
-
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response, String token) {
 
 		Cookie cookies[] = request.getCookies();
-
-		boolean isJSESSIONID = true;
-		boolean isCookies = true;
 
 		if (cookies != null) {
 			for (Cookie cookie : cookies)
@@ -48,28 +46,12 @@ public class FrontendServiceImpl implements FrontendService {
 					cookie.setPath("/");
 					cookie.setMaxAge(60 * 30);
 					response.addCookie(cookie);
-					isCookies = false;
+					return;
 				}
-
-			/*
-			 * else if (cookie.getName().equals("JSESSIONID")) {
-			 * cookie.setValue(String.valueOf(randomNumber)); cookie.setPath("/");
-			 * isJSESSIONID = false; cookie.setMaxAge(60 * 50); response.addCookie(cookie);
-			 * }
-			 */
 		}
 
-		/*
-		 * if (isJSESSIONID) { Cookie jessionCookie = new Cookie("JSESSIONID",
-		 * String.valueOf(randomNumber)); jessionCookie.setPath("/");
-		 * jessionCookie.setMaxAge(60 * 50); response.addCookie(jessionCookie); }
-		 */
-		if (isCookies) {
-			Cookie cookie = new Cookie("session_Token", token);
-			cookie.setPath("/");
-			cookie.setMaxAge(60 * 50);
-			response.addCookie(cookie);
-		}
+		Cookie cookie = new Cookie("session_Token", token);
+		response.addCookie(cookie);
 	}
 
 	public String getToken(HttpServletRequest request) {
@@ -172,15 +154,17 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name = "user-service", fallbackMethod = "loginFallBackMethod")
+	@RateLimiter(name="100")
 	public LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		/*
-		 * LoginStatus loginStatus = restTemplate
-		 * .postForEntity(GatewayConstantURI.AUTHENTICATE, userCredential,
-		 * LoginStatus.class).getBody();
-		 */
-		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
+		Map<String, String> map = new HashMap<>();
+		map.put("email", userCredential.getEmail());
+		map.put("password", userCredential.getPassword());
+
+		// LoginStatus loginStatus = restTemplate.postForObject(GatewayConstantURI.AUTHENTICATE, map, LoginStatus.class);
+
+		 LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
 
 		if (loginStatus.isStatus())
 			setCookie(request, response, loginStatus.getToken());
@@ -194,7 +178,16 @@ public class FrontendServiceImpl implements FrontendService {
 		return loginStatus;
 	}
 
+	public LoginStatus loginFallBackMethodTimeoutException(Throwable exception) {
+
+		LoginStatus loginStatus = new LoginStatus();
+		loginStatus.setMessage("Sorry Server is taking too long to response.Please try again later");
+		return loginStatus;
+	}
+	
 	@Override
+	@RateLimiter(name = "50", fallbackMethod = "registerFallBackMethod")
+	@TimeLimiter(name = "50000")
 	@CircuitBreaker(name = "user-service", fallbackMethod = "registerFallBackMethod")
 	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {

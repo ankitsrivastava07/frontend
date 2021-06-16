@@ -11,7 +11,7 @@ import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 
-@FeignClient(name="gateway",url="http://cloud-gateway-spring.herokuapp.com/")
+@FeignClient(name="cloud-gateway-spring",url="http://cloud-gateway-spring.herokuapp.com:8765/")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")

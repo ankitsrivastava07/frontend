@@ -1,26 +1,27 @@
 server:
   port: 8080
 
-
-logging:
-  level:
-   org.apache.http: DEBUG
-
-
 spring:
   application:
      name:  home-controller
   freemarker:
     suffix: .ftl
 
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+
 feign:
   client:
     config:
-      api-gateway:
-        connectTimeout: 120000
-        readTimeout: 120000
-        loggerLevel: basic 
-
-logging.level.frontend.service.ApiGatewayRequestUri: DEBUG
+      default:
+        connectTimeout: 50000000
+        readTimeout: 50000000
+         
 feign.compression.request.enabled: true
 feign.compression.response.enabled: true
