@@ -32,7 +32,7 @@ public class HomeController {
 		model.addObject("userName", "");
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null)
+		if (tokenStatus != null && tokenStatus.isStatus())
 			model.addObject("userName", tokenStatus.getFirstName());
 
 		return model;
