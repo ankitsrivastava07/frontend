@@ -89,6 +89,10 @@ $(document).ready(function() {
 				contentType: "application/json",
 				data: JSON.stringify(formData),
 				cache: false,
+				beforeSend: function(response) {
+					$(".alert").remove();
+					$(".mobile-error").remove();
+				},
 				success: function(response) {
 					$(".input-group span").remove();
 					setTimeout(function() {
@@ -116,7 +120,6 @@ $(document).ready(function() {
 					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
-
 					$(".alert").remove();
 					setTimeout(function() {
 						if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
@@ -141,11 +144,11 @@ $(document).ready(function() {
 			$(".error").remove();
 		}
 	});
-	
+
 	$('#email').keyup(function() {
 		if (!$(".input-group span").length == 0 || $(".input-group span").length == undefined) {
 			$(".error").remove();
 		}
 	});
-	
+
 });

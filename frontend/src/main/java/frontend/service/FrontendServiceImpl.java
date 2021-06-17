@@ -143,10 +143,6 @@ public class FrontendServiceImpl implements FrontendService {
 		map.put("email", userCredential.getEmail());
 		map.put("password", userCredential.getPassword());
 
-		// LoginStatus loginStatus =
-		// restTemplate.postForObject(GatewayConstantURI.AUTHENTICATE, map,
-		// LoginStatus.class);
-
 		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
 
 		if (loginStatus.isStatus())
@@ -175,9 +171,12 @@ public class FrontendServiceImpl implements FrontendService {
 	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		CreateUserResponseStatus status = apiGatewayRequestUri.register(createUserRequestDto).getBody();
-		setCookie(request, response, status.getToken());
-		return status;
+		CreateUserResponseStatus createUserResponseStatus = apiGatewayRequestUri.register(createUserRequestDto)
+				.getBody();
+
+		if (createUserResponseStatus.isStatus())
+			setCookie(request, response, createUserResponseStatus.getToken());
+		return createUserResponseStatus;
 	}
 
 	public CreateUserResponseStatus registerFallBackMethod(Throwable exception) {
