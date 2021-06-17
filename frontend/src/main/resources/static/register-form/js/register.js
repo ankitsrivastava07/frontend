@@ -115,7 +115,7 @@ $(document).ready(function() {
 
 					if (response.status) {
 						$('#signup-form')[0].reset();
-						$.removeCookie('session_Token', { path: '/' });
+						//$.removeCookie('session_Token', { path: '/' });
 						window.location.href = "/"
 					}
 				},
