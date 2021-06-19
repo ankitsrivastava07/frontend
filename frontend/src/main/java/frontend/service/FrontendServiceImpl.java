@@ -3,21 +3,17 @@ package frontend.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import frontend.controller.ChangePasswordRequestDto;
 import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 
 @Service
 public class FrontendServiceImpl implements FrontendService {
@@ -63,7 +59,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return userName;
 	}
 
-	@CircuitBreaker(name = "jwt-session", fallbackMethod = "defaultFallbackMethodHandleRequest")
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
 	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
 
 		String token = getToken(request);
@@ -97,6 +93,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
 	public TokenStatus changePassword(String password, String token) {
 
 		ChangePasswordRequestDto dto = new ChangePasswordRequestDto();
@@ -117,6 +114,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
 	public TokenStatus removeAllTokens(HttpServletRequest request) {
 
 		ChangePasswordRequestDto dto = new ChangePasswordRequestDto();
@@ -135,8 +133,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@RateLimiter(name = "100")
-	@CircuitBreaker(name = "user-service", fallbackMethod = "loginFallBackMethod")
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "loginFallBackMethod")
 	public LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -160,8 +157,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@RateLimiter(name = "100", fallbackMethod = "registerFallBackMethod")
-	@CircuitBreaker(name = "user-service", fallbackMethod = "registerFallBackMethod")
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "registerFallBackMethod")
 	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -180,7 +176,8 @@ public class FrontendServiceImpl implements FrontendService {
 		return createUserResponseStatus;
 	}
 
-	public TokenStatus defaultFallbackMethodHandleRequest(Throwable exception) {
+	public TokenStatus defaultFallbackMethodHandleRequest(HttpServletRequest request, HttpServletResponse response,
+			Throwable exception) {
 
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
