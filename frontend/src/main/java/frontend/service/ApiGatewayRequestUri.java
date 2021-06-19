@@ -4,13 +4,15 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import frontend.controller.ChangePasswordReqest;
 import frontend.controller.ChangePasswordRequestDto;
 import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 
-@FeignClient(name="cloud-gateway-spring",url="http://cloud-gateway-spring.herokuapp.com/")
+@FeignClient(name = "cloud-gateway-spring", url = "http://localhost:8765/")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
@@ -20,7 +22,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<CreateUserResponseStatus> register(@RequestBody CreateUserRequestDto createUserRequestDto);
 
 	@PostMapping("/users/change-password")
-	public ResponseEntity<TokenStatus> changePassword(@RequestBody ChangePasswordRequestDto changePasswordRequest);
+	public ResponseEntity<TokenStatus> changePassword(@RequestBody ChangePasswordReqest request);
 
 	@PostMapping("/users/get-first-name")
 	public ResponseEntity<String> getFirstName(@RequestBody String token);

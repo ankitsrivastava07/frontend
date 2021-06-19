@@ -74,6 +74,11 @@ background-color: #fdf6f6;
 
 }
 
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
 </style>
 
 <body>
@@ -138,8 +143,6 @@ background-color: #fdf6f6;
 	</div>
 	<!-- Main JS-->
 	<script src="/register-form/js/register.js"></script>
-
 </body>
-
 </html>
 <!-- end document-->

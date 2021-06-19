@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import frontend.controller.ChangePasswordReqest;
 import frontend.controller.ChangePasswordRequestDto;
 import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
@@ -17,8 +18,6 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 @Service
 public class FrontendServiceImpl implements FrontendService {
-
-	private static final String BACKEND = null;
 
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
@@ -94,22 +93,14 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
-	public TokenStatus changePassword(String password, String token) {
+	public TokenStatus changePassword(ChangePasswordReqest request) {
+		TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(request).getBody();
 
-		ChangePasswordRequestDto dto = new ChangePasswordRequestDto();
-
-		Map<String, String> map = new HashMap<>();
-
-		map.put("password", password);
-
-		map.put("token", token);
-
-		map.put("request", "change-password");
-
-		dto.setToken(map);
-
-		TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(dto).getBody();
-
+		tokenStatus.setAccessToken(null);
+		tokenStatus.setFirstName(null);
+		tokenStatus.setUserId(null);
+		tokenStatus.setLogined(true);
+		tokenStatus.setCreatedAt(null);
 		return tokenStatus;
 	}
 
@@ -145,6 +136,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 		if (loginStatus.isStatus())
 			setCookie(request, response, loginStatus.getToken());
+		loginStatus.setToken(null);
 		return loginStatus;
 	}
 
@@ -179,6 +171,21 @@ public class FrontendServiceImpl implements FrontendService {
 	public TokenStatus defaultFallbackMethodHandleRequest(HttpServletRequest request, HttpServletResponse response,
 			Throwable exception) {
 
+		TokenStatus tokenStatus = new TokenStatus();
+		System.out.println(exception.getMessage());
+		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		return tokenStatus;
+	}
+
+	public TokenStatus defaultFallbackMethodHandleRequest(ChangePasswordReqest request, Throwable exception) {
+
+		TokenStatus tokenStatus = new TokenStatus();
+		System.out.println(exception.getMessage());
+		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		return tokenStatus;
+	}
+
+	public TokenStatus defaultFallbackMethodHandleRequest(HttpServletRequest request, Throwable exception) {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");

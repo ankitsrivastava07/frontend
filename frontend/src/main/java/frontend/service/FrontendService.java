@@ -3,6 +3,7 @@ package frontend.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import frontend.controller.ChangePasswordReqest;
 import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
@@ -16,7 +17,7 @@ public interface FrontendService {
 
 	TokenStatus invalidateToken(HttpServletRequest request);
 
-	TokenStatus changePassword(String password, String token);
+	TokenStatus changePassword(ChangePasswordReqest request);
 
 	TokenStatus removeAllTokens(HttpServletRequest request);
 

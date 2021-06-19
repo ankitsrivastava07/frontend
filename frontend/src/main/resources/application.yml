@@ -7,10 +7,12 @@ spring:
   freemarker:
     suffix: .ftl
 
+ 
+
 feign:
   client:
-    config:
-      default:
+     config:
+       default:
         loggerLevel: basic
         connectTimeout: 1600000000
         readTimeout: 1600000000

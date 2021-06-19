@@ -43,10 +43,6 @@ public class HomeController {
 			HttpServletResponse response) throws JsonProcessingException {
 
 		LoginStatus loginStatus = frontendService.createAuthenticationToken(userCredential, request, response);
-
-		if (loginStatus!=null && loginStatus.isStatus())
-			frontendService.setCookie(request, response, loginStatus.getToken());
-
 		return new ResponseEntity<>(loginStatus, HttpStatus.OK);
 
 	}
@@ -145,7 +141,13 @@ public class HomeController {
 	public ResponseEntity<?> changePassword(@RequestHeader(value = "session_Token") String token,
 			@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) {
 
-		TokenStatus tokenStatus = frontendService.changePassword(req.getPassword(), token);
+		req.setToken(token);
+
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		if (tokenStatus != null && tokenStatus.isStatus()) {
+			req.setUserId(tokenStatus.getUserId());
+			tokenStatus = frontendService.changePassword(req);
+		}
 
 		return new ResponseEntity<>(tokenStatus, HttpStatus.OK);
 	}
@@ -184,6 +186,15 @@ public class HomeController {
 
 		ModelAndView mv = new ModelAndView("forward:" + "/");
 		mv.setViewName("error/error-500");
+		return mv;
+	}
+
+	@RequestMapping("/popup")
+	public ModelAndView responsePopUp(HttpServletRequest request, HttpServletResponse response, Exception ex)
+			throws Exception {
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/response-html/popup");
 		return mv;
 	}
 
