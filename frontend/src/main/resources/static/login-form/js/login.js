@@ -67,26 +67,24 @@ function login(formData) {
 			data: JSON.stringify(formData),
 			cache: false,
 			success: function(response) {
-			},
-			complete: function(response) {
 
 				$(".alert").remove();
 
-				if (response.responseText == "Success")
+				if (response.status)
 					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.responseText + "</div>"));
 
 				setTimeout(function() {
 
-					if (!response.responseText == "Success" && $(".alert").length == 0 || $(".input-group span").length == undefined) {
+					if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
 
-						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.responseText + "</div>"));
-					} else if (!response.responseText == "Success") {
+						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
+					} else if (!response.status) {
 						$(".alert").html(response.responseText);
 					}
 
 				}, 500);
 
-				if (response.responseText == "Success") {
+				if (response.status) {
 					window.location.href = "/"
 				}
 			},
