@@ -44,7 +44,7 @@ public class HomeController {
 
 		LoginStatus loginStatus = frontendService.createAuthenticationToken(userCredential, request, response);
 
-		if (loginStatus.isStatus())
+		if (loginStatus!=null && loginStatus.isStatus())
 			frontendService.setCookie(request, response, loginStatus.getToken());
 
 		return new ResponseEntity<>(loginStatus.getMessage(), HttpStatus.OK);

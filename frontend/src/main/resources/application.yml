@@ -11,8 +11,12 @@ feign:
   client:
     config:
       default:
-        connectTimeout: 500000000
-        readTimeout: 500000000
+        loggerLevel: basic
+        connectTimeout: 1600000000
+        readTimeout: 1600000000
         logger-level: FULL 
+
 feign.compression.request.enabled: true
 feign.compression.response.enabled: true
+logging.level.frontend.service.ApiGatewayRequestUri: DEBUG
+

@@ -71,20 +71,24 @@ function login(formData) {
 			complete: function(response) {
 
 				$(".alert").remove();
+
+				if (response.responseText == "Success")
+					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.responseText + "</div>"));
+
 				setTimeout(function() {
 
-					if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+					if (!response.responseText == "Success" && $(".alert").length == 0 || $(".input-group span").length == undefined) {
 
 						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.responseText + "</div>"));
-					} else {
+					} else if (!response.responseText == "Success") {
 						$(".alert").html(response.responseText);
 					}
 
 				}, 500);
 
-				if (response.responseText == "Success")
+				if (response.responseText == "Success") {
 					window.location.href = "/"
-				$("#password").val("");
+				}
 			},
 			error: function(error) {
 				url = window.location.pathname.replace(/\/+$/, '') + "/error";

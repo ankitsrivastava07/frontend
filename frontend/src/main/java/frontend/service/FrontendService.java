@@ -14,7 +14,7 @@ public interface FrontendService {
 
 	TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response);
 
-	void invalidateToken(HttpServletRequest request);
+	TokenStatus invalidateToken(HttpServletRequest request);
 
 	TokenStatus changePassword(String password, String token);
 

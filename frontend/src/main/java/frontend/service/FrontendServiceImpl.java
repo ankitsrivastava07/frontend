@@ -3,11 +3,14 @@ package frontend.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import frontend.controller.ChangePasswordRequestDto;
 import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
@@ -15,7 +18,6 @@ import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 
 @Service
 public class FrontendServiceImpl implements FrontendService {
@@ -30,14 +32,12 @@ public class FrontendServiceImpl implements FrontendService {
 
 		Cookie cookies[] = request.getCookies();
 
-		if (cookies != null) {
+		if (!token.isEmpty() && cookies != null) {
 			for (Cookie cookie : cookies)
 
 				if (cookie.getName().equalsIgnoreCase("session_Token")) {
-
 					cookie.setValue(token);
 					cookie.setPath("/");
-					cookie.setMaxAge(60 * 30);
 					response.addCookie(cookie);
 					return;
 				}
@@ -83,7 +83,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return tokenStatus;
 	}
 
-	public void invalidateToken(HttpServletRequest request) {
+	public TokenStatus invalidateToken(HttpServletRequest request) {
 
 		String token = getToken(request);
 
@@ -93,6 +93,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 			tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
 
+		return tokenStatus;
 	}
 
 	@Override
@@ -155,13 +156,6 @@ public class FrontendServiceImpl implements FrontendService {
 
 		LoginStatus loginStatus = new LoginStatus();
 		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
-		return loginStatus;
-	}
-
-	public LoginStatus loginFallBackMethodTimeoutException(Throwable exception) {
-
-		LoginStatus loginStatus = new LoginStatus();
-		loginStatus.setMessage("Sorry Server is taking too long to response.Please try again later");
 		return loginStatus;
 	}
 
