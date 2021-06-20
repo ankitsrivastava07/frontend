@@ -73,7 +73,7 @@
                               <li>
                               <button type="button" class="btn-default get">
                               <a href="/signin">Sign in</a></li></button>
-                              <li><a href="/register">Sign up</a></li>  
+                              <li><button class="btn-default get"><a href="/register">Sign up</a></button></li> 
 							</#if>
 							</li>
 							</ul>
