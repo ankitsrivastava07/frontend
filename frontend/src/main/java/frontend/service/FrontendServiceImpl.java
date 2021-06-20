@@ -3,11 +3,14 @@ package frontend.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import frontend.controller.ChangePasswordReqest;
 import frontend.controller.ChangePasswordRequestDto;
 import frontend.controller.CreateUserRequestDto;
@@ -78,6 +81,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return tokenStatus;
 	}
 
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "invalidateFallbackMethod")
 	public TokenStatus invalidateToken(HttpServletRequest request) {
 
 		String token = getToken(request);
@@ -152,7 +156,7 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "registerFallBackMethod")
 	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
-
+		createUserRequestDto.setIsBlocked(Boolean.FALSE);
 		CreateUserResponseStatus createUserResponseStatus = apiGatewayRequestUri.register(createUserRequestDto)
 				.getBody();
 
@@ -186,6 +190,13 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	public TokenStatus defaultFallbackMethodHandleRequest(HttpServletRequest request, Throwable exception) {
+		TokenStatus tokenStatus = new TokenStatus();
+		System.out.println(exception.getMessage());
+		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		return tokenStatus;
+	}
+
+	public TokenStatus invalidateFallbackMethod(HttpServletRequest request, Throwable exception) {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");

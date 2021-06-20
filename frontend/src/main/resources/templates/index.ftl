@@ -13,6 +13,7 @@
     <link href="eshopper/css/animate.css" rel="stylesheet">
 	<link href="eshopper/css/main.css" rel="stylesheet">
 	<link href="eshopper/css/responsive.css" rel="stylesheet">
+	
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -59,10 +60,27 @@
                                         <li><a href="/">Products</a></li>
 										<li><a href="/">Product Details</a></li> 
 										<li><a href="/">Checkout</a></li> 
-										
+						<#if userName?has_content>
+						<ul class="nav navbar-nav collapse navbar-collapse">	
+						<li class="dropdown">
+						<a href="/"><i class="fa fa-angle-down"></i>Hello, ${userName}</a>
+                                    <ul role="menu" class="sub-menu" id="menu">
+                                        <li><a href="/signout">Sign out</a></li>
+										<li><a href="/change-password">Change password</a></li> 
+										<li><a href="/signout-from-alldevices">Sign out from all device</a></li> 
+                                    </ul>
+                              <#else>
+                              <li>
+                              <button type="button" class="btn-default get">
+                              <a href="/signin">Sign in</a></li></button>
+                              <li><a href="/register">Sign up</a></li>  
+							</#if>
+							</li>
+							</ul>
                                     </ul>
                                 </li> 
 							</ul>
+							
 	<div class="search_box pull-right">
 						<div class='row'>
 						
@@ -76,26 +94,13 @@
 						</div>	
 						</div>	
 					</div>
+					
 					<div class="col-md-8 clearfix">
 						<div class="shop-menu clearfix pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="/"><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="/"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="/"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-							<#if userName?has_content>
-						<li class="dropdown1">
-						<a href="/signin"><i class="fa fa-angle-down"></i>Hello, ${userName}</a>
-                                    <ul role="menu" class="sub-menu" id="menu">
-                                        <li><a href="/signout">Sign out</a></li>
-										<li><a href="/change-password">Change password</a></li> 
-										<li><a href="/signout-from-alldevices">Sign out from all device</a></li> 
-                                    </ul>
-                              <#else>
-                              <li><a href="/signin">Sign in</a></li>
-                              <li><a href="/register">Sign up</a></li>      
-							</#if>
-							</li>
-							</ul>
 						</div>
 					</div>
 				</div>

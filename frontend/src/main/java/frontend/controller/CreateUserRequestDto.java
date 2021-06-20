@@ -9,6 +9,7 @@ public class CreateUserRequestDto {
 	private String lastName;
 	private String mobile;
 	private String email;
-	private String password;
+	private Boolean isBlocked;
+	private String newPassword;
 
 }

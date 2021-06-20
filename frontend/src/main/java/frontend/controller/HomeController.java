@@ -193,6 +193,12 @@ public class HomeController {
 	public ModelAndView responsePopUp(HttpServletRequest request, HttpServletResponse response, Exception ex)
 			throws Exception {
 
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		
+		if(tokenStatus!=null && tokenStatus.isStatus()) {
+			return new ModelAndView("redirect:" + "/");
+		}
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/response-html/popup");
 		return mv;
