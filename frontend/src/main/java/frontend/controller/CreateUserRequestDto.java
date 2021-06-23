@@ -10,6 +10,6 @@ public class CreateUserRequestDto {
 	private String mobile;
 	private String email;
 	private Boolean isBlocked;
-	private String newPassword;
+	private String password;
 
 }

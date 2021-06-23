@@ -80,7 +80,7 @@ $(document).ready(function() {
 					"lastName": $("#lastName").val(),
 					"email": $("#email").val(),
 					"mobile": $("#mobile").val(),
-					"password": $("#password").val()
+					"password": $("#password").val(),
 				}
 				register(formData);
 			}
@@ -125,7 +125,7 @@ $(document).ready(function() {
 						if (response.status) {
 							$('#signup-form')[0].reset();
 							//$.removeCookie('session_Token', { path: '/' });
-						//	window.location.href = "/"
+							//	window.location.href = "/"
 						}
 					},
 					error: function(xhr, ajaxOptions, thrownError) {
@@ -145,22 +145,4 @@ $(document).ready(function() {
 		}
 
 	});
-
-	$(document).ready(function() {
-
-		$('#mobile').keyup(function() {
-			if (!$(".input-group span").length == 0 || $(".input-group span").length == undefined) {
-				$(".error").remove();
-			}
-		});
-
-		$('#email').keyup(function() {
-			if (!$(".input-group span").length == 0 || $(".input-group span").length == undefined) {
-				$(".error").remove();
-			}
-		});
-
-	});
-
 });
-
