@@ -87,6 +87,7 @@ public class HomeController {
 		}
 
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto, request, response);
+		status.setToken(null);
 		if (!status.isStatus() && status.getHttpStatus() != null && status.getHttpStatus() == 503)
 			return new ResponseEntity<>(status.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
 
@@ -194,11 +195,11 @@ public class HomeController {
 			throws Exception {
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		
-		if(tokenStatus!=null && tokenStatus.isStatus()) {
-			return new ModelAndView("redirect:" + "/");
+
+		if (tokenStatus != null && !tokenStatus.isStatus()) {
+			return new ModelAndView("redirect:" + "/signin");
 		}
-		
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/response-html/popup");
 		return mv;
