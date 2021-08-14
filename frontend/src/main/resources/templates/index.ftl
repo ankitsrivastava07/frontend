@@ -1,909 +1,1032 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="images/favicon.icon.png" type="image/ico">
-  <title>e-ecommerce-shop </title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
- <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap"/>
-  <script src="ecommerce/js/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
-<script src="ecommerce/js/easyzoom.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>e-procurement</title>
+    <link href="eshopper/css/bootstrap.min.css" rel="stylesheet">
+    <link href="eshopper/css/font-awesome.min.css" rel="stylesheet">
+    <link href="eshopper/css/prettyPhoto.css" rel="stylesheet">
+    <link href="eshopper/css/price-range.css" rel="stylesheet">
+    <link href="eshopper/css/animate.css" rel="stylesheet">
+	<link href="eshopper/css/main.css" rel="stylesheet">
+	<link href="eshopper/css/responsive.css" rel="stylesheet">
+	
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/jquery.bxslider.css">
-
-      <!-- Bootstrap Dropdown Hover CSS -->
-      <link href="css/animate.min.css" rel="stylesheet">
-      <link href="css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<style>
-.navbar-light .navbar-nav .nav-link {
-    color: rgb(249 243 243);
-}
-
-.navbar-light .navbar-nav .nav-link a:hover{
-color: rgb(249 243 243);
-}
-
-a.notif {
-  position: relative;
-  display: block;
-  height: 50px;
-  width: 50px;
-  background: url('http://i.imgur.com/evpC48G.png');
-  background-size: contain;
-  text-decoration: none;
-}
-.num {
-    position: absolute;
-    top: 6px;
-    color: #fff;
-    margin-left: 20px;
-    top: 15px;
-    color: red;
-}
-#product-count{
-    white-space: nowrap;
-    padding: 0 6px;
-    background: #ff3f6c;
-    border-radius: 50%;
-    font-size: 12px;
-    color: #fff;
-    font-weight: 700;
-}
-
-a.fa-globe {
-  position: relative;
-  font-size: 2em;
-  color: grey;
-  cursor: pointer;
-}
-span.fa-comment {
-  position: absolute;
-  font-size: 0.6em;
-  top: -4px;
-  color: red;
-  right: -4px;
-}
-
-
-</style>
-
-</head>
 <body>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-      <!-- Include all compiled plugins (below), or include individual files as needed -->
-      <script src="ecommerce/js/bootstrap.min.js"></script>
-
-      <!-- Bootstrap Dropdown Hover JS -->
-      <script src="ecommerce/js/bootstrap-dropdownhover.min.js"></script>
-
-<nav class="navbar navbar-expand-lg navbar-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href=""><img src="/images/logo-dark3.png" class="img-fluid"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link text-light" aria-current="page" href="">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="/">Mobile</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Fashion
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="/" tabindex="-1" aria-disabled="true">Electronics</a>
-		<li class="nav-item">
-          <a class="nav-link text-light" href="Contact.html" tabindex="-1" aria-disabled="true">Contact Us</a>
-        </li>
-      </ul>
-
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
-      </form>
-
-<!-- Bag ICON -->
-<input type="hidden" id="session_token" value="" name="sessionToken">
-<a href="/add-to-cart-product-detail">
-<i class="fa fa-shopping-bag text-light notif" style="float:right; font-size: 1.93em;">&nbsp;</i>
-<span class="num" id="product-count">0</span>
-
-</a>
-      <#if userName?has_content>
-
-	   <div class="collapse navbar-collapse">
-           <ul class="nav navbar-nav" data-hover="dropdown" data-animations="fadeInDown fadeInRight fadeInUp fadeInLeft>
-           ...
-           </ul>
-       </div>
-
-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-           <ul class="navbar-nav ms-auto">
-
-             <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 Hello, ${userName}
-               </a>
-
-               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
-     			<li><a class="dropdown-item" href="#">Wishlist</a></li>
-     			<li><a class="dropdown-item" href="#">Gift Cards</a></li>
-                 <li><a class="dropdown-item" href="/orders">Orders</a></li>
-                 <li><a class="dropdown-item" href="#">Saved Card</a></li>
-                  <li><a class="dropdown-item" href="/signout">Sign out</a></li>
-                  <li><a class="dropdown-item" href="/signout-from-all-devices">Sign out from all devices</a></li>
-               </ul>
-             </li>
-           </ul>
-         </div>
-      <#else>
-
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto">
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Sign-in
-          </a>
-
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/signin">Sign in</a></li>
-			<li><a class="dropdown-item" href="#">Wishlist</a></li>
-			<li><a class="dropdown-item" href="#">Gift Cards</a></li>
-            <li><a class="dropdown-item" href="/orders">Orders</a></li>
-            <li><a class="dropdown-item" href="#">Saved Card</a></li>
-           <li> <span>New Customer ?</span>
-			 <a class="dropdown-item" href="/register">Start Here</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-        </div><!-- /.container-fluid -->
-
-      </#if>
-    </div>
-  </div>
-</nav>
-
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top:10px;">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="/images/Festive-Offers.jpg" alt="First slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="/images/depositphotos_250327322-stock-illustration-sale-get-up-to-50.jpg" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="/images/E-commerce-banner2.jpg" alt="Third slide">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-
-	 <div class="home-product-slider">
-	 <div id="head">
-	 <h1>Furniture Bestsellers</h1>
-	 <h3>Upto 70% off</h3>
-	 </div>
-	 <ul class="bxslider">
-
- <li class="bx-container">
-
-  <div class="correct-wrapper item-wrapper">
-            <div class="correct-item item">
-			<img src="/images/harrison-2-seater_600x600.png">
-
-        </div>
-        </div>
-
- <div class="#">
- <div class="hover">
-                            <p><strong>Inflatable Sofas</strong></p>
-                             <p><small>Min 50% Off</small>
-                               <small>Furn Central & more</small></p>
-
-<div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-</div>
- </div>
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
-            <div class="correct-item item">
-<img width="450" height="150"src="/images/marker-boss-chair.jpg"/></div>
-
- <div class="hover">
-                           <p><strong>Office & Boss Chairs</strong></p>
-                             <p><small>Min 50% Off</small>
-                               <small>Fabric & Leatherette</small></p>
-  <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
-</div>
- </li>
-
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
-            <div class="correct-item item">
-<img src="/images/login-bg.jpg"/> </div>
-
- <div class="hover">
-                             <p><strong>Furniture</strong></p>
-                            <p><small>From &#8377; 10,000</small></p>
-							   </p>
-
-<div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
- </div>
-
- </div>
-
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
-            <div class="correct-item item">
-<img width="450" height="150"src="/images/jhula.jpg"/> </div>
-
- <div class="hover">
-                             <p><strong>Hammock & Swings</strong></p>
-                             <p><small>From ₹299</small>
-                              <small>MT HUB, Swingzy...</small></p>
-
-
-
-<div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
- </div>
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
-            <div class="correct-item item">
-<img width="170" height="170"src="/images/branded-smart-non-smart-led-t-v-500x500.jpg" style="margin-top:40px!important;"> </div>
- <div class="hover">
-                             <p><strong>Trending Smart TVs</strong></p>
-                             <p><small>Up to 65% Off</small
-                               <small>Android | Google Assistant</small></p>
-   <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
- </div>
- </li>
-
-
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
-            <div class="correct-item item">
-<img width="250" height="150"src="/images/58.jpg"/></div>
-
- <div class="hover">
-                             <p><strong>Study Table</strong></p>
-                             <p><small>From ₹ 3,2901</small>
-                               <small>Made in india Brands</small></p>
- <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
-</div>
-
-</li>
-
-
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item">
- <a onclick="ImageClick()">
-<img src="/images/00739013_fast-shipping.jpg" id="tv_1" ></div>
- </a>
-
-
- <div class="hover">
-                             <p><strong>Wakefit Athena <br> Study Table</strong></p>
-                             <p><small>₹5,501</small>
-                               <small>Free delivery</small></p>
-       <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
- </div>
- </li>
- </ul>
- </div>
- <div class="home-product-slider">
- <div id="head">
-	<h1>Up to 70% off | Electronics</h1>
-	 <h3>Devices and Accessories</h3>
-	 </div>
-
-	 <ul class="bxslider">
-
-
- <li class="bx-container">
-<div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
-
- <img src="/images/600x600.jpg"/></div>
-
-
- <div class="hover">
-                             <p><strong>Inflatable Sofas</strong></p>
-                             <p><small>Min 50% Off</small>
-                              <small>Furn Central & more</small></p>
- <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
-
-  </div>
- </li>
-
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
-<img src="/images/MI.png"/></div>
-
- <div class="hover">
-                             <p><strong>Office & Boss Chairs</strong></p>
-                             <p><small>Min 50% Off</small>
-                               <small>Fabric & Leatherette</small></p>
-     <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
- </div>
- </li>
-
- <li class="bx-container">
-<div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/gionee_s11_gylite.jpg"/></div>
-
- <div class="hover">
-                            <p><strong>Sewing Machines</strong></p>
-                             <p><small>Shop Now!</small>
-							 <small>Usha, Singer & more</small></p>
-    <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
-</div>
-</li>
-
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/07.jpg"/></div>
- <div class="hover">
-                             <p><strong>Top 20 Inflatable Sofa</strong></p>
-                             <p><small>From ₹1,169</small>
-                               <small>Cozy Corner</small></p>
-    <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
- </div>
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/10.jpg"/></div>
-
- <div class="hover">
-                             <p><strong>Trending Smart TVs</strong></p>
-                             <p><small>Up to 65% Off</small>
-                              <small>Android | Google Assistant</small></p>
-     <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
-  </div>
- </li>
-
-
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/V238940049_IN_PC_BAU_Edit_Creation_Laptops1x._SY304_CB667377205_.jpg"/></div>
-
- <div class="hover">
-                             <p><strong>Electronics clearance store</strong></p>
-                             <p><small>Up to 70% off</small>
-                               <small>Flat, Round, Cube & more</small></p>
-
-							 <small>Trendy Collection</small></p>
-    <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
- </div>
- </div>
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/65.jpg"/></div>
-
-<div class="hover">
-                             <p><strong>Wakefit Athena <br> Study Table</strong></p>
-                             <p><small>₹5,501</small>
- 							 <small>Trendy Collection</small></p>
-							 <small>Free delivery</small></p>
-    <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
-</div>
- </li>
-<li class="bx-container">
-<div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/41AwYdB4C0L._AC_SY200_.jpg"/></div>
-
- <div class="hover">
-                             <p><strong>Wakefit Athena <br> Study Table</strong></p>
-                             <p><small>₹5,501</small>
-   							 <small>Trendy Collection</small></p>
-                             <small>Free delivery</small></p>
-    <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
-</div>
- </li>
- </ul>
-</div>
- <div id="head">
-	 <h1>Home Top Deals</h1>
-	<h3>From ₹99</h3>
-	 </div>
-
-
-
-
-	 <ul class="bxslider">
-
-
- <li class="bx-container">
-<div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/41AwYdB4C0L._AC_SY200_.jpg"/></div>
-
-
-
- <div class="#">
- <div class="hover">
-                             <p><strong>Inflatable Sofas</strong></p>
-                             <p><small>Min 50% Off</small>
-                               <small>Furn Central & more</small></p>
- <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
- </div>
- </div>
- </li>
-
-<li class="bx-container">
-<div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/rr-104-status-original-imaffpe9a7c59rzq.jpeg"/></div>
-
- <div class="hover">
-                             <p><strong>Office & Boss Chairs</strong></p>
-                             <p><small>Min 50% Off</small>
-                              <small>Fabric & Leatherette</small></p>
-
-<div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- <div>
- </div>
- </li>
-
- <li class="bx-container">
-<div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/in-one-door-rr20t172yr8hl-rr20t172yr8-hl-rperspectivepeachred-thumb-227094079.jpg"/></div>
-
- <div class="hover">
-                             <p><strong>Sewing Machines</strong></p>
-                             <p><small>Shop Now!</small>
-                               <small>Usha, Singer & more</small></p>
- <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
-</div>
-
- </div>
-
-</li>
-<li class="bx-container">
-<div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/pwb000237748.jpg"/></div>
-
-
-<div class="hover">
-                             <p><strong>Hammock & Swings</strong></p>
-                             <p><small>From ₹299</small>
-                               <small>MT HUB, Swingzy...</small></p>
-
-
-
-<div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
-
- </div>
- </div>
- </li>
-
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/Sofa.jpg"/></div>
-
-
-
- <div class="hover">
-                             <p><strong>Top 20 Inflatable Sofa</strong></p>
-                             <p><small>From ₹1,169</small>
-                               <small>Cozy Corner</small></p>
-  <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
- </div>
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/71sCQDl4i7L._AC_SS450_.jpg"/></div>
- <div class="hover">
-                             <p><strong>Trending Smart TVs</strong></p>
-                             <p><small>Up to 65% Off</small>
-                              <small>Android | Google Assistant</small></p>
- <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
-</div>
- </li>
-
-  <li class="bx-container">
-  <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/butterfly-arrow-original-imafcz43zxwekpzc.jpeg"/></div>
-
-
- <div class="hover">
-                          <p><strong>Home Temples</strong></p>
-                            <p><small>From ₹399</small>
-                              <small>Trendy Collection</small></p>
-
-<div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
- </div>
- </div>
-</li>
- <li class="bx-container">
-
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/ac-sticker-fridge-sticker-wall-sticker-split-ac-stickers-air-original-imafzhvvv3dhauah.jpeg"/></div>
-
-
- <div class="hover">
-                           <p><strong>Study Table</strong></p>
-                             <p><small>From ₹ 3,2901</small>
-                               <small>Made in india Brands</small></p>
-   <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
-</div>
-
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/65.jpg"/></div>
-
-
- <div class="hover">
-                             <p><strong>Aquarium Tank</strong></p>
-                             <p><small>From ₹299</small>
-                               <small>Flat, Round, Cube & more</small></p>
-  <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
-</div>
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/blue-polycotton-ph0003-perfect-homes-by-flipkart-blue-original-imaf6dhhsfhvvjdn.jpeg"/></div>
- <div class="hover">
-                         <p><strong>Wakefit Athena <br> Study Table</strong></p>
-                            <p><small>₹5,501</small>
-                               <small>Free delivery</small></p>
- <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
-</div>
- </div>
- </li>
- <li class="bx-container">
- <div class="correct-wrapper item-wrapper">
- <div class="correct-item item">
- <img src="images/58.jpg"/></div>
- <div class="hover">
-
-                            <p><strong>Wakefit Athena <br> Study Table</strong></p>
-                             <p><small>₹5,501</small>
-                               <small>Free delivery</small></p>
- <div class="shop-add-btn-cont">
-                    <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
-                  </div>
-
-
- </div>
- </div>
- </li>
-</ul>
-<!-- Footer -->
-
-<footer class="bg-success text-white">
-  <!-- Grid container -->
-  <div class="container p-4">
-    <!-- Section: Social media -->
-    <section class="mb-4 text-center">
-      <!-- Facebook -->
-      <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/" role="button"
-        ><i class="fa fa-facebook-f"></i
-      ></a>
-
-      <!-- Twitter -->
-      <a class="btn btn-outline-light btn-floating m-1" href="https://twitter.com/" role="button"
-        ><i class="fa fa-twitter"></i
-      ></a>
-
-      <!-- Google -->
-      <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com/" role="button"
-        ><i class="fa fa-google-plus"></i
-      ></a>
-
-      <!-- Instagram -->
-      <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/" role="button"
-        ><i class="fa fa-instagram"></i
-      ></a>
-    </section>
-    <!-- Section: Social media -->
-
-    <!-- Section: Form -->
-    <section class="">
-      <form action="">
-        <!--Grid row-->
-        <div class="row d-flex justify-content-center">
-          <!--Grid column-->
-          <div class="col-auto">
-            <p class="pt-2">
-			<a href="">
-
-            </a><strong>Sign up for our newsletter</strong>
-            </p>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-md-5 col-12">
-            <!-- Email input -->
-            <div class="form-outline form-white mb-4">
-              <input type="email" id="form5Example2" class="form-control" placeholder="Enter Your Email address"/>
-            </div>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-auto">
-            <!-- Submit button -->
-            <button type="submit" class="btn btn-outline-light mb-4">Subscribe
-            </button>
-
-          </div>
-          <!--Grid column-->
-        </div>
-        <!--Grid row-->
-      </form>
-    </section>
-    <!-- Section: Links -->
-    <section class="">
-      <!--Grid row-->
-      <div class="row">
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-
-          <h5 class="text-uppercase">Home</h5>
-
-          <ul class="list-unstyled mb-0">
-            <li>
-              <a href="#!" class="text-white">Mobile</a>
-            </li>
-            <li>
-              <a href="#!" class="text-white">Fashion</a>
-            </li>
-            <li>
-              <a href="/" class="text-white">Electronics</a>
-            </li>
-            <li>
-              <a href="#!" class="text-white">Accessories</a>
-            </li>
-          </ul>
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">About Us</h5>
-
-          <ul class="list-unstyled mb-0">
-            <li>
-              <a href="#!" class="text-white">Who we are</a>
-            </li>
-            <li>
-              <a href="#!" class="text-white">About us</a>
-            </li>
-            <li>
-              <a href="#!" class="text-white">Privacy policy</a>
-            </li>
-            <li>
-              <a href="#!" class="text-white">myecommerce.com</a>
-            </li>
-          </ul>
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">About us</h5>
-
-          <ul class="list-unstyled mb-0">
-            <p>We are a young Profile always looking for new and creative ideas to help you with our products in your everyday work.</p>
-          </ul>
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Connect with Us</h5>
-
-          <ul class="list-unstyled mb-0">
-            <li>
-              <a href="https://www.facebook.com/" class="text-white">Facebook</a>
-            </li>
-            <li>
-              <a href="https://www.instagram.com/" class="text-white">Instagram</a>
-            </li>
-            <li>
-              <a href="https://twitter.com/"class="text-white">Twitter</a>
-            </li>
-            <li>
-              <a href="https://www.google.com/" class="text-white">Google +</a>
-            </li>
-          </ul>
-        </div>
-        <!--Grid column-->
-      </div>
-      <!--Grid row-->
-    </section>
-    <!-- Section: Links -->
-  </div>
-  <!-- Grid container -->
-
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    &copy;2021
-    <a class="text-white" href="#">myecommerce.com</a>
-  </div>
-  <!-- Copyright -->
-</footer>
-
-
-<!-- Footer -->
-<script src="ecommerce/js/bootstrap.bundle.min.js"></script>
-
-<script src="ecommerce/js/jquery.bxslider.min.js"></script>
-<script src="ecommerce/js/main.js"></script>
-<script src="ecommerce/js/cookie.js"></script>
-<script>
-jQuery(document).ready(function() {
-  jQuery('.bxslider').bxSlider({
-    minSlides: 1,
-    maxSlides: 4,
-    slideWidth: 350,
-	 height:450,
-    slideMargin:40,
-	padding:30,
-	slideZIndex: 50,
-    responsive: true
-  });
-
- });
-
-</script>
+	<header id="header"><!--header-->
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+		
+					
+		</div><!--/header-middle-->
+	
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="mainmenu pull-left">
+							<ul class="nav navbar-nav collapse navbar-collapse">
+								<li><a href="/home" class="active">Home</a></li>
+								<li class="dropdown">
+								<a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a href="/">Products</a></li>
+										<li><a href="/">Product Details</a></li> 
+										<li><a href="/">Checkout</a></li> 
+						<#if userName?has_content>
+						<ul class="nav navbar-nav collapse navbar-collapse">	
+						<li class="dropdown">
+						<a href="/"><i class="fa fa-angle-down"></i>Hello, ${userName}</a>
+                                    <ul role="menu" class="sub-menu" id="menu">
+                                        <li><a href="/signout">Sign out</a></li>
+										<li><a href="/change-password">Change password</a></li> 
+										<li><a href="/signout-from-alldevices">Sign out from all device</a></li> 
+                                    </ul>
+                              <#else>
+                              <li>
+                              <button type="button" class="btn-default get">
+                              <a href="/signin">Sign in</a></li></button>
+                              <li><button class="btn-default get"><a href="/register">Sign up</a></button></li> 
+							</#if>
+							</li>
+							</ul>
+                                    </ul>
+                                </li> 
+							</ul>
+							
+	<div class="search_box pull-right">
+						<div class='row'>
+						
+							<input type="text" placeholder="Search">
+   <i class="fa fa-search text-dark"  style="    position: absolute;
+    float: left;
+    margin-left: 326px;
+    margin-top: -26px;"></i>
+ 
+						</div>	
+						</div>	
+						</div>	
+					</div>
+					
+					<div class="col-md-8 clearfix">
+						<div class="shop-menu clearfix pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="/"><i class="fa fa-star"></i> Wishlist</a></li>
+								<li><a href="/"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="/"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header-bottom-->
+	</header><!--/header-->
+	
+	<section id="slider"><!--slider-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+							<li data-target="#slider-carousel" data-slide-to="1"></li>
+							<li data-target="#slider-carousel" data-slide-to="2"></li>
+						</ol>
+						
+						<div class="carousel-inner">
+							<div class="item active">
+								<div class="col-sm-6">
+									<h1><span>E</span>-SHOPPER</h1>
+									<h2>Free E-Commerce Template</h2>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<button type="button" class="btn btn-default get">Get it now</button>
+								</div>
+								<div class="col-sm-6">
+									<img src="images/home/girl1.jpg" class="girl img-responsive" alt="" />
+									<img src="images/home/pricing.png"  class="pricing" alt="" />
+								</div>
+							</div>
+							<div class="item">
+								<div class="col-sm-6">
+									<h1><span>E</span>-SHOPPER</h1>
+									<h2>100% Responsive Design</h2>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<button type="button" class="btn btn-default get">Get it now</button>
+								</div>
+								<div class="col-sm-6">
+									<img src="images/home/girl2.jpg" class="girl img-responsive" alt="" />
+									<img src="images/home/pricing.png"  class="pricing" alt="" />
+								</div>
+							</div>
+							
+							<div class="item">
+								<div class="col-sm-6">
+									<h1><span>E</span>-SHOPPER</h1>
+									<h2>Free Ecommerce Template</h2>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<button type="button" class="btn btn-default get">Get it now</button>
+								</div>
+								<div class="col-sm-6">
+									<img src="images/home/girl3.jpg" class="girl img-responsive" alt="" />
+									<img src="images/home/pricing.png" class="pricing" alt="" />
+								</div>
+							</div>
+							
+						</div>
+						
+						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+							<i class="fa fa-angle-left"></i>
+						</a>
+						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+							<i class="fa fa-angle-right"></i>
+						</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section><!--/slider-->
+	
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Category</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Sportswear
+										</a>
+									</h4>
+								</div>
+								<div id="sportswear" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="#">Nike </a></li>
+											<li><a href="#">Under Armour </a></li>
+											<li><a href="#">Adidas </a></li>
+											<li><a href="#">Puma</a></li>
+											<li><a href="#">ASICS </a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Mens
+										</a>
+									</h4>
+								</div>
+								<div id="mens" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="#">Fendi</a></li>
+											<li><a href="#">Guess</a></li>
+											<li><a href="#">Valentino</a></li>
+											<li><a href="#">Dior</a></li>
+											<li><a href="#">Versace</a></li>
+											<li><a href="#">Armani</a></li>
+											<li><a href="#">Prada</a></li>
+											<li><a href="#">Dolce and Gabbana</a></li>
+											<li><a href="#">Chanel</a></li>
+											<li><a href="#">Gucci</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Womens
+										</a>
+									</h4>
+								</div>
+								<div id="womens" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="#">Fendi</a></li>
+											<li><a href="#">Guess</a></li>
+											<li><a href="#">Valentino</a></li>
+											<li><a href="#">Dior</a></li>
+											<li><a href="#">Versace</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Kids</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Fashion</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Households</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Interiors</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Clothing</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Bags</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Shoes</a></h4>
+								</div>
+							</div>
+						</div><!--/category-products-->
+					
+						<div class="brands_products"><!--brands_products-->
+							<h2>Brands</h2>
+							<div class="brands-name">
+								<ul class="nav nav-pills nav-stacked">
+									<li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
+									<li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
+									<li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
+									<li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
+									<li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
+									<li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
+									<li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
+								</ul>
+							</div>
+						</div><!--/brands_products-->
+						
+						<div class="price-range"><!--price-range-->
+							<h2>Price Range</h2>
+							<div class="well text-center">
+								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
+								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
+							</div>
+						</div><!--/price-range-->
+						
+						<div class="shipping text-center"><!--shipping-->
+							<img src="images/home/shipping.jpg" alt="" />
+						</div><!--/shipping-->
+					
+					</div>
+				</div>
+				
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">Features Items</h2>
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+										<div class="productinfo text-center">
+											<img src="images/home/product1.jpg" alt="" />
+											<h2>$56</h2>
+											<p>Easy Polo Black Edition</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										</div>
+										<div class="product-overlay">
+											<div class="overlay-content">
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+										</div>
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+										<img src="images/home/product2.jpg" alt="" />
+										<h2>$56</h2>
+										<p>Easy Polo Black Edition</p>
+										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>$56</h2>
+											<p>Easy Polo Black Edition</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										</div>
+									</div>
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+										<img src="images/home/product3.jpg" alt="" />
+										<h2>$56</h2>
+										<p>Easy Polo Black Edition</p>
+										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>$56</h2>
+											<p>Easy Polo Black Edition</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										</div>
+									</div>
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+										<img src="images/home/product4.jpg" alt="" />
+										<h2>$56</h2>
+										<p>Easy Polo Black Edition</p>
+										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>$56</h2>
+											<p>Easy Polo Black Edition</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										</div>
+									</div>
+									<img src="images/home/new.png" class="new" alt="" />
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+										<img src="images/home/product5.jpg" alt="" />
+										<h2>$56</h2>
+										<p>Easy Polo Black Edition</p>
+										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>$56</h2>
+											<p>Easy Polo Black Edition</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										</div>
+									</div>
+									<img src="images/home/sale.png" class="new" alt="" />
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+										<img src="images/home/product6.jpg" alt="" />
+										<h2>$56</h2>
+										<p>Easy Polo Black Edition</p>
+										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>$56</h2>
+											<p>Easy Polo Black Edition</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										</div>
+									</div>
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+					<div class="category-tab"><!--category-tab-->
+						<div class="col-sm-12">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#tshirt" data-toggle="tab">T-Shirt</a></li>
+								<li><a href="#blazers" data-toggle="tab">Blazers</a></li>
+								<li><a href="#sunglass" data-toggle="tab">Sunglass</a></li>
+								<li><a href="#kids" data-toggle="tab">Kids</a></li>
+								<li><a href="#poloshirt" data-toggle="tab">Polo shirt</a></li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div class="tab-pane fade active in" id="tshirt" >
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery1.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery2.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery3.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery4.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="blazers" >
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery4.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery3.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery2.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery1.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="sunglass" >
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery3.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery4.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery1.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery2.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="kids" >
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery1.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery2.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery3.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery4.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="poloshirt" >
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery2.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery4.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery3.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img src="images/home/gallery1.jpg" alt="" />
+												<h2>$56</h2>
+												<p>Easy Polo Black Edition</p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!--/category-tab-->
+					
+					<div class="recommended_items"><!--recommended_items-->
+						<h2 class="title text-center">recommended items</h2>
+						
+						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+							<div class="carousel-inner">
+								<div class="item active">	
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="images/home/recommend1.jpg" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="images/home/recommend2.jpg" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="images/home/recommend3.jpg" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="item">	
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="images/home/recommend1.jpg" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="images/home/recommend2.jpg" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="images/home/recommend3.jpg" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+								<i class="fa fa-angle-left"></i>
+							  </a>
+							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+								<i class="fa fa-angle-right"></i>
+							  </a>			
+						</div>
+					</div><!--/recommended_items-->
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<footer id="footer"><!--Footer-->
+		<div class="footer-top">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="companyinfo">
+							<h2><span>e</span>-shopper</h2>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
+						</div>
+					</div>
+					<div class="col-sm-7">
+						<div class="col-sm-3">
+							<div class="video-gallery text-center">
+								<a href="#">
+									<div class="iframe-img">
+										<img src="images/home/iframe1.png" alt="" />
+									</div>
+									<div class="overlay-icon">
+										<i class="fa fa-play-circle-o"></i>
+									</div>
+								</a>
+								<p>Circle of Hands</p>
+								<h2>24 DEC 2014</h2>
+							</div>
+						</div>
+						
+						<div class="col-sm-3">
+							<div class="video-gallery text-center">
+								<a href="#">
+									<div class="iframe-img">
+										<img src="images/home/iframe2.png" alt="" />
+									</div>
+									<div class="overlay-icon">
+										<i class="fa fa-play-circle-o"></i>
+									</div>
+								</a>
+								<p>Circle of Hands</p>
+								<h2>24 DEC 2014</h2>
+							</div>
+						</div>
+						
+						<div class="col-sm-3">
+							<div class="video-gallery text-center">
+								<a href="#">
+									<div class="iframe-img">
+										<img src="images/home/iframe3.png" alt="" />
+									</div>
+									<div class="overlay-icon">
+										<i class="fa fa-play-circle-o"></i>
+									</div>
+								</a>
+								<p>Circle of Hands</p>
+								<h2>24 DEC 2014</h2>
+							</div>
+						</div>
+						
+						<div class="col-sm-3">
+							<div class="video-gallery text-center">
+								<a href="#">
+									<div class="iframe-img">
+										<img src="images/home/iframe4.png" alt="" />
+									</div>
+									<div class="overlay-icon">
+										<i class="fa fa-play-circle-o"></i>
+									</div>
+								</a>
+								<p>Circle of Hands</p>
+								<h2>24 DEC 2014</h2>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="address">
+							<img src="images/home/map.png" alt="" />
+							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-widget">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>Service</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="#">Online Help</a></li>
+								<li><a href="#">Contact Us</a></li>
+								<li><a href="#">Order Status</a></li>
+								<li><a href="#">Change Location</a></li>
+								<li><a href="#">FAQ’s</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>Quock Shop</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="#">T-Shirt</a></li>
+								<li><a href="#">Mens</a></li>
+								<li><a href="#">Womens</a></li>
+								<li><a href="#">Gift Cards</a></li>
+								<li><a href="#">Shoes</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>Policies</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="#">Terms of Use</a></li>
+								<li><a href="#">Privecy Policy</a></li>
+								<li><a href="#">Refund Policy</a></li>
+								<li><a href="#">Billing System</a></li>
+								<li><a href="#">Ticket System</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>About Shopper</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="#">Company Information</a></li>
+								<li><a href="#">Careers</a></li>
+								<li><a href="#">Store Location</a></li>
+								<li><a href="#">Affillate Program</a></li>
+								<li><a href="#">Copyright</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3 col-sm-offset-1">
+						<div class="single-widget">
+							<h2>About Shopper</h2>
+							<form action="#" class="searchform">
+								<input type="text" placeholder="Your email address" />
+								<button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
+								<p>Get the most recent updates from <br />our site and be updated your self...</p>
+							</form>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left">Copyright © 2021 Inc. All rights reserved.</p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+				</div>
+			</div>
+		</div>
+		
+	</footer><!--/Footer-->
+  
+    <script src="eshopper/js/jquery.js"></script>
+	<script src="eshopper/js/bootstrap.min.js"></script>
+	<script src="eshopper/js/jquery.scrollUp.min.js"></script>
+	<script src="eshopper/js/price-range.js"></script>
+    <script src="eshopper/js/jquery.prettyPhoto.js"></script>
+    <script src="eshopper/js/main.js"></script>
 </body>
 </html>
