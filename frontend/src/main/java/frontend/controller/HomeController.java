@@ -24,7 +24,7 @@ public class HomeController {
 	@Autowired
 	private FrontendService frontendService;
 
-	@GetMapping({ "", "/", "/home" })
+	@GetMapping({ "/", "", "/home" })
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView();
@@ -203,6 +203,11 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/response-html/popup");
 		return mv;
+	}
+
+	@GetMapping("/check-connection")
+	public ResponseEntity<?> checkConnection(){
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

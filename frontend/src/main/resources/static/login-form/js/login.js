@@ -57,7 +57,7 @@ $(document).ready(function() {
 
 function login(formData) {
 
-	if ($("#login-form").valid()) {
+	if ($("#login-form").valid() && checkConnection()) {
 
 		$.ajax({
 
@@ -99,7 +99,7 @@ function login(formData) {
 
 function changePassword(formData) {
 
-	if ($("#change-password").valid()) {
+	if ($("#change-password").valid() && checkConnection()) {
 
 		$.ajax({
 
@@ -186,7 +186,6 @@ jQuery('#change-password').validate({
 	submitHandler: function(form) {
 
 		var formData = {
-
 			"password": $("#password").val(),
 		}
 		changePassword(formData)
@@ -211,3 +210,15 @@ window.addEventListener("pageshow", function(event) {
 	}
 });
 */
+function checkConnection(){
+
+$.ajax('/check-connection', {
+  statusCode: {
+    0: function() {
+      alert(" We can’t connect to the server at "+window.url+"please check your internet connection or the page which you are looking for has been removed.");
+      return false
+    }
+  }
+});
+return true;
+}
