@@ -171,12 +171,12 @@ public class HomeController {
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 
-		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus()) {
+		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus() && !tokenStatus.isLogined()) {
 			ModelAndView model = new ModelAndView("redirect:" + "/signin");
 			model.setStatus(HttpStatus.OK);
 			return model;
 		}
-		frontendService.removeAllTokens(request);
+		//frontendService.removeAllTokens(request);
 
 		return new ModelAndView("redirect:" + "/");
 	}

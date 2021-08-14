@@ -5,11 +5,12 @@
   <title>e-ecommerce-shop </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
- <link href="css/bootstrap.min.css" rel="stylesheet">
+  <script src="ecommerce/js/jquery.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap"/>
-  <script src="ecommerce/js/jquery.min.js"></script>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
 <script src="ecommerce/js/easyzoom.js"></script>
 
@@ -73,29 +74,48 @@
 
       <#if userName?has_content>
 
-	   <div class="collapse navbar-collapse">
-           <ul class="nav navbar-nav" data-hover="dropdown" data-animations="fadeInDown fadeInRight fadeInUp fadeInLeft>
-           ...
-           </ul>
-       </div>
+	   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-animations" data-hover="dropdown">
+                   <ul class="nav navbar-nav">
+                     <li class="dropdown">
+                       <a href="/" class="dropdown-toggle" aria-expanded="false">Hello,${userName}</a>
+                       <ul class="dropdown-menu" role="menu">
 
-	  <a href="/signin" class="btn btn-dark" data-bs-whatever="@mdo">Hello, ${userName}</a>
+                         <li><a href="/orders">Orders</a></li>
+                         <li><a href="#">Wishlist</a></li>
+                         <li><a href="#">Gift Cards</a></li>
+                         <li><a href="#">Saved Address</a></li>
+                         <li class="divider">Saved Cards</li>
+                         <li><a href="#">Separated link</a></li>
+                         <li class="divider"></li>
+                         <li><a href="/signout">Sign out</a></li>
+                         <li><a href="/signout-from-alldevices">Sign out from all devices</a></li>
+                       </ul>
+                     </li>
+                   </ul>
+
+                 </div><!-- /.navbar-collapse -->
+               </div><!-- /.container-fluid -->
+
+	  <a href="/signin" class="btn btn-dark" data-bs-whatever="@mdo"></a>
       <#else>
 
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-animations" data-hover="dropdown">
             <ul class="nav navbar-nav">
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" role="button" aria-expanded="false">Hello,Sign in</a>
+                <a href="/" class="dropdown-toggle" aria-expanded="false">Hello,Sign in</a>
                 <ul class="dropdown-menu" role="menu">
                 <li><a href="/signin">Sign In</a></li>
-                  <li><a href="#">Orders</a></li>
+                  <li><a href="/orders">Orders</a></li>
                   <li><a href="#">Wishlist</a></li>
                   <li><a href="#">Gift Cards</a></li>
                   <li><a href="#">Saved Address</a></li>
                   <li class="divider">Saved Cards</li>
+                 <li>
+                  <span> New Customer ?
+                   <a href="/register">Start Here</a></span></li>
                   <li><a href="#">Separated link</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
+
                 </ul>
               </li>
             </ul>
