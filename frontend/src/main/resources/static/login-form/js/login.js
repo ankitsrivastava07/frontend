@@ -36,8 +36,8 @@ $(document).ready(function() {
 
 			var formData = {
 
-				"email": $("#email").val(),
-				"password": $("#password").val()
+				"email": "",
+				"password": ""
 			}
 			login(formData);
 		}
@@ -89,8 +89,25 @@ function login(formData) {
 				}
 			},
 			error: function(error) {
+
+                 if(error.responseJSON.validationFailed)    {
+                 $(".error").remove();
+                     $.each(error.responseJSON.errors , function(index, val) {
+
+                    var duration = 500;
+                    $({to:0}).animate({to:1}, duration, function() {
+                  			if ($(".error_"+val.fieldName).length == 0 || $(".error_"+val.fieldName).length == undefined) {
+            						$("#"+val.fieldName).after(("<span class=error error_"+val.fieldName+">" + val.message + "</span>"));
+            					} else{
+            						$(".error_"+val.fieldName).val(val.message);
+            					}
+            					 })
+                      });
+                  }
+               if(error.status === 400 && !error.responseJSON.validationFailed && !error.responseJSON.status){
 				url = window.location.pathname.replace(/\/+$/, '') + "/error";
 				window.location.replace(url)
+				}
 			}
 		})
 	}
@@ -215,7 +232,7 @@ function checkConnection(){
 $.ajax('/check-connection', {
   statusCode: {
     0: function() {
-      alert(" We can’t connect to the server at "+window.url+"please check your internet connection or the page which you are looking for has been removed.");
+      alert(" We can’t connect to the server please check your internet connection or the page which you are looking for has been removed.");
       return false
     }
   }
