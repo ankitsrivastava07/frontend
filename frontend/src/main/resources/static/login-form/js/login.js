@@ -35,7 +35,6 @@ $(document).ready(function() {
 		submitHandler: function(form) {
 
 			var formData = {
-
 				"email": $("#email").val(),
 				"password": $("#password").val()
 			}
