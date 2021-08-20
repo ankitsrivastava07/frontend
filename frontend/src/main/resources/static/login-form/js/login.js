@@ -36,8 +36,8 @@ $(document).ready(function() {
 
 			var formData = {
 
-				"email": "",
-				"password": ""
+				"email": $("#email").val(),
+				"password": $("#password").val()
 			}
 			login(formData);
 		}
