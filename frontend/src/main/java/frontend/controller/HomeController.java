@@ -2,22 +2,22 @@ package frontend.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import frontend.dto.AddToCartRequestDto;
+import frontend.service.AddToCartCountProductsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
-@Controller
+import java.io.IOException;
+
+@RestController
 @RequestMapping("")
 public class HomeController {
 
@@ -48,10 +48,11 @@ public class HomeController {
 	}
 
 	@GetMapping("/signout")
-	public String logout(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		frontendService.invalidateToken(request);
-		return "redirect:/signin";
+		response.sendRedirect("/signin");
+		
 	}
 
 	@GetMapping("/register")
@@ -153,7 +154,7 @@ public class HomeController {
 		return new ResponseEntity<>(tokenStatus, HttpStatus.OK);
 	}
 
-	@GetMapping("/signout-from-alldevices")
+	@GetMapping("/signout-from-all-devices")
 	public String signOutFromAllDevices(HttpServletRequest request, HttpServletResponse response) {
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
@@ -208,6 +209,29 @@ public class HomeController {
 	@GetMapping("/check-connection")
 	public ResponseEntity<?> checkConnection(){
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/add-to-cart-product-detail",method = RequestMethod.GET)
+	public ModelAndView addToCartProductDetail(){
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("add-to-cart-detail-page");
+		return mv;
+	}
+
+	@RequestMapping(value="/add-to-cart-count-products" ,method=RequestMethod.GET)
+	public AddToCartCountProductsResponse addToCartCountProducts(@RequestParam(required = false,name="sessionToken") String sessionToken,HttpServletRequest request,HttpServletResponse response){
+
+		System.out.println("add-to-cart-count-products method called");
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("index");
+		AddToCartCountProductsResponse addToCartCountProducts = new AddToCartCountProductsResponse();
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		if(tokenStatus.isStatus()) {
+			addToCartCountProducts.setProductCount(2);
+			addToCartCountProducts.setStatus(Boolean.TRUE);
+			addToCartCountProducts.setMessage("Successfully response fetched");
+		}
+		return addToCartCountProducts;
 	}
 
 }

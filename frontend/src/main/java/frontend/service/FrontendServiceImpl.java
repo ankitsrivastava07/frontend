@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import frontend.dto.AddToCartRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,6 +107,23 @@ public class FrontendServiceImpl implements FrontendService {
 		tokenStatus.setLogined(true);
 		tokenStatus.setCreatedAt(null);
 		return tokenStatus;
+	}
+
+	@Override
+	@CircuitBreaker(name="user-microservice",fallbackMethod="addToCartCountProductsFallback")
+	public AddToCartCountProductsResponse addToCartCountProducts(AddToCartRequestDto addToCartRequestDto) {
+
+
+		return null;
+	}
+
+	public AddToCartCountProductsResponse addToCartCountProductsFallback(Throwable exception){
+
+		AddToCartCountProductsResponse addToCartCountProductsResponse = new AddToCartCountProductsResponse();
+		addToCartCountProductsResponse.setHttpStatus(503);
+		addToCartCountProductsResponse.setMessage("Sorry Server is currently down.Please try again later");
+		addToCartCountProductsResponse.setStatus(Boolean.FALSE);
+		return addToCartCountProductsResponse;
 	}
 
 	@Override

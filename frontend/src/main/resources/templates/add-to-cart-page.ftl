@@ -31,51 +31,11 @@
 color: rgb(249 243 243);
 }
 
-a.notif {
-  position: relative;
-  display: block;
-  height: 50px;
-  width: 50px;
-  background: url('http://i.imgur.com/evpC48G.png');
-  background-size: contain;
-  text-decoration: none;
-}
-.num {
-    position: absolute;
-    top: 6px;
-    color: #fff;
-    margin-left: 20px;
-    top: 15px;
-    color: red;
-}
-#product-count{
-    white-space: nowrap;
-    padding: 0 6px;
-    background: #ff3f6c;
-    border-radius: 50%;
-    font-size: 12px;
-    color: #fff;
-    font-weight: 700;
-}
-
-a.fa-globe {
-  position: relative;
-  font-size: 2em;
-  color: grey;
-  cursor: pointer;
-}
-span.fa-comment {
-  position: absolute;
-  font-size: 0.6em;
-  top: -4px;
-  color: red;
-  right: -4px;
-}
-
-
 </style>
 
+
 </head>
+
 <body>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -124,12 +84,8 @@ span.fa-comment {
       </form>
 
 <!-- Bag ICON -->
-<input type="hidden" id="session_token" value="" name="sessionToken">
-<a href="/add-to-cart-product-detail">
-<i class="fa fa-shopping-bag text-light notif" style="float:right; font-size: 1.93em;">&nbsp;</i>
-<span class="num" id="product-count">0</span>
+<i class="fa fa-shopping-bag text-light" style="float:right; font-size: 1.93em;">&nbsp;</i>
 
-</a>
       <#if userName?has_content>
 
 	   <div class="collapse navbar-collapse">
@@ -361,6 +317,9 @@ span.fa-comment {
 	 <h3>Devices and Accessories</h3>
 	 </div>
 
+
+
+
 	 <ul class="bxslider">
 
 
@@ -474,6 +433,8 @@ span.fa-comment {
  <div class="correct-item item">
  <img src="images/65.jpg"/></div>
 
+
+
 <div class="hover">
                              <p><strong>Wakefit Athena <br> Study Table</strong></p>
                              <p><small>₹5,501</small>
@@ -490,6 +451,9 @@ span.fa-comment {
 <div class="correct-wrapper item-wrapper">
  <div class="correct-item item">
  <img src="images/41AwYdB4C0L._AC_SY200_.jpg"/></div>
+
+
+
 
  <div class="hover">
                              <p><strong>Wakefit Athena <br> Study Table</strong></p>
@@ -887,8 +851,6 @@ span.fa-comment {
 <script src="ecommerce/js/bootstrap.bundle.min.js"></script>
 
 <script src="ecommerce/js/jquery.bxslider.min.js"></script>
-<script src="ecommerce/js/main.js"></script>
-<script src="ecommerce/js/cookie.js"></script>
 <script>
 jQuery(document).ready(function() {
   jQuery('.bxslider').bxSlider({
@@ -902,7 +864,15 @@ jQuery(document).ready(function() {
     responsive: true
   });
 
+
+
  });
+
+function ImageClick(){
+ alert("hh");
+
+}
+
 
 </script>
 </body>

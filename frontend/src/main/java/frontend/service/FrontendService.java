@@ -8,6 +8,8 @@ import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
+import frontend.dto.AddToCartRequestDto;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface FrontendService {
 
@@ -26,5 +28,7 @@ public interface FrontendService {
 
 	CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
 			HttpServletResponse response);
+
+	AddToCartCountProductsResponse addToCartCountProducts(AddToCartRequestDto addToCartRequestDto);
 
 }

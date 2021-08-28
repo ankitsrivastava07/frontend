@@ -17,6 +17,8 @@ public class TokenStatus {
 
 	private LocalDateTime createdAt;
 
+	private LocalDateTime expireAt;
+
 	private String accessToken;
 
 	private String firstName;

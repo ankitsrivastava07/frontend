@@ -1,5 +1,6 @@
 package frontend.service;
 
+import frontend.dto.AddToCartRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,4 +37,6 @@ public interface ApiGatewayRequestUri {
 	@PostMapping("/token-session/invalidate-tokens")
 	public ResponseEntity<TokenStatus> invalidateTokens(@RequestBody ChangePasswordRequestDto dto);
 
+	@PostMapping("/add-to-cart-count-products")
+	public ResponseEntity<AddToCartCountProductsResponse> addToCartCountProducts(@RequestBody AddToCartRequestDto addToCartRequestDto);
 }
