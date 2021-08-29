@@ -50,6 +50,10 @@
    margin-top: 0;
 }
 
+.new_customer{
+ font-size: 11px;
+}
+
 </style>
 
 </head>
@@ -141,9 +145,9 @@
                                           <li><a href="#">Gift Cards</a></li>
                                           <li><a href="#">Saved Address</a></li>
                                          <li>
-                                          <span> New Customer ?
+                                          <span class="new_customer"> New Customer ?
                                            <a href="/register">Start Here</a></span></li>
-                                          <li><a href="/your-account">Your Account</a></li>
+                                          <li><a href="/account">Your Account</a></li>
           </ul>
         </li>
 

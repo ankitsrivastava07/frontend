@@ -215,6 +215,13 @@ public class HomeController {
 		return mv;
 	}
 
+	@GetMapping("/account")
+	public ModelAndView profile(){
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("profile");
+		return mv;
+	}
+
 	@GetMapping("/check-connection")
 	public ResponseEntity<?> checkConnection(){
 		return new ResponseEntity<>(HttpStatus.OK);
