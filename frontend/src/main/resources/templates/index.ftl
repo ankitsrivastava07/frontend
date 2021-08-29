@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="ecommerce/js/jquery.min.js"></script>
   <script src="ecommerce/js/cookie.js"></script>
-<link href="css/bootstrap.min.css" rel="stylesheet">
+
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap"/>
@@ -41,11 +41,15 @@
         background: #ff3f6c;
         position: absolute;
         border-radius: 138%;
-        font-size: 12px;
+        font-size: 15px;
         color: #fff;
-        top: 14px;
-
+        top: auto;
 }
+.dropdown:hover>.dropdown-menu {
+  display: block;
+   margin-top: 0;
+}
+
 </style>
 
 </head>
@@ -92,64 +96,56 @@
         </li>
       </ul>
 
-      <form class="d-flex">
+      <form class="d-flex" action="/" method="get">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
       </form>
 
       <!-- Bag Icon -->
-<a href="/add-to-cart-product-detail">
+<a href="/product/add-to-cart">
 <i class="fa fa-shopping-bag num"></i>
 <span id="product_count">0</span>
 </a>
 
       <#if userName?has_content>
-
-	   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-animations" data-hover="dropdown">
-                   <ul class="nav navbar-nav">
-                     <li class="dropdown">
-                       <a href="/" class="dropdown-toggle" aria-expanded="false">Hello,${userName}</a>
-                       <ul class="dropdown-menu" role="menu">
+       <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Hello, ${userName}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                          <li><a href="/orders">Orders</a></li>
                          <li><a href="#">Wishlist</a></li>
                          <li><a href="#">Gift Cards</a></li>
-                         <li><a href="#">Saved Address</a></li>
-                         <li class="divider">Saved Cards</li>
-                         <li><a href="#">Separated link</a></li>
-                         <li class="divider"></li>
-                         <li><a href="/signout">Sign out</a></li>
+                         <li><a href="#">Save Address</a></li>
+                         <li><a href="/signout?redirect=/signin">Sign out</a></li>
                          <li><a href="/signout-from-alldevices">Sign out from all devices</a></li>
-                       </ul>
-                     </li>
-                   </ul>
 
+          </ul>
+        </li>
                  </div><!-- /.navbar-collapse -->
                </div><!-- /.container-fluid -->
 
 	  <a href="/signin" class="btn btn-dark" data-bs-whatever="@mdo"></a>
       <#else>
 
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-animations" data-hover="dropdown">
-            <ul class="nav navbar-nav">
-              <li class="dropdown">
-                <a href="/" class="dropdown-toggle" aria-expanded="false">Hello,Sign in</a>
-                <ul class="dropdown-menu" role="menu">
-                <li><a href="/signin">Sign In</a></li>
-                  <li><a href="/orders">Orders</a></li>
-                  <li><a href="#">Wishlist</a></li>
-                  <li><a href="#">Gift Cards</a></li>
-                  <li><a href="#">Saved Address</a></li>
-                  <li class="divider">Saved Cards</li>
-                 <li>
-                  <span> New Customer ?
-                   <a href="/register">Start Here</a></span></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
+ <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Hello, Sign in
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                </ul>
-              </li>
-            </ul>
+                        <li><a href="/signin">Sign In</a></li>
+                                          <li><a href="/orders">Orders</a></li>
+                                          <li><a href="#">Wishlist</a></li>
+                                          <li><a href="#">Gift Cards</a></li>
+                                          <li><a href="#">Saved Address</a></li>
+                                         <li>
+                                          <span> New Customer ?
+                                           <a href="/register">Start Here</a></span></li>
+                                          <li><a href="/your-account">Your Account</a></li>
+          </ul>
+        </li>
 
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

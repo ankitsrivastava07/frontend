@@ -38,6 +38,15 @@ public class HomeController {
 		return model;
 	}
 
+	@RequestMapping(value = "/", method = { RequestMethod.POST })
+	public void redirectURL(@RequestParam("redirect")String redirectUrl,HttpServletResponse response) throws IOException {
+
+		response.sendRedirect(redirectUrl);
+
+		return ;
+
+	}
+
 	@RequestMapping(value = "/signin", method = { RequestMethod.POST })
 	public ResponseEntity<?> login(@RequestBody UserCredential userCredential, HttpServletRequest request,
 								   HttpServletResponse response) throws JsonProcessingException {
@@ -211,7 +220,7 @@ public class HomeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/add-to-cart-product-detail",method = RequestMethod.GET)
+	@GetMapping(value = "/product/add-to-cart")
 	public ModelAndView addToCartProductDetail(){
 		ModelAndView mv= new ModelAndView();
 		mv.setViewName("add-to-cart-detail-page");
