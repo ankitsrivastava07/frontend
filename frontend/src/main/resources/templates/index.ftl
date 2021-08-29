@@ -96,7 +96,7 @@
         <li class="nav-item">
           <a class="nav-link text-light" href="/" tabindex="-1" aria-disabled="true">Electronics</a>
 		<li class="nav-item">
-          <a class="nav-link text-light" href="Contact.html" tabindex="-1" aria-disabled="true">Contact Us</a>
+          <a class="nav-link text-light" href="/contact" tabindex="-1" aria-disabled="true">Contact Us</a>
         </li>
       </ul>
 
@@ -122,6 +122,7 @@
                          <li><a href="#">Wishlist</a></li>
                          <li><a href="#">Gift Cards</a></li>
                          <li><a href="#">Save Address</a></li>
+                         <li><a href="/account">Your Account</a></li>
                          <li><a href="/signout?redirect=/signin">Sign out</a></li>
                          <li><a href="/signout-from-alldevices">Sign out from all devices</a></li>
 
@@ -146,7 +147,8 @@
                                           <li><a href="#">Saved Address</a></li>
                                          <li>
                                           <span class="new_customer"> New Customer ?
-                                           <a href="/register">Start Here</a></span></li>
+                                           <a href="/register">Start Here</a></span>
+                                           </li>
                                           <li><a href="/account">Your Account</a></li>
           </ul>
         </li>

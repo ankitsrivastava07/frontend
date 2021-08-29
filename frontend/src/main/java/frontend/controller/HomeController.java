@@ -38,14 +38,23 @@ public class HomeController {
 		return model;
 	}
 
+	@GetMapping({ "/contact" })
+	public ModelAndView contactUs(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView();
+		model.setViewName("contact-us");
+		return model;
+	}
+
 	@RequestMapping(value = "/", method = { RequestMethod.POST })
-	public void redirectURL(@RequestParam("redirect")String redirectUrl,HttpServletResponse response) throws IOException {
+	public void contactUs(@RequestParam("redirect")String redirectUrl,HttpServletResponse response) throws IOException {
 
 		response.sendRedirect(redirectUrl);
 
 		return ;
 
 	}
+
 
 	@RequestMapping(value = "/signin", method = { RequestMethod.POST })
 	public ResponseEntity<?> login(@RequestBody UserCredential userCredential, HttpServletRequest request,
