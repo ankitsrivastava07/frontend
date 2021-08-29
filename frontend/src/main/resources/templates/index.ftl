@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="ecommerce/js/jquery.min.js"></script>
+  <script src="ecommerce/js/cookie.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
@@ -23,15 +24,39 @@
       <link href="css/bootstrap-dropdownhover.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<style>
+.num {
+      right: 11px;
+      top: 6px;
+      font-size: 25px;
+      color: #fff;
+}
+#product_count{
+
+        white-space: nowrap;
+        text-align: center;
+        line-height: 18px;
+        padding: 0 6px;
+        height: 18px;
+        background: #ff3f6c;
+        position: absolute;
+        border-radius: 138%;
+        font-size: 12px;
+        color: #fff;
+        top: 14px;
+
+}
+</style>
+
 </head>
 
 <body>
 
+<script src="ecommerce/js/main.js"></script>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
       <script src="ecommerce/js/bootstrap.min.js"></script>
-
       <!-- Bootstrap Dropdown Hover JS -->
       <script src="ecommerce/js/bootstrap-dropdownhover.min.js"></script>
 
@@ -71,6 +96,12 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
       </form>
+
+      <!-- Bag Icon -->
+<a href="/add-to-cart-product-detail">
+<i class="fa fa-shopping-bag num"></i>
+<span id="product_count">0</span>
+</a>
 
       <#if userName?has_content>
 
@@ -301,11 +332,7 @@
 	 <h3>Devices and Accessories</h3>
 	 </div>
 
-
-
-
 	 <ul class="bxslider">
-
 
  <li class="bx-container">
 <div class="correct-wrapper item-wrapper">
@@ -356,7 +383,6 @@
     <div class="shop-add-btn-cont">
                     <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
                   </div>
-
 
  </div>
 </div>
@@ -417,8 +443,6 @@
  <div class="correct-item item">
  <img src="images/65.jpg"/></div>
 
-
-
 <div class="hover">
                              <p><strong>Wakefit Athena <br> Study Table</strong></p>
                              <p><small>₹5,501</small>
@@ -435,9 +459,6 @@
 <div class="correct-wrapper item-wrapper">
  <div class="correct-item item">
  <img src="images/41AwYdB4C0L._AC_SY200_.jpg"/></div>
-
-
-
 
  <div class="hover">
                              <p><strong>Wakefit Athena <br> Study Table</strong></p>
@@ -833,8 +854,9 @@
 
 <!-- Footer -->
 <script src="ecommerce/js/bootstrap.bundle.min.js"></script>
-
 <script src="ecommerce/js/jquery.bxslider.min.js"></script>
+
+
 <script>
 jQuery(document).ready(function() {
   jQuery('.bxslider').bxSlider({
@@ -848,15 +870,12 @@ jQuery(document).ready(function() {
     responsive: true
   });
 
-
-
  });
 
 function ImageClick(){
  alert("hh");
 
 }
-
 
 </script>
 </body>
