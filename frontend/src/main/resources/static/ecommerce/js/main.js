@@ -13,8 +13,7 @@ formData = {
   }
 
   $.ajax({
-      url: "/add-to-cart-count-products",
-
+      url: "/product/add-to-cart-count-products",
           data: formData,
           success: function(data){
              $("#product_count").html(data.productCount);

@@ -243,7 +243,7 @@ public class HomeController {
 		return mv;
 	}
 
-	@RequestMapping(value="/add-to-cart-count-products" ,method=RequestMethod.GET)
+	@RequestMapping(value="/product/add-to-cart-count-products" ,method=RequestMethod.GET)
 	public AddToCartCountProductsResponse addToCartCountProducts(@RequestParam(required = false,name="sessionToken") String sessionToken,HttpServletRequest request,HttpServletResponse response){
 
 		System.out.println("add-to-cart-count-products method called");
