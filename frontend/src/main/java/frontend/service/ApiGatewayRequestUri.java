@@ -13,7 +13,6 @@ import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
-
 @FeignClient(name = "cloud-gateway-spring", url = "http://cloud-gateway-spring.herokuapp.com")
 public interface ApiGatewayRequestUri {
 
