@@ -11,8 +11,10 @@ import frontend.controller.CreateUserRequestDto;
 import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
+import frontend.dto.AddToCartRequest;
+import frontend.response.AddToCartResponse;
 
-@FeignClient(name = "cloud-gateway-spring", url = "http://cloud-gateway-spring.herokuapp.com")
+@FeignClient(name = "user-service", url = "http://localhost:8765")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
@@ -35,5 +37,11 @@ public interface ApiGatewayRequestUri {
 
 	@PostMapping("/token-session/invalidate-tokens")
 	public ResponseEntity<TokenStatus> invalidateTokens(@RequestBody ChangePasswordRequestDto dto);
+	
+	@PostMapping("/users/add-to-cart-product-count")
+	public ResponseEntity<AddToCartCountProductsResponse> addToCartProductCount(@RequestBody String token);
+
+	@PostMapping("/user/add-to-cart-product")
+	public ResponseEntity<AddToCartResponse> addToCart(@RequestBody AddToCartRequest addToCartRequest);
 
 }

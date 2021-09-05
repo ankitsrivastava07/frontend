@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 public class AddToCartCountProductsResponse {
 
     private Boolean status=Boolean.FALSE;
-    private String  message="Successfully fetched response";
-    private HttpStatus httpStatus=HttpStatus.OK;
+    private String  message;
+    private Boolean isAccessTokenNewCreated;
+    private String sessionToken;
+    private HttpStatus httpStatus= HttpStatus.OK;
     private Integer productCount=0;
 }
