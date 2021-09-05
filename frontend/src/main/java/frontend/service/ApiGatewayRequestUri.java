@@ -14,7 +14,7 @@ import frontend.controller.UserCredential;
 import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
 
-@FeignClient(name = "user-service", url = "http://cloud-gateway-spring.herokuapp.com")
+@FeignClient(name = "cloud-gateway-spring", url = "http://cloud-gateway-spring.herokuapp.com")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
