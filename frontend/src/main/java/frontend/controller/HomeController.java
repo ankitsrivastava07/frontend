@@ -154,7 +154,7 @@ public class HomeController {
 			model.setStatus(HttpStatus.OK);
 			return model;
 		}
-		frontendService.removeAllTokens(request);
+		//frontendService.removeAllTokens(request);
 		return new ModelAndView("redirect:" + "/");
 	}
 
