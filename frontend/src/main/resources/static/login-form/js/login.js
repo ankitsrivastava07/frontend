@@ -301,11 +301,13 @@ $.ajax({
         error: function(error) {
             url = window.location.pathname.replace(/\/+$/, '') + "/error";
               $(".alert").remove("");
+              setTimeout(function() {
                     if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
-                    	$("#email_response").append(("<div class='alert alert-danger' role='alert'>" + responseJSON.message + "</div>"));
+                    	$("#email_response").append(("<div class='alert alert-danger' role='alert'>" + error.responseJSON.message + "</div>"));
                                 } else{
-                                    $(".alert").html(responseJSON.message);
+                                    $(".alert").html(error.responseJSON.message);
                                 }
+                                }, 500);
         }
 });
 return flag
