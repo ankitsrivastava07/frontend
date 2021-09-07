@@ -129,7 +129,7 @@ function changePassword(formData) {
 				xhr.setRequestHeader('session_Token', cookie);
 			},
 			success: function(response) {
-
+            $(".alert").remove();
 				if (response.status)
 					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
 
