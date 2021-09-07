@@ -159,11 +159,11 @@ function changePassword(formData) {
 				}, 500);
 
 				if (response.status)
-					window.location.href = "/"
+					window.location.href = "/signin"
 			},
 			error: function(error) {
 				url = window.location.pathname.replace(/\/+$/, '') + "/error";
-				window.location.replace(url)
+				//window.location.replace(url)
 				alert("Something went wrong  please try again later")
 			}
 		})
@@ -201,10 +201,23 @@ jQuery('#change-password').validate({
 
 	submitHandler: function(form) {
 
+        let searchParams = new URLSearchParams(window.location.search)
+        let param=""
+        searchParams.has('code')
+        if(searchParams.has('code')){
+         param= searchParams.get('code')
+                 var formData = {
+         			"password": $("#password").val(),
+         			"isPasswordChangeFromCodeIdentity": true,
+         			"code" : param,
+         			 }
+         changePassword(formData);
+        }
+
 		var formData = {
-			"password": $("#password").val(),
-		}
-		changePassword(formData)
+			"password": $("#password").val()
+			}
+		//changePassword(formData)
 	}
 
 });
@@ -226,6 +239,79 @@ window.addEventListener("pageshow", function(event) {
 	}
 });
 */
+
+jQuery('#reset-password-form').validate({
+
+	rules: {
+		email: {
+			maxlength: 100,
+			required: true
+      }
+	},
+
+	messages: {
+
+		email: {
+			required: "Please enter email",
+			maxlength: "Email should not be 100 characters long",
+		}
+	},
+
+	submitHandler: function(form) {
+
+		var formData = {
+			"email": $("#email").val(),
+		}
+		userNameCheck(formData)
+	}
+
+});
+
+function userNameCheck(formData){
+var flag=false
+  if ($("#reset-password-form").valid() && checkConnection()) {
+
+$.ajax({
+        type: "POST",
+        url: "/userName/check",
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+        cache: false,
+        success: function(response) {
+        $(".alert").remove("");
+        setTimeout(function() {
+        if(response.status){
+
+        if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+        	$("#email_response").append(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
+                    } else{
+                        $(".alert").html(response.message);
+                    }
+           } else
+           {
+           if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+                   	$("#email_response").append(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
+                   }
+           else{
+          $(".alert").html(response.message);
+         }
+           }
+}, 500);
+        },
+        error: function(error) {
+            url = window.location.pathname.replace(/\/+$/, '') + "/error";
+              $(".alert").remove("");
+                    if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+                    	$("#email_response").append(("<div class='alert alert-danger' role='alert'>" + responseJSON.message + "</div>"));
+                                } else{
+                                    $(".alert").html(responseJSON.message);
+                                }
+        }
+});
+return flag
+}
+}
+
 function checkConnection(){
 
 $.ajax('/check-connection', {

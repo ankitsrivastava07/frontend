@@ -9,8 +9,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import frontend.constant.ResponseConstant;
 import frontend.response.AddToCartResponse;
+import frontend.response.ResetPasswordResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import frontend.controller.ChangePasswordReqest;
@@ -21,6 +24,8 @@ import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 import frontend.dto.AddToCartRequest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class FrontendServiceImpl implements FrontendService {
@@ -92,16 +97,18 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
-	public TokenStatus changePassword(ChangePasswordReqest request) {
-		TokenStatus tokenStatus = apiGatewayRequestUri.changePassword(request).getBody();
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "changePasswordFallback")
+	public ResponseConstant changePassword(ChangePasswordReqest request) {
+		ResponseConstant responseConstant = apiGatewayRequestUri.changePassword(request).getBody();
+		return responseConstant;
+	}
 
-		tokenStatus.setAccessToken(null);
-		tokenStatus.setFirstName(null);
-		tokenStatus.setUserId(null);
-		tokenStatus.setLogined(true);
-		tokenStatus.setCreatedAt(null);
-		return tokenStatus;
+	public ResponseConstant changePasswordFallback(ChangePasswordReqest request,Throwable exception){
+		ResponseConstant responseConstant = new ResponseConstant();
+		responseConstant.setStatus(Boolean.FALSE);
+		responseConstant.setMessage("Sorry Server is currently down.Please try again later");
+		responseConstant.setHttpStatus(503);
+		return responseConstant;
 	}
 
 	@Override
@@ -242,6 +249,34 @@ public class FrontendServiceImpl implements FrontendService {
 		addToCartResponse.setMessage("Sorry Server is currently down.Please try again later");
 		return addToCartResponse;
 	}
+	@Override
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "userNameCheckFallback")
+	public ResetPasswordResponse userNameCheck(String email){
+		ResetPasswordResponse resetPasswordResponse = apiGatewayRequestUri.userNameCheck(email).getBody();
+		return resetPasswordResponse;
+	}
+	public ResetPasswordResponse userNameCheckFallback(String email,Throwable exception){
+		ResetPasswordResponse resetPasswordResponse = new ResetPasswordResponse();
+		resetPasswordResponse.setStatus(Boolean.FALSE);
+		resetPasswordResponse.setMessage("Sorry Server is currently down.Please try again later");
+		resetPasswordResponse.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE);
+		return resetPasswordResponse;
+	}
 
-	
+	@Override
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "authenticateIdentityTokenFallback")
+	public ResponseConstant authenticateIdentityToken(String code) {
+		ResponseConstant responseConstant = apiGatewayRequestUri.authenticateIdentityToken(code).getBody();
+		return responseConstant;
+	}
+
+	public ResponseConstant authenticateIdentityTokenFallback(String email,Throwable exception){
+		ResponseConstant responseConstant = new ResponseConstant();
+		responseConstant.setStatus(Boolean.FALSE);
+		responseConstant.setMessage("Sorry Server is currently down.Please try again later");
+		responseConstant.setHttpStatus(503);
+		return responseConstant;
+	}
+
 }
+

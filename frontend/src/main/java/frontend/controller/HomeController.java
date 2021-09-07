@@ -2,8 +2,11 @@ package frontend.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import frontend.constant.ResponseConstant;
 import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
+import frontend.response.ResetPasswordResponse;
 import frontend.service.AddToCartCountProductsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -113,28 +116,46 @@ public class HomeController {
 	}
 
 	@GetMapping("/change-password")
-	public ModelAndView changePasswod(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView changePasswod(@RequestParam(value = "code",required = false)String code, HttpServletRequest request, HttpServletResponse response) {
+
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("change-password");
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus()) {
-			ModelAndView model = new ModelAndView("redirect:" + "/signin");
-			model.setStatus(HttpStatus.OK);
-			return model;
+			if (code==null && tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus()) {
+				ModelAndView model = new ModelAndView("redirect:" + "/signin");
+				model.setStatus(HttpStatus.OK);
+				return model;
 		}
+		else if(code!=null && !code.isEmpty() && tokenStatus==null){
+				ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
+				if (!responseConstant.getStatus()) {
+					mv.setViewName("token_valid");
+					mv.addObject("message", responseConstant.getMessage());
+					return mv;
+				}
+			}
+		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
+		if (!responseConstant.getStatus()){
+			mv.setViewName("token_valid");
+			mv.addObject("message", responseConstant.getMessage());
+			return mv;
+		}
+		mv.setViewName("change-password");
 		return mv;
 	}
 
 	@PostMapping("/change-password")
-	public ResponseEntity<?> changePassword(@RequestHeader(value = "session_Token") String token,
-											@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<?> changePassword(@RequestHeader(value = "session_Token") String token,@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		req.setToken(token);
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		if (tokenStatus != null && tokenStatus.isStatus()) {
 			req.setUserId(tokenStatus.getUserId());
-			tokenStatus = frontendService.changePassword(req);
+			ResponseConstant responseConstant = frontendService.changePassword(req);
+			return new ResponseEntity<>(responseConstant, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(tokenStatus, HttpStatus.OK);
+		ResponseConstant responseConstant = frontendService.changePassword(req);
+//		if(responseConstant.getStatus())
+			//response.sendRedirect("/signin");
+		return new ResponseEntity<>(responseConstant, HttpStatus.OK);
 	}
 
 	@GetMapping("/signout-from-all-devices")
@@ -143,7 +164,7 @@ public class HomeController {
 		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus())
 		   response.sendRedirect("/signin");
 		frontendService.removeAllTokens(request);
-		 response.sendRedirect(urlRedirect);;
+		 response.sendRedirect(urlRedirect);
 	}
 
 	@GetMapping("/orders")
@@ -215,4 +236,34 @@ public class HomeController {
 		return addToCartCountProductsResponse;
 	}
 
+	@GetMapping("/users/auth")
+	public ModelAndView userIdentityToken(@RequestParam(value = "code",required = false)String code){
+		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("token_valid");
+		if(!responseConstant.getStatus() && responseConstant.getHttpStatus()==503){
+        mv.setViewName("token_valid");
+		mv.addObject("message",responseConstant.getMessage());
+			return mv;
+		}
+		else if(!responseConstant.getStatus()){
+			mv.setViewName("token_valid");
+			mv.addObject("message",responseConstant.getMessage());
+			return mv;
+		}
+		return new ModelAndView("redirect:" + "/change-password?code="+code);
+	}
+
+	@GetMapping("/user/forget-password")
+	public ModelAndView forgetPassword(@RequestParam(value = "code",required = false)String code){
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("forget-password");
+		return mv;
+	}
+
+	@PostMapping("/userName/check")
+	public ResponseEntity<?> userNameCheck(@RequestBody UserCredential userCredential){
+		ResetPasswordResponse resetPasswordResponse= frontendService.userNameCheck(userCredential.getEmail());
+      return new ResponseEntity<>(frontendService.userNameCheck(userCredential.getEmail()),resetPasswordResponse.getHttpStatus());
+	}
 }

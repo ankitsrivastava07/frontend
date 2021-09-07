@@ -19,6 +19,16 @@
     padding: 3px 0px;
 }
 
+#forget_password{
+float:right;
+color: #4A90E2;
+font-size: 15px;
+}
+.btn.btn-primary{
+background: #1089ff !important;
+
+}
+
 .form-control{
 display: block;
     width: 100%;
@@ -46,6 +56,10 @@ background-color: #fdf6f6;
     text-size-adjust: auto;
     font-size: 14px;
     text-align: center;
+}
+
+#create_account{
+
 }
 
 	</style>
@@ -76,13 +90,14 @@ background-color: #fdf6f6;
 		      			<span class="error_email error"></span>
 		      		</div>
 	            <div class="form-group">
+
 	            <label for="recipient-name" class="col-form-label">Password</label>
+	            <a href="/user/forget-password" id="forget_password">Forget Password ?</a>
 	              <input type="password" class="form-control rounded-left" maxlength="20" name="password" id="password" autocomplete=on Placeholder="Enter your password">
-	              <span class="error_password error"></span>
 	            </div>
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Login</button>
-	            	<span>Don't have an account?
+	            	<span id="create_account">Don't have an account?
 	            	<a href="/register">Create Account</a>
 	            	</span>
 									

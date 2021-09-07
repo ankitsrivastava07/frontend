@@ -1,5 +1,7 @@
 package frontend.service;
 
+import frontend.constant.ResponseConstant;
+import frontend.response.ResetPasswordResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +15,7 @@ import frontend.controller.LoginStatus;
 import frontend.controller.UserCredential;
 import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
-@FeignClient(name = "cloud-gateway-spring", url = "http://cloud-gateway-spring.herokuapp.com")
+@FeignClient(name = "cloud-gateway-spring", url = "http://localhost:8765")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
@@ -23,7 +25,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<CreateUserResponseStatus> register(@RequestBody CreateUserRequestDto createUserRequestDto);
 
 	@PostMapping("/users/change-password")
-	public ResponseEntity<TokenStatus> changePassword(@RequestBody ChangePasswordReqest request);
+	public ResponseEntity<ResponseConstant> changePassword(@RequestBody ChangePasswordReqest request);
 
 	@PostMapping("/users/get-first-name")
 	public ResponseEntity<String> getFirstName(@RequestBody String token);
@@ -40,7 +42,12 @@ public interface ApiGatewayRequestUri {
 	@PostMapping("/users/add-to-cart-product-count")
 	public ResponseEntity<AddToCartCountProductsResponse> addToCartProductCount(@RequestBody String token);
 
-	@PostMapping("/user/add-to-cart-product")
+	@PostMapping("/users/add-to-cart-product")
 	public ResponseEntity<AddToCartResponse> addToCart(@RequestBody AddToCartRequest addToCartRequest);
 
+	@PostMapping("/users/userName/check")
+	public ResponseEntity<ResetPasswordResponse> userNameCheck(@RequestBody String email);
+
+	@PostMapping("/users/auth/identity-token")
+	public ResponseEntity<ResponseConstant> authenticateIdentityToken(@RequestBody String code);
 }
