@@ -200,24 +200,21 @@ jQuery('#change-password').validate({
 	},
 
 	submitHandler: function(form) {
-
+    var formData = {
+			"password": $("#password").val()
+			}
         let searchParams = new URLSearchParams(window.location.search)
         let param=""
         searchParams.has('code')
         if(searchParams.has('code')){
          param= searchParams.get('code')
-                 var formData = {
+                 formData = {
          			"password": $("#password").val(),
          			"isPasswordChangeFromCodeIdentity": true,
          			"code" : param,
          			 }
-         changePassword(formData);
         }
-
-		var formData = {
-			"password": $("#password").val()
-			}
-		//changePassword(formData)
+		changePassword(formData);
 	}
 
 });

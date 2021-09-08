@@ -2,7 +2,7 @@ package frontend.service;
 
 public class GatewayConstantURI {
 
-	public static final String URI = "http://cloud-gateway-spring.herokuapp.com/";
+	public static final String URI = "http://localhost:8765";
 
 	public static final String VALIDATE_TOKEN = "http://cloud-gateway-spring.herokuapp.com/token-session/validate-token";
 	

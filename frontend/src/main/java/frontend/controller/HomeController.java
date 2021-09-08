@@ -151,15 +151,27 @@ public class HomeController {
 	public ResponseEntity<?> changePassword(@RequestHeader(value = "session_Token") String token,@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		req.setToken(token);
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && tokenStatus.isStatus()) {
-			req.setUserId(tokenStatus.getUserId());
-			ResponseConstant responseConstant = frontendService.changePassword(req);
-			return new ResponseEntity<>(responseConstant, HttpStatus.OK);
+		if (tokenStatus != null && !tokenStatus.isStatus() && req.getIsPasswordChangeFromCodeIdentity()!=null && req.getIsPasswordChangeFromCodeIdentity()) {
+			req.setUserId(null);
+			req.setToken(null);
+			ResponseConstant responseConstant = frontendService.authenticateIdentityToken(req.getCode());
+			if(!responseConstant.getStatus()){
+				responseConstant.setMessage("Your Session and url has been expired");
+				return new ResponseEntity<>(responseConstant, HttpStatus.UNAUTHORIZED);
+			}
 		}
-		ResponseConstant responseConstant = frontendService.changePassword(req);
-//		if(responseConstant.getStatus())
-			//response.sendRedirect("/signin");
-		return new ResponseEntity<>(responseConstant, HttpStatus.OK);
+		ResponseConstant responseConstant = null;
+		if(tokenStatus==null ){
+			req.setToken(null);
+			responseConstant=frontendService.changePassword(req);
+			return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
+		}
+		else if(req.getCode()!=null && tokenStatus!=null &&tokenStatus.isStatus()){
+			req.setToken(token);
+			responseConstant=frontendService.changePassword(req);
+			return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
+		}
+		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
 
 	@GetMapping("/signout-from-all-devices")
