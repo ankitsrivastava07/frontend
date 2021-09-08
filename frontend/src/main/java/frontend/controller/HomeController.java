@@ -120,7 +120,7 @@ public class HomeController {
 
 		ModelAndView mv = new ModelAndView();
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-			if (code==null && tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus()) {
+			if (code==null && (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus())) {
 				ModelAndView model = new ModelAndView("redirect:" + "/signin");
 				model.setStatus(HttpStatus.OK);
 				return model;
