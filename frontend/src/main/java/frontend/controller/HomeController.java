@@ -125,7 +125,7 @@ public class HomeController {
 				model.setStatus(HttpStatus.OK);
 				return model;
 		}
-		else if(code!=null && !code.isEmpty() && tokenStatus==null){
+		else if(code!=null && !code.isEmpty() && tokenStatus!=null && !tokenStatus.isStatus()){
 				ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
 				if (!responseConstant.getStatus()) {
 					mv.setViewName("token_valid");
@@ -133,6 +133,10 @@ public class HomeController {
 					return mv;
 				}
 			}
+		if(code==null && tokenStatus!=null && tokenStatus.isStatus()) {
+			 mv.setViewName("change-password");
+			 return mv;
+		}
 		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
 		if (!responseConstant.getStatus()){
 			mv.setViewName("token_valid");
@@ -255,8 +259,12 @@ public class HomeController {
 	}
 
 	@GetMapping("/user/forget-password")
-	public ModelAndView forgetPassword(@RequestParam(value = "code",required = false)String code){
+	public ModelAndView forgetPassword(@RequestParam(value = "code",required = false)String code,HttpServletRequest request,HttpServletResponse response){
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		ModelAndView mv= new ModelAndView();
+		if(tokenStatus!=null && tokenStatus.isStatus())
+			return new ModelAndView("redirect:" + "/");
+
 		mv.setViewName("forget-password");
 		return mv;
 	}
