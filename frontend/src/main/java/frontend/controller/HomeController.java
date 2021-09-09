@@ -148,7 +148,7 @@ public class HomeController {
 	}
 
 	@PostMapping("/change-password")
-	public ResponseEntity<?> changePassword(@RequestHeader(value = "session_Token") String token,@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token,@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		req.setToken(token);
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		if (tokenStatus != null && !tokenStatus.isStatus() && req.getIsPasswordChangeFromCodeIdentity()!=null && req.getIsPasswordChangeFromCodeIdentity()) {
@@ -168,6 +168,13 @@ public class HomeController {
 		}
 		else if(req.getCode()!=null && tokenStatus!=null &&tokenStatus.isStatus()){
 			req.setToken(token);
+			responseConstant=frontendService.changePassword(req);
+			return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
+		}
+		ResponseConstant responseConstant1 = null;
+		if(tokenStatus!=null &&!tokenStatus.isStatus()){
+			req.setToken(null);
+			//responseConstant1=frontendService.authenticateIdentityToken(req.getCode());
 			responseConstant=frontendService.changePassword(req);
 			return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 		}
