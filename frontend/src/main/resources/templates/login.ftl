@@ -43,9 +43,9 @@ display: block;
 }
 
 .alert-danger{
-background-color: #fdf6f6;
-    border-color: #de7575;
-    color: #c20707;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
 }
 
 .alert{
@@ -63,7 +63,6 @@ background-color: #fdf6f6;
 }
 
 	</style>
-	
 	<body>
 <form id="login-form" method="post" name="login-form" autocomplete="on">
 	<section class="ftco-section">

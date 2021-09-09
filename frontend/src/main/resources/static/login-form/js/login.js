@@ -123,18 +123,18 @@ function changePassword(formData) {
 			url: "/change-password",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
-			cache: false,
-			beforeSend: function(xhr) {
-				var cookie = $.cookie("session_Token")
-				xhr.setRequestHeader('session_Token', cookie);
+			beforeSend: function(xhr){
+			var cookie=null
+			if (!!$.cookie('token'))
+			cookie=$.cookie("session_Token");
+			xhr.setRequestHeader('Authorization', cookie)
 			},
+			cache: false,
 			success: function(response) {
             $(".alert").remove();
 				if (response.status)
 					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
-
 				setTimeout(function() {
-
 					$.each(response.errorMessage, function(key, value) {
 
 						if (!response.status && $(".input-group span").length == 0 || $(".input-group span").length == undefined) {
@@ -157,14 +157,35 @@ function changePassword(formData) {
 					}
 
 				}, 500);
-
-				if (response.status)
-					window.location.href = "/signin"
+				if (response.status){
+				$.ajax({
+                   url: "/signin",
+                   type:'GET',
+                   success: function(page){
+                       $('#content').html(page);
+                       //$('#change-password-body').hide();
+                       $(".alert").remove();
+                       	if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+                                $(".modal-body").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
+                            } else {
+                                $(".alert").html(response.message);
+                            }
+                   }
+                });
+					//window.location.href = "/signin"
+					}
 			},
 			error: function(error) {
 				url = window.location.pathname.replace(/\/+$/, '') + "/error";
-				//window.location.replace(url)
-				alert("Something went wrong  please try again later")
+								setTimeout(function() {
+                					if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
+
+                						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + error.responseJSON.message + "</div>"));
+                					} else {
+                						$(".alert").html(error.responseJSON.message);
+                					}
+		}, 500);
+				//alert("Something went wrong  please try again later")
 			}
 		})
 	}

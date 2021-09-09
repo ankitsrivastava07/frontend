@@ -57,7 +57,7 @@ background-color: #fdf6f6;
 
 	</style>
 	
-	<body>
+	<body id="content">
 <form id="change-password" method="post" name="login-form">
 	<section class="ftco-section">
 		<div class="container">
