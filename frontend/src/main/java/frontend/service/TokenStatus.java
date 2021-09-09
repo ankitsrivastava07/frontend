@@ -1,6 +1,7 @@
 package frontend.service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class TokenStatus {
 	
 	private Long userId;
 
-	private LocalDateTime createdAt;
+	private Date createdAt;
 
 	private String accessToken;
 
