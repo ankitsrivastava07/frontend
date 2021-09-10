@@ -7,5 +7,5 @@ import org.springframework.http.HttpStatus;
 public class ResetPasswordResponse {
     private Boolean status;
     private String message;
-    private HttpStatus httpStatus=HttpStatus.OK;
+    private Integer httpStatus=HttpStatus.OK.value();
 }

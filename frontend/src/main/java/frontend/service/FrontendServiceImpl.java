@@ -259,7 +259,7 @@ public class FrontendServiceImpl implements FrontendService {
 		ResetPasswordResponse resetPasswordResponse = new ResetPasswordResponse();
 		resetPasswordResponse.setStatus(Boolean.FALSE);
 		resetPasswordResponse.setMessage("Sorry Server is currently down.Please try again later");
-		resetPasswordResponse.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE);
+		resetPasswordResponse.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
 		return resetPasswordResponse;
 	}
 

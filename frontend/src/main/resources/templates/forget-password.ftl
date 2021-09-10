@@ -5,6 +5,7 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="/login-form/js/jquery.min.js"></script>
 <script src="/login-form/js/validate.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!------ Include the above in your HEAD tag ---------->
 
@@ -21,7 +22,7 @@
 
  </style>
  </head>
- <body>
+ <body id="modal_review">
  <div class="form-gap"></div>
 <div class="container">
 	<div class="row">

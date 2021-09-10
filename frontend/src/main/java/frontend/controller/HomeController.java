@@ -240,9 +240,6 @@ public class HomeController {
 	public ModelAndView forgetPassword(@RequestParam(value = "code",required = false)String code,HttpServletRequest request,HttpServletResponse response){
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		ModelAndView mv= new ModelAndView();
-		if(tokenStatus!=null && tokenStatus.isStatus())
-			return new ModelAndView("redirect:" + "/");
-
 		mv.setViewName("forget-password");
 		return mv;
 	}
@@ -250,7 +247,7 @@ public class HomeController {
 	@PostMapping("/userName/check")
 	public ResponseEntity<?> userNameCheck(@RequestBody UserCredential userCredential){
 		ResetPasswordResponse resetPasswordResponse= frontendService.userNameCheck(userCredential.getEmail());
-      return new ResponseEntity<>(frontendService.userNameCheck(userCredential.getEmail()),resetPasswordResponse.getHttpStatus());
+      return new ResponseEntity<>(frontendService.userNameCheck(userCredential.getEmail()),HttpStatus.valueOf(resetPasswordResponse.getHttpStatus()));
 	}
 
 	@GetMapping("/unauthorize-change-password")
@@ -263,6 +260,13 @@ public class HomeController {
 	public ModelAndView serverDown(HttpServletResponse response) throws IOException {
 		ModelAndView mv= new ModelAndView();
 		mv.setViewName("error/503-error");
+		return mv;
+	}
+
+	@RequestMapping(value = "/confirmation-page", method = { RequestMethod.GET })
+	public ModelAndView confirmationMailLink(HttpServletResponse response) throws IOException {
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("confirmation-email");
 		return mv;
 	}
 
