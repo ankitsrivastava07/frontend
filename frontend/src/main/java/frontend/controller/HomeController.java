@@ -113,7 +113,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/ajax-signin")
-	public ModelAndView ajaxSigninAfterResetPassword(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView ajaxSigninPopupAfterResetPassword(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		//TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 			ModelAndView model = new ModelAndView();
@@ -131,13 +131,6 @@ public class HomeController {
 			return mv;
 		}
 		mv.setViewName("change-password");
-		return mv;
-	}
-
-	@GetMapping("/unauthorize-change-password")
-	public ModelAndView ajaxUnauthorizePop(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("error/password-reset-token-invalid");
 		return mv;
 	}
 
@@ -259,4 +252,18 @@ public class HomeController {
 		ResetPasswordResponse resetPasswordResponse= frontendService.userNameCheck(userCredential.getEmail());
       return new ResponseEntity<>(frontendService.userNameCheck(userCredential.getEmail()),resetPasswordResponse.getHttpStatus());
 	}
+
+	@GetMapping("/unauthorize-change-password")
+	public ModelAndView ajaxUnauthorizePop(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("error/password-reset-token-invalid");
+		return mv;
+	}
+	@RequestMapping(value = "/server-down", method = { RequestMethod.POST })
+	public ModelAndView serverDown(HttpServletResponse response) throws IOException {
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("error/password-reset-token-invalid");
+		return mv;
+	}
+
 }
