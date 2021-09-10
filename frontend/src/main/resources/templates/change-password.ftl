@@ -54,10 +54,13 @@ background-color: #fdf6f6;
     font-size: 14px;
     text-align: center;
 }
-
+span#message {
+    font-size: 16px;
+    font-weight: bold;
+}
 	</style>
-	
 	<body id="content">
+	<div id="modal_review"></div>
 <form id="change-password" method="post" name="login-form">
 	<section class="ftco-section">
 		<div class="container">

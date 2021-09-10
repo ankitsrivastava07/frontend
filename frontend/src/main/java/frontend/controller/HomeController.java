@@ -19,6 +19,7 @@ import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("")
@@ -101,44 +102,30 @@ public class HomeController {
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && !tokenStatus.isStatus()) {
+		if (tokenStatus != null && tokenStatus.isStatus()) {
 			ModelAndView model = new ModelAndView();
 			model.addObject("message", tokenStatus.getMessage());
-			model.setViewName("login");
-			return model;
-		}
-		else if (tokenStatus != null && tokenStatus.isStatus()) {
-			ModelAndView model = new ModelAndView("redirect:" + "/");
+			model.setViewName("error-404");
 			return model;
 		}
 		mv.setViewName("login");
 		return mv;
 	}
 
-	@GetMapping("/change-password")
-	public ModelAndView changePasswod(@RequestParam(value = "code",required = false)String code, HttpServletRequest request, HttpServletResponse response) {
-
+	@GetMapping("/ajax-signin")
+	public ModelAndView ajaxSigninAfterResetPassword(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-			if (code==null && (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus())) {
-				ModelAndView model = new ModelAndView("redirect:" + "/signin");
-				model.setStatus(HttpStatus.OK);
-				return model;
-		}
-		else if(code!=null && !code.isEmpty() && tokenStatus!=null && !tokenStatus.isStatus()){
-				ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
-				if (!responseConstant.getStatus()) {
-					mv.setViewName("token_valid");
-					mv.addObject("message", responseConstant.getMessage());
-					return mv;
-				}
-			}
-		if(code==null && tokenStatus!=null && tokenStatus.isStatus()) {
-			 mv.setViewName("change-password");
-			 return mv;
-		}
+		//TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+			ModelAndView model = new ModelAndView();
+		mv.setViewName("login");
+		return mv;
+	}
+
+	@GetMapping("/change-password")
+	public ModelAndView changePasswod(@RequestParam(value = "code",required = true)String code, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
 		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
-		if (!responseConstant.getStatus()){
+		if (responseConstant.getStatus()){
 			mv.setViewName("token_valid");
 			mv.addObject("message", responseConstant.getMessage());
 			return mv;
@@ -147,37 +134,16 @@ public class HomeController {
 		return mv;
 	}
 
+	@GetMapping("/unauthorize-change-password")
+	public ModelAndView ajaxUnauthorizePop(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("error/password-reset-token-invalid");
+		return mv;
+	}
+
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token,@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		req.setToken(token);
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && !tokenStatus.isStatus() && req.getIsPasswordChangeFromCodeIdentity()!=null && req.getIsPasswordChangeFromCodeIdentity()) {
-			req.setUserId(null);
-			req.setToken(null);
-			ResponseConstant responseConstant = frontendService.authenticateIdentityToken(req.getCode());
-			if(!responseConstant.getStatus()){
-				responseConstant.setMessage("Your Session and url has been expired");
-				return new ResponseEntity<>(responseConstant, HttpStatus.UNAUTHORIZED);
-			}
-		}
-		ResponseConstant responseConstant = null;
-		if(tokenStatus==null ){
-			req.setToken(null);
-			responseConstant=frontendService.changePassword(req);
-			return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
-		}
-		else if(req.getCode()!=null && tokenStatus!=null &&tokenStatus.isStatus()){
-			req.setToken(token);
-			responseConstant=frontendService.changePassword(req);
-			return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
-		}
-		ResponseConstant responseConstant1 = null;
-		if(tokenStatus!=null &&!tokenStatus.isStatus()){
-			req.setToken(null);
-			//responseConstant1=frontendService.authenticateIdentityToken(req.getCode());
-			responseConstant=frontendService.changePassword(req);
-			return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
-		}
+		ResponseConstant responseConstant = frontendService.changePassword(req);
 		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
 

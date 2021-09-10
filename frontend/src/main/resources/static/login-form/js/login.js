@@ -114,20 +114,14 @@ function login(formData) {
 }
 
 function changePassword(formData) {
-
 	if ($("#change-password").valid() && checkConnection()) {
-
 		$.ajax({
-
 			type: "POST",
 			url: "/change-password",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			beforeSend: function(xhr){
-			var cookie=null
-			if (!!$.cookie('token'))
-			cookie=$.cookie("session_Token");
-			xhr.setRequestHeader('Authorization', cookie)
+			xhr.setRequestHeader('Authorization', formData.code)
 			},
 			cache: false,
 			success: function(response) {
@@ -146,11 +140,9 @@ function changePassword(formData) {
 						}
 					});
 				}, 500);
-
+                  $('.modal').modal('show');
 				setTimeout(function() {
-
 					if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
-
 						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
 					} else if (!response.status) {
 						$(".alert").html(response.message);
@@ -159,10 +151,10 @@ function changePassword(formData) {
 				}, 500);
 				if (response.status){
 				$.ajax({
-                   url: "/signin",
+                   url: "/ajax-signin",
                    type:'GET',
                    success: function(page){
-                       $('#content').html(page);
+                       $('#content').load(page);
                        //$('#change-password-body').hide();
                        $(".alert").remove();
                        	if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
@@ -172,26 +164,27 @@ function changePassword(formData) {
                             }
                    }
                 });
-					//window.location.href = "/signin"
 					}
 			},
 			error: function(error) {
 				url = window.location.pathname.replace(/\/+$/, '') + "/error";
-								setTimeout(function() {
-                					if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
-
-                						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + error.responseJSON.message + "</div>"));
-                					} else {
-                						$(".alert").html(error.responseJSON.message);
-                					}
-		}, 500);
-				//alert("Something went wrong  please try again later")
+				if(error.status==401){
+    				$.ajax({
+                       url: "/unauthorize-change-password",
+                       type:'GET',
+                       success: function(page){
+                           $('#modal_review').html(page);
+                           //$('#change-password-body').hide();
+                           $(".alert").remove();
+                           $('#modal_popup').modal('show')
+                           $("#message").html(error.responseJSON.message);
+                       }
+                    });
+              }
 			}
 		})
 	}
-
 }
-
 jQuery('#change-password').validate({
 
 	rules: {
@@ -207,7 +200,6 @@ jQuery('#change-password').validate({
 	},
 
 	messages: {
-
 		password: {
 			required: "Please enter password",
 			minlength: "Password should be atleast 5 characters long",
@@ -221,9 +213,7 @@ jQuery('#change-password').validate({
 	},
 
 	submitHandler: function(form) {
-    var formData = {
-			"password": $("#password").val()
-			}
+    var formData =""
         let searchParams = new URLSearchParams(window.location.search)
         let param=""
         searchParams.has('code')
@@ -231,7 +221,6 @@ jQuery('#change-password').validate({
          param= searchParams.get('code')
                  formData = {
          			"password": $("#password").val(),
-         			"isPasswordChangeFromCodeIdentity": true,
          			"code" : param,
          			 }
         }
@@ -333,7 +322,6 @@ return flag
 }
 
 function checkConnection(){
-
 $.ajax('/check-connection', {
   statusCode: {
     0: function() {
@@ -344,3 +332,7 @@ $.ajax('/check-connection', {
 });
 return true;
 }
+
+$(document).on('click', '#signin', function(){
+window.location ="/signin"
+});

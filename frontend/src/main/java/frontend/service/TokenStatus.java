@@ -13,7 +13,6 @@ public class TokenStatus {
 	private boolean logined;
 	private Boolean isAccessTokenNewCreated;
 	private String message;
-	
 	private Long userId;
 
 	private Date createdAt;
