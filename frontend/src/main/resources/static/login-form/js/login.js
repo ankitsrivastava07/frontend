@@ -349,3 +349,7 @@ return true;
 $(document).on('click', '#signin', function(){
 window.location ="/signin"
 });
+
+$(document).on('click', '#close', function(){
+window.location ="/"
+});
