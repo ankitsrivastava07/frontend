@@ -112,15 +112,6 @@ public class HomeController {
 		return mv;
 	}
 
-	@GetMapping("/ajax-signin")
-	public ModelAndView ajaxSigninPopupAfterResetPassword(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mv = new ModelAndView();
-		//TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-			ModelAndView model = new ModelAndView();
-		mv.setViewName("login");
-		return mv;
-	}
-
 	@GetMapping("/change-password")
 	public ModelAndView changePasswod(@RequestParam(value = "code",required = true)String code, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
@@ -270,4 +261,12 @@ public class HomeController {
 		return mv;
 	}
 
+	@GetMapping("/ajax-signin")
+	public ModelAndView ajaxSigninPopupAfterResetPassword(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		//TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		ModelAndView model = new ModelAndView();
+		mv.setViewName("login");
+		return mv;
+	}
 }
