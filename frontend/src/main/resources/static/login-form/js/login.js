@@ -181,6 +181,19 @@ function changePassword(formData) {
                        }
                     });
               }
+             else if(error.status==503){
+                  				$.ajax({
+                                     url: "/server-down",
+                                     type:'GET',
+                                     success: function(page){
+                                     $('#modal_popup').remove();
+                                         $('#modal_review').html(page);
+                                         //$('#change-password-body').hide();
+                                         $(".alert").remove();
+                                         $('#modal_server').modal('show');
+                                     }
+                                  });
+                            }
 			}
 		})
 	}

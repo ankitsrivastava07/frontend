@@ -125,7 +125,7 @@ public class HomeController {
 	public ModelAndView changePasswod(@RequestParam(value = "code",required = true)String code, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
-		if (!responseConstant.getStatus()){
+		if (responseConstant.getStatus()){
 			mv.setViewName("token_valid");
 			mv.addObject("message", responseConstant.getMessage());
 			return mv;
@@ -259,10 +259,10 @@ public class HomeController {
 		mv.setViewName("error/password-reset-token-invalid");
 		return mv;
 	}
-	@RequestMapping(value = "/server-down", method = { RequestMethod.POST })
+	@RequestMapping(value = "/server-down", method = { RequestMethod.GET })
 	public ModelAndView serverDown(HttpServletResponse response) throws IOException {
 		ModelAndView mv= new ModelAndView();
-		mv.setViewName("error/password-reset-token-invalid");
+		mv.setViewName("error/503-error");
 		return mv;
 	}
 
