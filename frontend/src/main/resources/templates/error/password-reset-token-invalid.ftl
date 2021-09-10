@@ -9,7 +9,7 @@
         <span id="message"></span>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="signin">Sign</button>
       </div>
     </div>
