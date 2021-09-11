@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import frontend.constant.ResponseConstant;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
+import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -91,7 +92,10 @@ public class FrontendServiceImpl implements FrontendService {
 
 		if (Objects.nonNull(token) && !token.isEmpty())
 
-			tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
+		tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
+
+		CircuitBreakerStateMachine circuitBreaker= new CircuitBreakerStateMachine("cloud-gateway-spring");
+		io.github.resilience4j.circuitbreaker.CircuitBreaker.State state=circuitBreaker.getState();
 
 		return tokenStatus;
 	}
@@ -154,6 +158,9 @@ public class FrontendServiceImpl implements FrontendService {
 		createUserRequestDto.setIsBlocked(Boolean.FALSE);
 		CreateUserResponseStatus createUserResponseStatus = apiGatewayRequestUri.register(createUserRequestDto)
 				.getBody();
+
+		CircuitBreakerStateMachine circuitBreaker= new CircuitBreakerStateMachine("cloud-gateway-spring");
+		io.github.resilience4j.circuitbreaker.CircuitBreaker.State state=circuitBreaker.getState();
 
 		if (createUserResponseStatus.isStatus())
 			setCookie(request, response, createUserResponseStatus.getToken());

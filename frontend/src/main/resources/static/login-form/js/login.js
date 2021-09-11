@@ -300,11 +300,8 @@ $.ajax({
                url: "/confirmation-page",
                type:'GET',
                success: function(page){
-               $('#modal_response').html(page);
-               $('#modal_server').modal('show');
-               $('#modal_popup').remove();
-                   $('#modal_review').html(page);
-                   //$('#change-password-body').hide();
+               $("#clear").remove();
+               $('#modal_confirm').html(page);
                    $('#confirm').modal('show');
                }
             });

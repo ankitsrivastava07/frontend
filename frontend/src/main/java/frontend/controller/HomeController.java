@@ -108,6 +108,7 @@ public class HomeController {
 			model.setViewName("error-404");
 			return model;
 		}
+		mv.addObject("message", tokenStatus.getMessage());
 		mv.setViewName("login");
 		return mv;
 	}
@@ -128,6 +129,7 @@ public class HomeController {
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token,@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ResponseConstant responseConstant = frontendService.changePassword(req);
+		response.sendRedirect("/");
 		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
 
@@ -135,8 +137,6 @@ public class HomeController {
 	public void signOutFromAllDevices(@RequestParam(value="redirect") String urlRedirect,HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus())
-		   response.sendRedirect("/signin");
 		frontendService.removeAllTokens(tokenStatus);
 		response.sendRedirect("/signin");
 	}

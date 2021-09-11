@@ -17,13 +17,38 @@
      color: #da534d;
      padding: 3px 0px;
  }
- .form-gap {
-     padding-top: 70px;
- }
+
+#back {
+   background-color: rgba(0,0,0,0);
+       /* border: 0; */
+       border-radius: 2px;
+       /* -webkit-box-sizing: border-box; */
+       /* box-sizing: border-box; */
+       color: rgba(0,0,0,0.6);
+       cursor: pointer;
+       /* display: inline-block; */
+       font-size: 1.6rem;
+       font-weight: 600;
+       /* font-family: inherit; */
+       /* height: 32px; */
+       line-height: 32px;
+       /* overflow: hidden; */
+       /* outline-width: 2px; */
+       /* padding: 0 8px; */
+       position: relative;
+       text-align: center;
+       text-decoration: none;
+       /* vertical-align: middle; */
+       /* z-index: 0; */
+       border-radius: 28px !important;
+       display: block;
+       border-radius: 28px !important;
+       margin: 12px auto 0;
+}
 
  </style>
  </head>
- <body id="modal_response">
+ <body id="modal_confirm">
  <div class="form-gap"></div>
 <div class="container">
 	<div class="row">
@@ -46,11 +71,11 @@
                       </div>
                       <div class="form-group">
                         <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+                         <div class="form-group">
+                           <a href="/signin" id="back" value="Back">Back
+                          </div>
                       </div>
-
-                      <input type="hidden" class="hide" name="token" id="token" value="">
                     </form>
-
                   </div>
                 </div>
               </div>
