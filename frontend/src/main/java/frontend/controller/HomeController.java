@@ -99,7 +99,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/signin")
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView login(HttpServletRequest request,@RequestParam("redirect") String redirect, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		if (tokenStatus != null && tokenStatus.isStatus()) {
@@ -133,11 +133,12 @@ public class HomeController {
 
 	@GetMapping("/signout-from-all-devices")
 	public void signOutFromAllDevices(@RequestParam("redirect") String urlRedirect,HttpServletRequest request, HttpServletResponse response) throws IOException {
+
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus())
 		   response.sendRedirect("/signin");
-		frontendService.removeAllTokens(request);
-		 response.sendRedirect(urlRedirect);
+		frontendService.removeAllTokens(tokenStatus);
+		response.sendRedirect("/signin");
 	}
 
 	@GetMapping("/orders")
@@ -241,6 +242,14 @@ public class HomeController {
       return new ResponseEntity<>(frontendService.userNameCheck(userCredential.getEmail()),HttpStatus.valueOf(resetPasswordResponse.getHttpStatus()));
 	}
 
+	@GetMapping("/redirect")
+	public ModelAndView redirectToUrl(@RequestParam(value = "code",required = false)String code,HttpServletRequest request,HttpServletResponse response){
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("forget-password");
+		return mv;
+	}
+
 	@GetMapping("/unauthorize-change-password")
 	public ModelAndView ajaxUnauthorizePop(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
@@ -269,4 +278,5 @@ public class HomeController {
 		mv.setViewName("login");
 		return mv;
 	}
+
 }

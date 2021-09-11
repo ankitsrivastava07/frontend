@@ -112,22 +112,14 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
-	public TokenStatus removeAllTokens(HttpServletRequest request) {
-
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "removeTokensFallbackMethod")
+	public TokenStatus removeAllTokens(TokenStatus tokenStatus) {
 		ChangePasswordRequestDto dto = new ChangePasswordRequestDto();
-
-		String token = getToken(request);
-
+		dto.setUserId(tokenStatus.getUserId());
+		dto.setToken(tokenStatus.getAccessToken());
 		Map<String, String> map = new HashMap<>();
-		map.put("token", token);
-		map.put("request", "singout-from-alldevices");
-
-		dto.setToken(map);
-
-		TokenStatus tokenStatus = apiGatewayRequestUri.invalidateTokens(dto).getBody();
-
-		return tokenStatus;
+		TokenStatus tokenStatus1 = apiGatewayRequestUri.invalidateTokens(dto).getBody();
+		return tokenStatus1;
 	}
 
 	@Override
@@ -192,8 +184,8 @@ public class FrontendServiceImpl implements FrontendService {
 		return tokenStatus;
 	}
 
-	public TokenStatus defaultFallbackMethodHandleRequest(HttpServletRequest request, Throwable exception) {
-		TokenStatus tokenStatus = new TokenStatus();
+	public TokenStatus removeTokensFallbackMethod(TokenStatus tokenStatus, Throwable exception) {
+		TokenStatus tokenStatus2 = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
 		return tokenStatus;

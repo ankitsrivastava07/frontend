@@ -6,5 +6,7 @@ import lombok.Data;
 
 @Data
 public class ChangePasswordRequestDto {
-	private Map<String, String> token;
+	private Long userId;
+	private String password;
+	private String token;
 }

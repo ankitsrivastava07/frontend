@@ -23,7 +23,7 @@ public interface FrontendService {
 
 	ResponseConstant changePassword(ChangePasswordReqest request);
 
-	TokenStatus removeAllTokens(HttpServletRequest request);
+	TokenStatus removeAllTokens(TokenStatus tokenStatus);
 
 	LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
 			HttpServletResponse response);

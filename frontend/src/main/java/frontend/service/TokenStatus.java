@@ -16,8 +16,7 @@ public class TokenStatus {
 	private Long userId;
 
 	private Date createdAt;
-
+	private String expireAt;
 	private String accessToken;
-
 	private String firstName;
 }
