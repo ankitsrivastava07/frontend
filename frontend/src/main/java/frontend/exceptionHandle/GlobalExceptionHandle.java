@@ -19,7 +19,7 @@ public class GlobalExceptionHandle {
         Logger logger = LoggerFactory.getLogger(MissingServletRequestParameterException.class);
         logger.error("invalid request parameter is missing "+exception.getParameterName()+" "+exception.getParameterType() +" "+exception.getMessage()+" request uri "+request.getRequestURI());
         ModelAndView mv= new ModelAndView();
-        mv.setViewName("400-error");
+        mv.setViewName("error/400-error");
         return mv;
     }
 }

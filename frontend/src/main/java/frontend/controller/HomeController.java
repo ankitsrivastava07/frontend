@@ -99,7 +99,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/signin")
-	public ModelAndView login(HttpServletRequest request,@RequestParam("redirect") String redirect, HttpServletResponse response) {
+	public ModelAndView login(HttpServletRequest request,	HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		if (tokenStatus != null && tokenStatus.isStatus()) {
@@ -132,7 +132,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/signout-from-all-devices")
-	public void signOutFromAllDevices(@RequestParam("redirect") String urlRedirect,HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void signOutFromAllDevices(@RequestParam(value="redirect") String urlRedirect,HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus())
