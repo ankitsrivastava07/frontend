@@ -2,10 +2,11 @@
 <html lang="en">
 <title>Reset Password</title>
 <head>
-<link href="/login-form/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
 <script src="/login-form/js/jquery.min.js"></script>
 <script src="/login-form/js/validate.js"></script>
-<script src="/login-form/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!------ Include the above in your HEAD tag ---------->
 
@@ -22,7 +23,7 @@
 
  </style>
  </head>
- <body id="modal_review">
+ <body id="modal_response">
  <div class="form-gap"></div>
 <div class="container">
 	<div class="row">
