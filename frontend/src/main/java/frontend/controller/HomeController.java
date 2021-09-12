@@ -52,6 +52,22 @@ public class HomeController {
 		return ;
 	}
 
+	@GetMapping("/signin")
+	public ModelAndView login(HttpServletRequest request,	HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		if (tokenStatus != null && tokenStatus.isStatus()) {
+			ModelAndView model = new ModelAndView();
+			model.addObject("message", tokenStatus.getMessage());
+			model.setViewName("error-404");
+			return model;
+		}
+		if(tokenStatus!=null && !tokenStatus.isStatus())
+		mv.addObject("message", tokenStatus.getMessage());
+		mv.setViewName("login");
+		return mv;
+	}
+
 	@RequestMapping(value = "/signin", method = { RequestMethod.POST })
 	public ResponseEntity<?> login(@RequestBody UserCredential userCredential, HttpServletRequest request,
 								   HttpServletResponse response) throws JsonProcessingException {
@@ -96,21 +112,6 @@ public class HomeController {
 		else if (!status.isStatus())
 			return new ResponseEntity<>(status, HttpStatus.OK);
 		return new ResponseEntity<>(status, HttpStatus.OK);
-	}
-
-	@GetMapping("/signin")
-	public ModelAndView login(HttpServletRequest request,	HttpServletResponse response) {
-		ModelAndView mv = new ModelAndView();
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && tokenStatus.isStatus()) {
-			ModelAndView model = new ModelAndView();
-			model.addObject("message", tokenStatus.getMessage());
-			model.setViewName("error-404");
-			return model;
-		}
-		mv.addObject("message", tokenStatus.getMessage());
-		mv.setViewName("login");
-		return mv;
 	}
 
 	@GetMapping("/change-password")
