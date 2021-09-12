@@ -10,5 +10,6 @@ public class ResponseConstant {
     private Boolean status;
     private String message;
     private Date date;
+    private String accessToken;
     private Integer httpStatus=200;
 }

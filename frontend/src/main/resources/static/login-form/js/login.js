@@ -125,7 +125,7 @@ function changePassword(formData) {
 			},
 			cache: false,
 			success: function(response) {
-            $(".alert").remove();
+		    $(".alert").remove();
 				if (response.status)
 					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
 				setTimeout(function() {
@@ -140,6 +140,9 @@ function changePassword(formData) {
 						}
 					});
 				}, 500);
+				if (response.status){
+                  	window.location ="/"
+                    }
                   $('.modal').modal('show');
 				setTimeout(function() {
 					if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
@@ -313,6 +316,8 @@ $.ajax({
            setTimeout(function() {
             if(error.status==404){
              $(".alert").remove();
+             console.clear()
+             console.log(error.responseJSON.message+"  "+formData.email)
                 if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
                         $("#email_response").append(("<div class='alert alert-danger' role='alert'>" + error.responseJSON.message + "</div>"));
                     } else {

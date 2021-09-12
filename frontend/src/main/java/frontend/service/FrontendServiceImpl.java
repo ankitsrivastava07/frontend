@@ -33,6 +33,8 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Autowired
 	private ApiGatewayRequestUri apiGatewayRequestUri;
+	@Autowired HttpServletRequest httpServletRequest;
+	@Autowired HttpServletResponse httpServletResponse;
 
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response, String token) {
@@ -49,7 +51,6 @@ public class FrontendServiceImpl implements FrontendService {
 					return;
 				}
 		}
-
 		Cookie cookie = new Cookie("session_Token", token);
 		response.addCookie(cookie);
 	}
@@ -57,13 +58,9 @@ public class FrontendServiceImpl implements FrontendService {
 	public String getToken(HttpServletRequest request) {
 
 		Cookie cookies[] = request.getCookies();
-
 		String userName = null;
-
 		if (cookies != null)
-
 			for (Cookie cookie : cookies)
-
 				if (cookie.getName().equalsIgnoreCase("session_Token"))
 					return userName = cookie.getValue();
 
@@ -76,7 +73,7 @@ public class FrontendServiceImpl implements FrontendService {
 		TokenStatus tokenStatus = null;
 		if (Objects.nonNull(token) && !token.isEmpty()) {
 			tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
-			if (tokenStatus.getIsAccessTokenNewCreated() && tokenStatus.isStatus())
+			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
 				setCookie(request, response, tokenStatus.getAccessToken());
 			return tokenStatus;
 		}
@@ -104,6 +101,8 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "changePasswordFallback")
 	public ResponseConstant changePassword(ChangePasswordReqest request) {
 		ResponseConstant responseConstant = apiGatewayRequestUri.changePassword(request).getBody();
+		if(responseConstant.getStatus())
+			setCookie(httpServletRequest,httpServletResponse,responseConstant.getAccessToken());
 		return responseConstant;
 	}
 

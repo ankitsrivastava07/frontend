@@ -104,19 +104,17 @@
 <body>
 
 <!-- Modal HTML -->
-<div id="confirm" class="modal fade">
+<div id="confirm" class="modal fade" data-keyboard="false" data-backdrop="static">
 	<div class="modal-dialog modal-confirm">
 		<div class="modal-content">
 			<div class="modal-header">
 				<div class="icon-box">
 					<i class="material-icons">&#xE876;</i>
 				</div>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body text-center">
 				<h4>Great!</h4>
-				<p>We've sent a change password link to your e-mail for verification.</p>
-				<button class="btn btn-success" data-dismiss="modal"><span>Start Exploring</span> <i class="material-icons">&#xE5C8;</i></button>
+				<p>We've saint a change password link to your e-mail for verification. Please click on the link to reset password</p>
 			</div>
 		</div>
 	</div>

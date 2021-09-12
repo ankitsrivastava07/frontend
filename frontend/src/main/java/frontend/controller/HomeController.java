@@ -129,7 +129,6 @@ public class HomeController {
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token,@RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ResponseConstant responseConstant = frontendService.changePassword(req);
-		response.sendRedirect("/");
 		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
 
