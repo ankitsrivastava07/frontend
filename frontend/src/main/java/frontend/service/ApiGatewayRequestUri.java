@@ -1,5 +1,10 @@
 package frontend.service;
 
+import frontend.api.request.ChangePasswordReqest;
+import frontend.api.request.ChangePasswordRequestDto;
+import frontend.api.request.CreateUserRequestDto;
+import frontend.api.request.UserCredentialRequest;
+import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
 import frontend.response.ResetPasswordResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -7,19 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import frontend.controller.ChangePasswordReqest;
-import frontend.controller.ChangePasswordRequestDto;
-import frontend.controller.CreateUserRequestDto;
-import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
-import frontend.controller.UserCredential;
 import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
 @FeignClient(name = "users", url = "http://cloud-gateway-spring.herokuapp.com/")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
-	public ResponseEntity<LoginStatus> createAuthenticationToken(@RequestBody UserCredential userCredential);
+	public ResponseEntity<LoginStatus> createAuthenticationToken(@RequestBody UserCredentialRequest userCredential);
 
 	@PostMapping("/users/register")
 	public ResponseEntity<CreateUserResponseStatus> register(@RequestBody CreateUserRequestDto createUserRequestDto);

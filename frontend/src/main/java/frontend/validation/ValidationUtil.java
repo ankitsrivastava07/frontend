@@ -1,6 +1,5 @@
-package frontend.util;
+package frontend.validation;
 
-import frontend.api.error.ValidationError;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 

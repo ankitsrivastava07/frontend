@@ -8,4 +8,5 @@ public class LoginStatus {
 	private boolean status;
 	private String message;
 	private String token;
+	private Integer httpStatus=200;
 }

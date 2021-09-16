@@ -3,14 +3,13 @@ package frontend.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import frontend.api.request.ChangePasswordReqest;
+import frontend.api.request.CreateUserRequestDto;
+import frontend.api.request.UserCredentialRequest;
+import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
 import frontend.dto.AddToCartRequest;
-import frontend.controller.ChangePasswordReqest;
-import frontend.controller.CreateUserRequestDto;
-import frontend.controller.CreateUserResponseStatus;
 import frontend.controller.LoginStatus;
-import frontend.controller.UserCredential;
-import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
 
 public interface FrontendService {
@@ -25,11 +24,11 @@ public interface FrontendService {
 
 	TokenStatus removeAllTokens(TokenStatus tokenStatus);
 
-	LoginStatus createAuthenticationToken(UserCredential userCredential, HttpServletRequest request,
-			HttpServletResponse response);
+	LoginStatus createAuthenticationToken(UserCredentialRequest userCredential, HttpServletRequest request,
+										  HttpServletResponse response);
 
 	CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
-			HttpServletResponse response);
+									  HttpServletResponse response);
 
 	frontend.response.AddToCartResponse addToCart(AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response);
 

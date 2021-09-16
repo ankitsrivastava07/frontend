@@ -1,6 +1,6 @@
 package frontend.api.dto.response;
 
-import frontend.api.error.ValidationError;
+import frontend.validation.ValidationError;
 import lombok.Data;
 import java.util.List;
 

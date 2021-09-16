@@ -1,4 +1,4 @@
-package frontend.api.error;
+package frontend.validation;
 
 import lombok.Data;
 

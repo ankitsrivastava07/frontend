@@ -1,8 +1,9 @@
-package frontend.controller;
+package frontend.api.response;
+
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import lombok.Data;
 
 @Data
 public class CreateUserResponseStatus {

@@ -1,8 +1,8 @@
-package frontend.controller;
-
-import java.time.LocalDateTime;
+package frontend.api.response;
 
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class ApiGatewayResponse {

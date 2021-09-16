@@ -7,5 +7,6 @@ import org.springframework.http.HttpStatus;
 public class ResetPasswordResponse {
     private Boolean status;
     private String message;
+    private Boolean isMailServiceDown=Boolean.FALSE;
     private Integer httpStatus=HttpStatus.OK.value();
 }

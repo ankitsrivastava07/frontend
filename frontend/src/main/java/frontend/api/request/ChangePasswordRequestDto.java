@@ -1,6 +1,4 @@
-package frontend.controller;
-
-import java.util.Map;
+package frontend.api.request;
 
 import lombok.Data;
 

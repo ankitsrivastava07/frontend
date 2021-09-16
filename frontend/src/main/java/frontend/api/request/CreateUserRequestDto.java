@@ -1,4 +1,4 @@
-package frontend.controller;
+package frontend.api.request;
 
 import lombok.Data;
 

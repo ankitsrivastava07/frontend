@@ -59,7 +59,6 @@ function login(formData) {
 	if ($("#login-form").valid() && checkConnection()) {
 
 		$.ajax({
-
 			type: "POST",
 			url: "/signin",
 			contentType: "application/json",
@@ -88,6 +87,9 @@ function login(formData) {
 				}
 			},
 			error: function(error) {
+          if(error.status==503){
+             $('#server_error').modal('show');
+             }
 
                  if(error.responseJSON.validationFailed)    {
                  $(".error").remove();
@@ -140,9 +142,7 @@ function changePassword(formData) {
 						}
 					});
 				}, 500);
-				if (response.status){
-                  	window.location ="/"
-                    }
+
                   $('.modal').modal('show');
 				setTimeout(function() {
 					if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
@@ -153,7 +153,7 @@ function changePassword(formData) {
 				}, 500);
 				if (response.status){
 				$.ajax({
-                   url: "/ajax-signin",
+                   url: "/ajax/signin",
                    type:'GET',
                    success: function(page){
                        $('#content').html(page);
@@ -166,13 +166,16 @@ function changePassword(formData) {
                             }
                    }
                 });
-					}
+		}
+				if (response.status){
+                   	window.location ="/"
+                   }
 			},
 			error: function(error) {
 				url = window.location.pathname.replace(/\/+$/, '') + "/error";
 				if(error.status==401){
     				$.ajax({
-                       url: "/unauthorize-change-password",
+                       url: "/ajax/unauthorize-change-password",
                        type:'GET',
                        success: function(page){
                            $('#modal_review').html(page);
@@ -184,18 +187,18 @@ function changePassword(formData) {
                     });
               }
              else if(error.status==503){
-                  				$.ajax({
-                                     url: "/server-down",
-                                     type:'GET',
-                                     success: function(page){
-                                     $('#modal_popup').remove();
-                                         $('#modal_review').html(page);
-                                         //$('#change-password-body').hide();
-                                         $(".alert").remove();
-                                         $('#modal_server').modal('show');
-                                     }
-                                  });
-                            }
+                    $.ajax({
+                         url: "/ajax/server-down",
+                         type:'GET',
+                         success: function(page){
+                         $('#modal_popup').remove();
+                             $('#modal_review').html(page);
+                             //$('#change-password-body').hide();
+                             $(".alert").remove();
+                             $('#server_error').modal('show');
+                         }
+                      });
+                 }
 			}
 		})
 	}
@@ -258,65 +261,69 @@ window.addEventListener("pageshow", function(event) {
 });
 */
 
-jQuery('#reset-password-form').validate({
-
+jQuery('#reset-password').validate({
 	rules: {
-		email: {
+		emailOrMobile: {
 			maxlength: 100,
 			required: true
       }
 	},
-
 	messages: {
-
-		email: {
-			required: "Please enter email",
-			maxlength: "Email should not be 100 characters long",
+		emailOrMobile: {
+			required: "Please enter valid email or mobile number",
+			maxlength: "Email or mobile should not be 100 characters long",
 		}
 	},
-
 	submitHandler: function(form) {
 
 		var formData = {
-			"email": $("#email").val(),
+			"email": $("#emailOrMobile").val(),
 		}
-		userNameCheck(formData)
+		userNameCheck(formData);
 	}
-
 });
 
 function userNameCheck(formData){
-var flag=false
-  if ($("#reset-password-form").valid() && checkConnection()) {
+  if ($("#reset-password").valid() && checkConnection()) {
 
 $.ajax({
         type: "POST",
         url: "/userName/check",
         contentType: "application/json",
         data: JSON.stringify(formData),
-        cache: false,
+        async: true,
         success: function(response) {
         $(".alert").remove("");
-
         if(response.status){
             $.ajax({
-               url: "/confirmation-page",
+               url: "/ajax/confirmation-page",
                type:'GET',
                success: function(page){
-               $("#clear").remove();
-               $('#modal_confirm').html(page);
-                   $('#confirm').modal('show');
-               }
-            });
+               //$("#clear").remove();
+               $("#server_error").remove();
+               $("#reset-password").remove();
+               //$('#conform').html(page);
+               $('#confirm').modal({backdrop:'static', keyboard:false});
+               $('#confirm').modal('show');
+           }
+        });
         }
         },
         error: function(error) {
             url = window.location.pathname.replace(/\/+$/, '') + "/error";
             $(".alert").remove();
+
+        if(error.status==503 && !error.responseJSON.status && error.responseJSON.isMailServiceDown){
+           $("#message").html(error.responseJSON.message);
+           $('#server_error').modal('show');
+           $(document).ajaxStop(function () {
+           console.log("ajax stoped");
+           });
+         }
            setTimeout(function() {
             if(error.status==404){
              $(".alert").remove();
-             console.clear()
+             console.clear();
              console.log(error.responseJSON.message+"  "+formData.email)
                 if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
                         $("#email_response").append(("<div class='alert alert-danger' role='alert'>" + error.responseJSON.message + "</div>"));
@@ -325,24 +332,12 @@ $.ajax({
                     }
 }
             }, 500);
-
             if(error.status!=404){
               $(".alert").remove("");
-                $.ajax({
-                   url: "/server-down",
-                   type:'GET',
-                   success: function(page){
-                   $('#modal_popup').remove();
-                       $('#modal_review').html(page);
-                       //$('#change-password-body').hide();
-                       $(".alert").remove();
-                       $('#modal_server').modal('show');
-                   }
-                });
+               $('#server_error').modal('show');
               }
         }
 });
-return flag
 }
 }
 

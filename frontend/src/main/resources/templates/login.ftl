@@ -4,10 +4,13 @@
   	<title>Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="/login-form/js/jquery.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="/login-form/css/font.css">
 	<link rel="stylesheet" href="/login-form/css/style.css">
-<script src="/login-form/js/jquery.min.js"></script>
 <script src="/login-form/js/validate.js"></script>
 
 	</head>
@@ -33,7 +36,6 @@ background: #1089ff !important;
 display: block;
     width: 100%;
     padding: .375rem .75rem;
-    font-size: 0.9rem;
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
@@ -58,12 +60,28 @@ display: block;
     text-align: center;
 }
 
-#create_account{
-
-}
-
 	</style>
 	<body>
+<!-- Modal -->
+<div class="modal fade" id="server_error" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_title">Website Under Maintenance</h5>
+      </div>
+      <div class="modal-body">
+        <span id="message">
+         Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="signin">Sign</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <form id="login-form" method="post" name="login-form" autocomplete="on">
 	<section class="ftco-section">
 		<div class="container">
@@ -79,7 +97,7 @@ display: block;
 		      	</div>
 		      	<h3 class="text-center mb-4">Sign in</h3>
 			<div class="modal-body" id="modal1-body">
-			
+
 			<#if message?? && message?has_content>
 			<div class="alert alert-danger" role="alert"> ${message} </div>
 			</#if>

@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal_title">Un Authorize Request</h5>
+        <h5 class="modal-title" id="modal_title">Website Under Maintance</h5>
       </div>
       <div class="modal-body">
         <span id="message">
@@ -12,7 +12,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="signin">Sign</button>
+        <button type="button" class="btn btn-primary" id="signin"><#if signin?? && signin?has_content>${signin}
+        <#else>Signin
+        </#if></button>
       </div>
     </div>
   </div>

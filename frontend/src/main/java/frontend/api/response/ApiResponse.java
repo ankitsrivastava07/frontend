@@ -1,12 +1,12 @@
-package frontend.controller;
+package frontend.api.response;
 
-import frontend.api.error.ValidationError;
+import frontend.validation.ValidationError;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Data
 public class ApiResponse {
 
@@ -19,7 +19,7 @@ public class ApiResponse {
     public ApiResponse() {
     }
 
-    public ApiResponse(Boolean status,HttpStatus httpStatus, String message, List<ValidationError> errors, LocalDateTime timestamp,Boolean validation) {
+    public ApiResponse(Boolean status, HttpStatus httpStatus, String message, List<ValidationError> errors, LocalDateTime timestamp, Boolean validation) {
         this.message = message;
         this.httpStatus = httpStatus;
         this.status = status;
@@ -35,7 +35,7 @@ public class ApiResponse {
         this.errors = errors;
     }
 
-    public ApiResponse(Boolean status, HttpStatus httpStatus,String message,LocalDateTime timestamp) {
+    public ApiResponse(Boolean status, HttpStatus httpStatus, String message, LocalDateTime timestamp) {
         this.message = message;
         this.httpStatus = httpStatus;
         this.status = status;
