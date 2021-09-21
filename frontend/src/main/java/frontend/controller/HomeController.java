@@ -79,9 +79,9 @@ public class HomeController {
 	}
 
 	@GetMapping("/signout")
-	public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void signout(@RequestParam(value = "redirect", required = true) String redirect,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		frontendService.invalidateToken(request);
-		response.sendRedirect("/signin");
+		response.sendRedirect(redirect);
 	}
 
 	@GetMapping("/register")
@@ -177,7 +177,11 @@ public class HomeController {
 	}
 
 	@GetMapping("/account")
-	public ModelAndView profile() {
+	public ModelAndView profile(HttpServletRequest request, HttpServletResponse response) {
+		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		if (tokenStatus != null && !tokenStatus.isStatus()) {
+			return new ModelAndView("redirect:" + "/signin");
+		}
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		return mv;
