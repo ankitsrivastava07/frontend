@@ -88,6 +88,7 @@ function login(formData) {
 			},
 			error: function(error) {
           if(error.status==503){
+          $(".alert").remove();
              $('#server_error').modal('show');
              }
 
