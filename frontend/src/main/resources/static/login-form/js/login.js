@@ -196,7 +196,7 @@ function changePassword(formData) {
                              $('#modal_review').html(page);
                              //$('#change-password-body').hide();
                              $(".alert").remove();
-                             $('#server_error').modal('show');
+                             $('#modal_server').modal('show');
                          }
                       });
                  }
