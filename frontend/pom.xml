@@ -22,7 +22,7 @@
 	</properties>
 	<dependencies>
 
-		<!-- <dependency> <groupId>io.github.openfeign</groupId> <artifactId>feign-slf4j</artifactId> 
+		<!-- <dependency> <groupId>io.github.openfeign</groupId> <artifactId>feign-slf4j</artifactId>
 			<version>9.3.1</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,6 +39,23 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-activemq</artifactId>
 			<version>2.5.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>javax.jms-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 
 		<dependency>
@@ -66,7 +83,7 @@
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-netflix-hystrix</artifactId> 
+		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
 			</dependency> -->
 
 		<dependency>
@@ -89,6 +106,12 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.14.1</version>
 		</dependency>
 
 		<dependency>

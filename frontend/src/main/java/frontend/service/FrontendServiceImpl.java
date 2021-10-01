@@ -1,14 +1,21 @@
 package frontend.service;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.TextMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import frontend.activemq.controller.MessagePublishRequest;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.ChangePasswordRequestDto;
 import frontend.api.request.CreateUserRequestDto;
@@ -18,8 +25,13 @@ import frontend.constant.ResponseConstant;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
+import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jms.annotation.EnableJms;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.annotation.JmsListeners;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import frontend.controller.LoginStatus;
@@ -29,11 +41,15 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 @Service
 public class FrontendServiceImpl implements FrontendService {
 
-	@Autowired
-	private ApiGatewayRequestUri apiGatewayRequestUri;
+	Logger logger = Logger.getLogger("Response of microservice");
+	@Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
 	@Autowired HttpServletRequest httpServletRequest;
 	@Autowired HttpServletResponse httpServletResponse;
+	@Autowired	private MessagePublishRequest messagePublishRequest;
+	private ObjectMapper mapper = new ObjectMapper();
 
+	@Autowired
+	JmsTemplate jmsTemplate;
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response, String token) {
 
@@ -109,6 +125,7 @@ public class FrontendServiceImpl implements FrontendService {
 		responseConstant.setStatus(Boolean.FALSE);
 		responseConstant.setMessage("Sorry Server is currently down.Please try again later");
 		responseConstant.setHttpStatus(503);
+		logger.info(exception.getMessage());
 		return responseConstant;
 	}
 
@@ -146,29 +163,39 @@ public class FrontendServiceImpl implements FrontendService {
 		LoginStatus loginStatus = new LoginStatus();
 		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
 		loginStatus.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+		logger.info(exception.getMessage());
 		return loginStatus;
 	}
 
 	@Override
+	@JmsListener(destination = "register-success")
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "registerFallBackMethod")
-	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
-											 HttpServletResponse response) {
-		createUserRequestDto.setIsBlocked(Boolean.FALSE);
-		CreateUserResponseStatus createUserResponseStatus = apiGatewayRequestUri.register(createUserRequestDto)
-				.getBody();
-
-		CircuitBreakerStateMachine circuitBreaker= new CircuitBreakerStateMachine("cloud-gateway-spring");
-		io.github.resilience4j.circuitbreaker.CircuitBreaker.State state=circuitBreaker.getState();
-
-		if (createUserResponseStatus.isStatus())
-			setCookie(request, response, createUserResponseStatus.getToken());
-		return createUserResponseStatus;
+	public CreateUserResponseStatus register(Message message, CreateUserRequestDto createUserRequestDto) {
+		CreateUserResponseStatus createUserResponseStatus = new CreateUserResponseStatus();
+ try {
+	 if(message==null)
+		 messagePublishRequest.publishMessageForUserRegister(createUserRequestDto);
+	 jmsTemplate.setReceiveTimeout(10000);
+	 message = jmsTemplate.receive("register-success");
+	 if(message!=null) {
+		 ActiveMQTextMessage textMessage = (ActiveMQTextMessage) message;
+		 String payload = textMessage.getText();
+		 createUserResponseStatus = mapper.readValue(payload, CreateUserResponseStatus.class);
+		 return createUserResponseStatus;
+	 }
+	 createUserResponseStatus.setMessage("we are processing your request we will notify once your request complete");
+	 return createUserResponseStatus;
+ }catch (Exception exception){
+	 exception.printStackTrace();
+	 return createUserResponseStatus;
+ }
 	}
 
 	public CreateUserResponseStatus registerFallBackMethod(Throwable exception) {
 		CreateUserResponseStatus createUserResponseStatus = new CreateUserResponseStatus();
 		createUserResponseStatus.setMessage("Sorry Server is currently down.Please try again later");
 		createUserResponseStatus.setHttpStatus(503);
+		logger.info(exception.getMessage());
 		return createUserResponseStatus;
 	}
 
@@ -178,6 +205,7 @@ public class FrontendServiceImpl implements FrontendService {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		logger.info(exception.getMessage());
 		return tokenStatus;
 	}
 
@@ -186,6 +214,7 @@ public class FrontendServiceImpl implements FrontendService {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		logger.info(exception.getMessage());
 		return tokenStatus;
 	}
 
@@ -193,6 +222,7 @@ public class FrontendServiceImpl implements FrontendService {
 		TokenStatus tokenStatus2 = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		logger.info(exception.getMessage());
 		return tokenStatus;
 	}
 
@@ -200,6 +230,7 @@ public class FrontendServiceImpl implements FrontendService {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		logger.info(exception.getMessage());
 		return tokenStatus;
 	}
 
@@ -222,6 +253,7 @@ public class FrontendServiceImpl implements FrontendService {
 		addToCartResponse.setIsAccessTokenNewCreated(Boolean.FALSE);
 		addToCartResponse.setCreatedAt(LocalDateTime.now());
 		addToCartResponse.setMessage("Sorry Server is currently down.Please try again later");
+		logger.info(exception.getMessage());
 		return addToCartResponse;
 	}
 	
@@ -244,6 +276,7 @@ public class FrontendServiceImpl implements FrontendService {
 		addToCartResponse.setIsAccessTokenNewCreated(Boolean.FALSE);
 		//addToCartResponse.setCreatedAt(LocalDateTime.now());
 		addToCartResponse.setMessage("Sorry Server is currently down.Please try again later");
+	  logger.info(exception.getMessage());
 		return addToCartResponse;
 	}
 	@Override
@@ -257,6 +290,7 @@ public class FrontendServiceImpl implements FrontendService {
 		resetPasswordResponse.setStatus(Boolean.FALSE);
 		resetPasswordResponse.setMessage("Sorry Server is currently down.Please try again later");
 		resetPasswordResponse.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+		logger.info("user microservice response "+exception.getMessage());
 		return resetPasswordResponse;
 	}
 

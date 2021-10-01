@@ -1,5 +1,6 @@
 package frontend.service;
 
+import javax.jms.Message;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,8 +28,7 @@ public interface FrontendService {
 	LoginStatus createAuthenticationToken(UserCredentialRequest userCredential, HttpServletRequest request,
 										  HttpServletResponse response);
 
-	CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto, HttpServletRequest request,
-									  HttpServletResponse response);
+	CreateUserResponseStatus register(Message message,CreateUserRequestDto createUserRequestDto);
 
 	frontend.response.AddToCartResponse addToCart(AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response);
 

@@ -108,8 +108,7 @@ public class HomeController {
 			tokenStatus.setLogined(true);
 			return new ResponseEntity<>(tokenStatus, HttpStatus.OK);
 		}
-		CreateUserResponseStatus status = frontendService.register(createUserRequestDto, request, response);
-		status.setToken(null);
+		CreateUserResponseStatus status = frontendService.register(null,createUserRequestDto);
 		if (!status.isStatus() && status.getHttpStatus() != null && status.getHttpStatus() == 503)
 			return new ResponseEntity<>(status.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
 		else if (!status.isStatus())
@@ -179,9 +178,9 @@ public class HomeController {
 	@GetMapping("/account")
 	public ModelAndView profile(HttpServletRequest request, HttpServletResponse response) {
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && !tokenStatus.isStatus()) {
+		if (tokenStatus != null && !tokenStatus.isStatus())
 			return new ModelAndView("redirect:" + "/signin");
-		}
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		return mv;
