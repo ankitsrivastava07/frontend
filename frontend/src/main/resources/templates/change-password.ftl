@@ -82,7 +82,7 @@ span#message {
 		      		</div>
 	            <div class="form-group">
 	            <label for="recipient-name" class="col-form-label">Confirm Password</label>
-	              <input type="password" class="form-control rounded-left" maxlength="20" name="password_confirm" id="password_confirm" Placeholder="Enter confirm password">
+	              <input type="password" class="form-control rounded-left" maxlength="20" name="confirm_password" id="confirm_password" Placeholder="Enter confirm password">
 	            </div>
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Submit</button>
