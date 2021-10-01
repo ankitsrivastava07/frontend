@@ -180,6 +180,7 @@ function changePassword(formData) {
                        type:'GET',
                        success: function(page){
                            $('#modal_review').html(page);
+                           $('.modal-backdrop').remove();
                            //$('#change-password-body').hide();
                            $(".alert").remove();
                            $('#modal_popup').modal('show')
@@ -192,6 +193,7 @@ function changePassword(formData) {
                          url: "/ajax/server-down",
                          type:'GET',
                          success: function(page){
+                         $('.modal-backdrop').remove();
                          $('#modal_popup').remove();
                              $('#modal_review').html(page);
                              //$('#change-password-body').hide();
