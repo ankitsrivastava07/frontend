@@ -387,7 +387,7 @@ body {
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Reset Password</button>
 	            </div>
-               <a href="/" id="back">Back</a>
+               <a href="/signin" id="back">Back</a>
 	          </form>
 	        </div>
 	        	</div>
