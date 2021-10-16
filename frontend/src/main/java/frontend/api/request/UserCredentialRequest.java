@@ -1,5 +1,6 @@
 package frontend.api.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -9,12 +10,9 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UserCredentialRequest {
-
-	@NotNull(message = "Please enter valid email/username")
-	@NotEmpty(message = "Please enter email/username")
-	@Size(min = 3, max = 100, message = "Please enter username/email atleast 3 characters long")
-	private String email;
-	@NotBlank(message = "Please enter valid password")
+	@NotBlank(message = "Please enter email/mobile")
+	private String emailOrMobile;
+	@NotBlank(message = "Please enter password")
 	private String password;
 
 }

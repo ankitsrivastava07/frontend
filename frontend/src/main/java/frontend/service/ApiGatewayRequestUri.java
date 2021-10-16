@@ -6,15 +6,17 @@ import frontend.api.request.CreateUserRequestDto;
 import frontend.api.request.UserCredentialRequest;
 import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
+import frontend.dto.OrderRequest;
 import frontend.response.ResetPasswordResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import frontend.controller.LoginStatus;
 import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
+import org.springframework.web.bind.annotation.RequestHeader;
+
 @FeignClient(name = "users", url = "http://cloud-gateway-spring.herokuapp.com/")
 public interface ApiGatewayRequestUri {
 
@@ -31,7 +33,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<String> getFirstName(@RequestBody String token);
 
 	@PostMapping("/token-session/validate-token")
-	public ResponseEntity<TokenStatus> isValidToken(@RequestBody(required = false) String jwt);
+	public ResponseEntity<TokenStatus> isValidToken(@RequestHeader(name="AuthenticationToken",required = true) String authenticationToken);
 
 	@PostMapping("/token-session/invalidate-token")
 	public ResponseEntity<TokenStatus> invalidateToken(@RequestBody String token);
@@ -49,5 +51,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<ResetPasswordResponse> userNameCheck(@RequestBody String email);
 
 	@PostMapping("/users/auth/identity-token")
-	public ResponseEntity<ResponseConstant> authenticateIdentityToken(@RequestBody String code);
+	ResponseEntity<ResponseConstant> authenticateIdentityToken(@RequestBody String code);
+	@PostMapping("/orders/save-order")
+	ResponseEntity<?> saveOrder(@RequestHeader(name="Authentication")String authentication, @RequestBody OrderRequest orderRequest);
 }

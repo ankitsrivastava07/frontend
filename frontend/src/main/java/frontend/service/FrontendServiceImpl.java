@@ -1,13 +1,11 @@
 package frontend.service;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 import javax.servlet.http.Cookie;
@@ -22,6 +20,8 @@ import frontend.api.request.CreateUserRequestDto;
 import frontend.api.request.UserCredentialRequest;
 import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
+import frontend.dto.OrderRequest;
+import frontend.dto.OrderResponseDto;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
@@ -79,6 +79,23 @@ public class FrontendServiceImpl implements FrontendService {
 					return userName = cookie.getValue();
 
 		return userName;
+	}
+
+	@Override
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "isValidTokenFallback")
+	public TokenStatus isValidToken(String authorizationToken) {
+		TokenStatus tokenStatus = apiGatewayRequestUri.isValidToken(authorizationToken).getBody();
+			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
+				setCookie(httpServletRequest, httpServletResponse, tokenStatus.getAccessToken());
+			return tokenStatus;
+	}
+
+	public TokenStatus isValidTokenFallback(String authorizationToken, Throwable exception) {
+		TokenStatus tokenStatus = new TokenStatus();
+		System.out.println(exception.getMessage());
+		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		logger.info(exception.getMessage());
+		return tokenStatus;
 	}
 
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
@@ -145,15 +162,11 @@ public class FrontendServiceImpl implements FrontendService {
 	public LoginStatus createAuthenticationToken(UserCredentialRequest userCredential, HttpServletRequest request,
 												 HttpServletResponse response) {
 
-		Map<String, String> map = new HashMap<>();
-		map.put("email", userCredential.getEmail());
-		map.put("password", userCredential.getPassword());
-
 		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
 
 		if (loginStatus.isStatus())
 			setCookie(request, response, loginStatus.getToken());
-		loginStatus.setToken(null);
+		//loginStatus.setToken(null);
 		return loginStatus;
 	}
 
@@ -306,6 +319,25 @@ public class FrontendServiceImpl implements FrontendService {
 		responseConstant.setStatus(Boolean.FALSE);
 		responseConstant.setMessage("Sorry Server is currently down.Please try again later");
 		responseConstant.setHttpStatus(503);
+		return responseConstant;
+	}
+
+	@Override
+	@CircuitBreaker(name = "cloud-gateway-spring",fallbackMethod="saveOrderFallback")
+	public OrderResponseDto saveOrder(String accessToken,OrderRequest request) {
+
+		OrderResponseDto orderResponseDto=(OrderResponseDto)apiGatewayRequestUri.saveOrder(accessToken,request).getBody();
+		return orderResponseDto;
+	}
+
+	public OrderResponseDto saveOrderFallback(String accessToken,OrderRequest request,Throwable exception) {
+
+		OrderResponseDto responseConstant = new OrderResponseDto();
+		responseConstant.setMessage("Sorry Server is currently down.Please try again later");
+		responseConstant.setStatus(Boolean.FALSE);
+		responseConstant.setOrderStatus("Unable to save your order");
+		responseConstant.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+		responseConstant.setPath(httpServletRequest.getRequestURI());
 		return responseConstant;
 	}
 

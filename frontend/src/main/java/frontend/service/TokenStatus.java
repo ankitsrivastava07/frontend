@@ -14,7 +14,7 @@ public class TokenStatus {
 	private Boolean isAccessTokenNewCreated;
 	private String message;
 	private Long userId;
-
+	private Integer httpStatus=200;
 	private Date createdAt;
 	private String expireAt;
 	private String accessToken;

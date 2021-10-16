@@ -11,6 +11,8 @@ import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
 import frontend.dto.AddToCartRequest;
 import frontend.controller.LoginStatus;
+import frontend.dto.OrderRequest;
+import frontend.dto.OrderResponseDto;
 import frontend.response.ResetPasswordResponse;
 
 public interface FrontendService {
@@ -18,6 +20,8 @@ public interface FrontendService {
 	void setCookie(HttpServletRequest request, HttpServletResponse response, String token);
 
 	TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response);
+
+	TokenStatus isValidToken(String authorizationToken);
 
 	TokenStatus invalidateToken(HttpServletRequest request);
 
@@ -37,5 +41,7 @@ public interface FrontendService {
 	ResetPasswordResponse userNameCheck(String email);
 
 	ResponseConstant authenticateIdentityToken(String code);
+
+	OrderResponseDto saveOrder(String accessToken,OrderRequest request);
 
 	}

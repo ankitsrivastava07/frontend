@@ -1,5 +1,8 @@
 package frontend.exceptionHandle;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import frontend.api.error.ApiError;
 import frontend.api.response.AbstractResponse;
 import frontend.constant.ConstantResponse;
@@ -10,14 +13,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -31,7 +37,7 @@ public class GlobalExceptionHandle {
     @Autowired
     private ValidationUtil validationUtil;
 
-    @ExceptionHandler(MissingServletRequestParameterException.class)
+    /*@ExceptionHandler(MissingServletRequestParameterException.class)
     public ModelAndView handleBadRequest(MissingServletRequestParameterException exception){
         Logger logger = LoggerFactory.getLogger(MissingServletRequestParameterException.class);
         logger.error("invalid request parameter is missing "+exception.getParameterName()+" "+exception.getParameterType() +" "+exception.getMessage()+" request uri "+request.getRequestURI());
@@ -39,7 +45,7 @@ public class GlobalExceptionHandle {
         mv.setViewName("error/400-error");
         return mv;
     }
-
+*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> validationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
@@ -48,9 +54,42 @@ public class GlobalExceptionHandle {
         return new ResponseEntity<>(new AbstractResponse(ConstantResponse.STATUS, HttpStatus.BAD_REQUEST,validationUtil.getAllErrors(result.getFieldErrors()),ConstantResponse.BAD_REQUEST, LocalDateTime.now(),ConstantResponse.VALIDATION_FAILED),HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> exceptionHandle(Exception exception, WebRequest webRequest) {
-        ApiError apiError = new ApiError(new Date(),Integer.valueOf(HttpStatus.BAD_REQUEST.value()), exception.getMessage(),request.getRequestURI());
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<?> authenticationTokenMissing(MissingRequestHeaderException exception) {
+        ApiError apiError = new ApiError(new Date(),Integer.valueOf(HttpStatus.UNAUTHORIZED.value()), "Missing authentication token",request.getRequestURI());
+        return new ResponseEntity<>(apiError,HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidHeaderException.class)
+    public ResponseEntity<?> apiError(InvalidHeaderException exception) {
+        ApiError apiError = new ApiError(new Date(),Integer.valueOf(HttpStatus.UNAUTHORIZED.value()), exception.getMessage(),request.getRequestURI());
+        return new ResponseEntity<>(apiError,HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(com.fasterxml.jackson.databind.JsonMappingException.class)
+    public ResponseEntity<?> exceptionHandle(com.fasterxml.jackson.databind.JsonMappingException exception) {
+        ApiError apiError = new ApiError(new Date(),Integer.valueOf(HttpStatus.BAD_REQUEST.value()), "Invalid json value provided",request.getRequestURI());
+        return new ResponseEntity<>(apiError,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiError> exception(HttpMessageNotReadableException exception) {
+        ApiError apiError = new ApiError(new Date(),Integer.valueOf(HttpStatus.BAD_REQUEST.value()), "Invalid json request saint",request.getRequestURI());
+        Throwable cause = exception.getCause();
+        if(cause instanceof JsonMappingException){
+            JsonMappingException jpe = (JsonMappingException) cause;
+            String msg="Invalid request field : ";
+            if (jpe.getPath() != null && jpe.getPath().size() > 0) {
+                msg = msg+jpe.getPath().get(0).getFieldName();
+            }
+            ApiError mapping = new ApiError(new Date(),Integer.valueOf(HttpStatus.BAD_REQUEST.value()), msg,request.getRequestURI());
+            return new ResponseEntity<>(mapping,HttpStatus.BAD_REQUEST);
+        }
+
+        if(cause instanceof JsonParseException){
+            ApiError jsonParsngError = new ApiError(new Date(),Integer.valueOf(HttpStatus.BAD_REQUEST.value()), "Invalid json request provided",request.getRequestURI());
+            return new ResponseEntity<>(jsonParsngError,HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(apiError,HttpStatus.BAD_REQUEST);
     }
 }

@@ -11,9 +11,7 @@ public class ValidationUtil {
 
     public List<ValidationError> getAllErrors(List<FieldError> errors){
         List<ValidationError> list= new ArrayList<>();
-
         for(FieldError error : errors){
-
             ValidationError validationError = new ValidationError();
             validationError.setFieldName(error.getField());
             validationError.setMessage(error.getDefaultMessage());

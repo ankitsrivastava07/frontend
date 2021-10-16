@@ -11,11 +11,16 @@ import frontend.api.request.UserNameExistRequest;
 import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
 import frontend.dto.AddToCartRequest;
+import frontend.dto.OrderRequest;
+import frontend.dto.OrderResponseDto;
+import frontend.exceptionHandle.InvalidHeaderException;
 import frontend.response.ResetPasswordResponse;
 import frontend.service.AddToCartCountProductsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -57,17 +62,18 @@ public class HomeController {
 
 	@GetMapping("/signin")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+
 		ModelAndView mv = new ModelAndView();
+		mv.setViewName("login");
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		if (tokenStatus != null && tokenStatus.isStatus()) {
 			ModelAndView model = new ModelAndView();
-			model.addObject("message", tokenStatus.getMessage());
-			model.setViewName("error-404");
+			model.setViewName("redirect:/");
 			return model;
 		}
 		if (tokenStatus != null && !tokenStatus.isStatus())
 			mv.addObject("message", tokenStatus.getMessage());
-		mv.setViewName("login");
+
 		return mv;
 	}
 
@@ -151,8 +157,20 @@ public class HomeController {
 			model.setStatus(HttpStatus.OK);
 			return model;
 		}
-		//frontendService.removeAllTokens(request);
 		return new ModelAndView("redirect:" + "/");
+	}
+
+	@PostMapping("/save-order")
+	public ResponseEntity<?> saveOrder(@RequestHeader(name = "Authentication",required = true,value = "") String authentication,@RequestBody @Valid OrderRequest orderRequest){
+
+		if(StringUtils.isEmpty(authentication))
+			throw new InvalidHeaderException("Invalid authentication token value");
+		TokenStatus tokenStatus = frontendService.isValidToken(authentication);
+		if((tokenStatus==null || !tokenStatus.isStatus())) {
+			return new ResponseEntity<>(tokenStatus,HttpStatus.UNAUTHORIZED);
+		}
+		OrderResponseDto responseConstant = frontendService.saveOrder(authentication,orderRequest);
+		return new ResponseEntity<>(responseConstant,HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
 
 	@RequestMapping("*/error")
