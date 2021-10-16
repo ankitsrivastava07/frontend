@@ -65,23 +65,16 @@ function login(formData) {
 			data: JSON.stringify(formData),
 			cache: false,
 			success: function(response) {
-
 				$(".alert").remove();
-
 				if (response.status)
 					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
-
 				setTimeout(function() {
-
 					if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
-
 						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
 					} else if (!response.status) {
 						$(".alert").html(response.message);
 					}
-
 				}, 500);
-
 				if (response.status) {
 					window.location.href = "/"
 				}
@@ -91,11 +84,10 @@ function login(formData) {
           $(".alert").remove();
              $('#server_error').modal('show');
              }
-
                  if(error.responseJSON.validationFailed)    {
                  $(".error").remove();
+                 $(".error_emailormobile").remove();
                      $.each(error.responseJSON.errors , function(index, val) {
-
                     var duration = 500;
                     $({to:0}).animate({to:1}, duration, function() {
                   			if ($(".error_"+val.fieldName).length == 0 || $(".error_"+val.fieldName).length == undefined) {

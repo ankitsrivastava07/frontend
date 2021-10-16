@@ -104,8 +104,7 @@ display: block;
 			</#if>
 		      		<div class="form-group">
 		      		<label for="recipient-name" class="col-form-label">Email or Mobile number</label>
-		      			<input type="text" class="form-control rounded-left" maxlength="30" name="email" id="email" autocomplete=on Placeholder="Enter your email/mobile number">
-		      			<span class="error_email error"></span>
+		      			<input type="text" class="form-control rounded-left" maxlength="30" name="email" id="emailOrMobile" autocomplete=on Placeholder="Enter your email/mobile number">
 		      		</div>
 	            <div class="form-group">
 
@@ -118,7 +117,6 @@ display: block;
 	            	<span id="create_account">Don't have an account?
 	            	<a href="/register">Create Account</a>
 	            	</span>
-									
 	            </div>
 	          </form>
 	        </div>
