@@ -34,7 +34,7 @@ $(document).ready(function() {
 		submitHandler: function(form) {
 
 			var formData = {
-				"email": $("#emailOrMobile").val(),
+				"emailOrMobile": $("#emailOrMobile").val(),
 				"password": $("#password").val()
 			}
 			login(formData);
