@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
 	$("#loginModalPop").click(function() {
-
 		$(".modal").modal("show");
 		document.body.style.overflow = "scroll";
 	});
@@ -35,7 +34,7 @@ $(document).ready(function() {
 		submitHandler: function(form) {
 
 			var formData = {
-				"email": $("#email").val(),
+				"email": $("#emailOrMobile").val(),
 				"password": $("#password").val()
 			}
 			login(formData);
@@ -86,7 +85,7 @@ function login(formData) {
              }
                  if(error.responseJSON.validationFailed)    {
                  $(".error").remove();
-                 $(".error_emailormobile").remove();
+                  $(".error_emailormobile").remove();
                      $.each(error.responseJSON.errors , function(index, val) {
                     var duration = 500;
                     $({to:0}).animate({to:1}, duration, function() {
