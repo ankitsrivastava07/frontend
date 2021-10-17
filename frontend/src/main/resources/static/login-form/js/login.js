@@ -64,6 +64,7 @@ function login(formData) {
 			data: JSON.stringify(formData),
 			cache: false,
 			success: function(response) {
+			$(".error").remove();
 				$(".alert").remove();
 				if (response.status)
 					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
