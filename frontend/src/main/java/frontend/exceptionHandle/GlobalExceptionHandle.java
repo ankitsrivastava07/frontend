@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import frontend.api.error.ApiError;
 import frontend.api.response.AbstractResponse;
 import frontend.constant.ConstantResponse;
+import frontend.service.TokenStatus;
 import frontend.validation.ValidationError;
 import frontend.validation.ValidationUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -37,15 +40,13 @@ public class GlobalExceptionHandle {
     @Autowired
     private ValidationUtil validationUtil;
 
-    /*@ExceptionHandler(MissingServletRequestParameterException.class)
-    public ModelAndView handleBadRequest(MissingServletRequestParameterException exception){
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<?> handleBadRequest(HttpRequestMethodNotSupportedException exception){
         Logger logger = LoggerFactory.getLogger(MissingServletRequestParameterException.class);
-        logger.error("invalid request parameter is missing "+exception.getParameterName()+" "+exception.getParameterType() +" "+exception.getMessage()+" request uri "+request.getRequestURI());
-        ModelAndView mv= new ModelAndView();
-        mv.setViewName("error/400-error");
-        return mv;
+        logger.error("invalid request parameter is missing "+exception.getMessage());
+        ApiError apiError= new ApiError(new Date(),HttpStatus.METHOD_NOT_ALLOWED.value(),exception.getMessage(),request.getRequestURI());
+        return new ResponseEntity<>(apiError,HttpStatus.METHOD_NOT_ALLOWED);
     }
-*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> validationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
@@ -85,11 +86,22 @@ public class GlobalExceptionHandle {
             ApiError mapping = new ApiError(new Date(),Integer.valueOf(HttpStatus.BAD_REQUEST.value()), msg,request.getRequestURI());
             return new ResponseEntity<>(mapping,HttpStatus.BAD_REQUEST);
         }
-
         if(cause instanceof JsonParseException){
             ApiError jsonParsngError = new ApiError(new Date(),Integer.valueOf(HttpStatus.BAD_REQUEST.value()), "Invalid json request provided",request.getRequestURI());
             return new ResponseEntity<>(jsonParsngError,HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(apiError,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<?> tokenException(ExpiredJwtException exception) {
+        Logger logger = LoggerFactory.getLogger(String.class);
+        logger.info("access Token has been expired "+exception.getMessage());
+        TokenStatus tokenStatus = new TokenStatus();
+        tokenStatus.setStatus(Boolean.FALSE);
+        tokenStatus.setAccessTokenExpired(Boolean.TRUE);
+        tokenStatus.setMessage("Your session has been expired.Please login again");
+        return new ResponseEntity<>(tokenStatus, HttpStatus.UNAUTHORIZED);
+    }
+
 }

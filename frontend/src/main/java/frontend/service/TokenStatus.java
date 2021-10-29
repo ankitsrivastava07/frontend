@@ -8,9 +8,8 @@ import lombok.Data;
 @Data
 public class TokenStatus {
 
-	private boolean status;
-
-	private boolean logined;
+	private boolean status=Boolean.FALSE;
+	private boolean logined=Boolean.FALSE;
 	private Boolean isAccessTokenNewCreated;
 	private String message;
 	private Long userId;
@@ -19,4 +18,7 @@ public class TokenStatus {
 	private String expireAt;
 	private String accessToken;
 	private String firstName;
+	private String browser;
+	private Boolean accessTokenExpired=Boolean.FALSE;
+	private Boolean refreshTokenExpired=Boolean.FALSE;
 }

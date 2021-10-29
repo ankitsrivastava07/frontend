@@ -1,5 +1,6 @@
 package frontend.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -16,9 +17,22 @@ import frontend.dto.OrderResponseDto;
 import frontend.exceptionHandle.InvalidHeaderException;
 import frontend.response.ResetPasswordResponse;
 import frontend.service.AddToCartCountProductsResponse;
+import frontend.session_validator.JwtAccessTokenUtil;
+import frontend.spring_security.authentication_provider.AuthenticateUser;
+import frontend.tenant.TenantContext;
+import lombok.val;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
@@ -28,25 +42,35 @@ import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("")
+@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class HomeController {
 
 	@Autowired
 	private FrontendService frontendService;
+    @Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private JwtAccessTokenUtil jwtAccessTokenUtil;
 
 	@GetMapping({"/", "", "/home"})
-	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request) {
+		//TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
 		ModelAndView model = new ModelAndView();
+		Cookie cookies[]=request.getCookies();
+		String session_token=Arrays.stream(cookies).filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).findFirst().get().getValue();
+		TokenStatus tokenStatus= frontendService.isValidToken(session_token);
+		model=tokenStatus.isStatus()?model.addObject("userName",tokenStatus.getFirstName()):model.addObject("userName","");
 		model.setViewName("index");
-		model.addObject("userName", "");
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && tokenStatus.isStatus())
-			model.addObject("userName", tokenStatus.getFirstName());
 		return model;
 	}
-
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping({"/contact"})
 	public ModelAndView contactUs(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
@@ -61,33 +85,42 @@ public class HomeController {
 	}
 
 	@GetMapping("/signin")
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView signin(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		if (tokenStatus != null && tokenStatus.isStatus()) {
 			ModelAndView model = new ModelAndView();
-			model.setViewName("redirect:/");
+		//	model.setViewName("redirect:/");
 			return model;
 		}
 		if (tokenStatus != null && !tokenStatus.isStatus())
 			mv.addObject("message", tokenStatus.getMessage());
-
 		return mv;
 	}
 
-	@RequestMapping(value = "/signin", method = {RequestMethod.POST})
-	public ResponseEntity<?> login(@RequestBody @Valid UserCredentialRequest userCredential, HttpServletRequest request,
+	@PostMapping("/signin")
+	public ResponseEntity<?> signIn(@RequestBody @Valid UserCredentialRequest userCredential, HttpServletRequest request,
 								   HttpServletResponse response) throws JsonProcessingException {
-		LoginStatus loginStatus = frontendService.createAuthenticationToken(userCredential, request, response);
-		return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+      try {
+		 LoginStatus loginStatus= (LoginStatus) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredential.getEmailOrMobile(),userCredential.getPassword()));
+		  if(loginStatus.getHttpStatus()==503 && !loginStatus.isStatus())
+			  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+		  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+	  }catch (BadCredentialsException exception){
+		  LoginStatus loginStatus = new LoginStatus();
+		  loginStatus.setHttpStatus(HttpStatus.OK.value());
+		  loginStatus.setMessage("Invalid email/mobile and password");
+		  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+	  }
 	}
 
 	@GetMapping("/signout")
-	public void signout(@RequestParam(value = "redirect", required = true) String redirect,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		frontendService.invalidateToken(request);
-		response.sendRedirect(redirect);
+	public void signout(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+		frontendService.invalidateToken(tokenStatus.getAccessToken());
+		response.sendRedirect("/signin");
 	}
 
 	@GetMapping("/register")
@@ -150,8 +183,8 @@ public class HomeController {
 	}
 
 	@GetMapping("/orders")
-	public ModelAndView order(HttpServletRequest request, HttpServletResponse response) {
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+	public ModelAndView order() {
+		TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
 		if (tokenStatus == null || tokenStatus != null && !tokenStatus.isStatus()) {
 			ModelAndView model = new ModelAndView("redirect:" + "/signin");
 			model.setStatus(HttpStatus.OK);
@@ -161,14 +194,12 @@ public class HomeController {
 	}
 
 	@PostMapping("/save-order")
-	public ResponseEntity<?> saveOrder(@RequestHeader(name = "Authentication",required = true,value = "") String authentication,@RequestBody @Valid OrderRequest orderRequest){
+	public ResponseEntity<?> saveOrder(@RequestHeader(name = "Authentication") String authentication,@RequestBody @Valid OrderRequest orderRequest){
 
 		if(StringUtils.isEmpty(authentication))
-			throw new InvalidHeaderException("Invalid authentication token value");
-		TokenStatus tokenStatus = frontendService.isValidToken(authentication);
-		if((tokenStatus==null || !tokenStatus.isStatus())) {
-			return new ResponseEntity<>(tokenStatus,HttpStatus.UNAUTHORIZED);
-		}
+			return new ResponseEntity<>("Un authroize request ",HttpStatus.UNAUTHORIZED);
+
+		jwtAccessTokenUtil.validateToken(authentication);
 		OrderResponseDto responseConstant = frontendService.saveOrder(authentication,orderRequest);
 		return new ResponseEntity<>(responseConstant,HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
@@ -193,12 +224,11 @@ public class HomeController {
 		return mv;
 	}
 
-	@GetMapping("/account")
-	public ModelAndView profile(HttpServletRequest request, HttpServletResponse response) {
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && !tokenStatus.isStatus())
-			return new ModelAndView("redirect:" + "/signin");
-
+	@GetMapping("/users/profile/edit")
+	public ModelAndView profile(HttpServletResponse response) {
+		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+		/*if (tokenStatus != null && !tokenStatus.isStatus())
+			return new ModelAndView("redirect:" + "/signin");*/
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		return mv;
@@ -217,21 +247,22 @@ public class HomeController {
 	}
 
 	@PostMapping(value = "/product/add-to-cart")
-	public ResponseEntity<?> addToCartProductDetail(@RequestBody AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<?> addToCartProductDetail(@RequestHeader("Authentication")String accessToken, @RequestBody AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response) {
 		frontendService.addToCart(addToCartRequest, request, response);
 		return null;
 	}
 
-	@RequestMapping(value = "/product/add-to-cart-count-products", method = RequestMethod.GET)
-	public AddToCartCountProductsResponse addToCartCountProducts(@RequestParam(required = false, name = "sessionToken") String sessionToken, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("add-to-cart-count-products method called");
+	@RequestMapping(value = "/product/add-to-cart-count-products", method = RequestMethod.POST)
+	public ResponseEntity<?> addToCartCountProducts(@RequestHeader(name="Authentication",required = false) String authentication) {
+		if(StringUtils.isEmpty(authentication))
+			return new ResponseEntity<>("Unauthorize requseet",HttpStatus.UNAUTHORIZED);
 		AddToCartCountProductsResponse addToCartCountProductsResponse = new AddToCartCountProductsResponse();
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		TokenStatus tokenStatus = frontendService.isValidToken(authentication);
 		if (tokenStatus.isStatus()) {
-			AddToCartCountProductsResponse addToCartCountProducts = frontendService.addToCartProductCount(sessionToken, request, response);
-			return addToCartCountProducts;
+			addToCartCountProductsResponse = frontendService.addToCartProductCount(tokenStatus.getUserId());
+			return new ResponseEntity<>(addToCartCountProductsResponse,HttpStatus.OK);
 		}
-		return addToCartCountProductsResponse;
+		return new ResponseEntity<>(addToCartCountProductsResponse,HttpStatus.valueOf(tokenStatus.getHttpStatus()));
 	}
 
 	@GetMapping("/users/auth")
@@ -271,6 +302,22 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("forget-password");
 		return mv;
+	}
+
+	@PostMapping("/validate-session")
+	public ResponseEntity<?> validateSession(@RequestHeader(name = "Authentication", required = false) String authentication) {
+		if(authentication==null)
+			return new ResponseEntity<>("Unauthorize request",HttpStatus.UNAUTHORIZED);
+		TokenStatus tokenStatus = frontendService.isValidToken(authentication);
+		if(tokenStatus.isStatus())
+			return new ResponseEntity<>(tokenStatus,HttpStatus.valueOf(tokenStatus.getHttpStatus()));
+		return new ResponseEntity<>(tokenStatus,HttpStatus.UNAUTHORIZED);
+	}
+
+	@PostMapping("/auth/token/refresh")
+	public ResponseEntity<?> refreshAccessToken(@RequestHeader(name="Authentication")String authentication,@RequestHeader("browser")String browser){
+		TokenStatus tokenStatus=frontendService.refreshToken(authentication,browser);
+	  return tokenStatus.isStatus()?new ResponseEntity<>(tokenStatus,HttpStatus.valueOf(tokenStatus.getHttpStatus())) : new ResponseEntity<>(tokenStatus,HttpStatus.UNAUTHORIZED);
 	}
 
 }

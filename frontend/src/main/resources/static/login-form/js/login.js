@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 		rules: {
 
-			email: {
+			emailOrMobile: {
 				required: true,
 			},
 
@@ -23,7 +23,7 @@ $(document).ready(function() {
 		},
 		messages: {
 
-			email: {
+			emailOrMobile: {
 				required: "Please enter your email/mobile number",
 			},
 
@@ -43,20 +43,16 @@ $(document).ready(function() {
 })
 
 $(document).ready(function() {
-
 	$('#popup-modal').on('hidden.bs.modal', function() {
 		var $alertas = $('#login-form');
 		$alertas.validate().resetForm();
 		$alertas.find('.error').removeClass('error');
 		$('#login-form').trigger("reset");
 	});
-
 })
 
 function login(formData) {
-
 	if ($("#login-form").valid() && checkConnection()) {
-
 		$.ajax({
 			type: "POST",
 			url: "/signin",
@@ -76,6 +72,7 @@ function login(formData) {
 					}
 				}, 500);
 				if (response.status) {
+				    $.cookie("session_Token",response.token);
 					window.location.href = "/"
 				}
 			},
@@ -479,3 +476,15 @@ function browserInfo(){
     }
 
 }
+
+/*
+$(document).ready(function(){
+    $.ajax({
+        url: "database/update.html",
+        context: document.body,
+        headers: {"Authentication": "Bearer "+$.cookie("sessoion_Token")}
+        success: function(response){
+           $()
+        }
+    });
+});*/

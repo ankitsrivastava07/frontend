@@ -110,53 +110,48 @@
 <i class="fa fa-shopping-bag num"></i>
 <span id="product_count">0</span>
 </a>
+            <#if userName?has_content>
+                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Hello, ${userName}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-      <#if userName?has_content>
-       <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Hello, ${userName}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                         <li><a href="/orders">Orders</a></li>
-                         <li><a href="#">Wishlist</a></li>
-                         <li><a href="#">Gift Cards</a></li>
-                         <li><a href="#">Save Address</a></li>
-                         <li><a href="/account">Your Account</a></li>
-                         <li><a href="/signout?redirect=/signin">Sign out</a></li>
-                         <li><a href="/signout-from-all-devices?redirect=/signin"">Sign out from all devices</a></li>
-
-          </ul>
-        </li>
+                                   <li><a href="/orders">Orders</a></li>
+                                   <li><a href="#">Wishlist</a></li>
+                                   <li><a href="#">Gift Cards</a></li>
+                                   <li><a href="#">Save Address</a></li>
+                                   <li><a href="/users/profile/update">Your Account</a></li>
+                                   <li><a href="/signout?redirect=/signin">Sign out</a></li>
+                                   <li><a href="/signout-from-all-devices?redirect=/signin"">Sign out from all devices</a></li>
+                    </ul>
+                  </li>
+                           </div><!-- /.navbar-collapse -->
+                         </div><!-- /.container-fluid -->
+          	  <a href="/signin" class="btn btn-dark" data-bs-whatever="@mdo"></a>
+                <#else>
+           <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Hello, Sign in
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                  <li><a href="/signin">Sign In</a></li>
+                                                    <li><a href="/orders">Orders</a></li>
+                                                    <li><a href="#">Wishlist</a></li>
+                                                    <li><a href="#">Gift Cards</a></li>
+                                                    <li><a href="#">Saved Address</a></li>
+                                                   <li>
+                                                    <span class="new_customer"> New Customer ?
+                                                     <a href="/register">Start Here</a></span>
+                                                     </li>
+                                                    <li><a href="/account">Your Account</a></li>
+                    </ul>
+                  </li>
+                  </#if>
                  </div><!-- /.navbar-collapse -->
                </div><!-- /.container-fluid -->
-
-	  <a href="/signin" class="btn btn-dark" data-bs-whatever="@mdo"></a>
-      <#else>
-
- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Hello, Sign in
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                        <li><a href="/signin">Sign In</a></li>
-                                          <li><a href="/orders">Orders</a></li>
-                                          <li><a href="#">Wishlist</a></li>
-                                          <li><a href="#">Gift Cards</a></li>
-                                          <li><a href="#">Saved Address</a></li>
-                                         <li>
-                                          <span class="new_customer"> New Customer ?
-                                           <a href="/register">Start Here</a></span>
-                                           </li>
-                                          <li><a href="/account">Your Account</a></li>
-          </ul>
-        </li>
-
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
-
-      </#if>
     </div>
   </div>
 </nav>
@@ -228,7 +223,6 @@
   <div class="shop-add-btn-cont">
                     <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
                   </div>
-
  </div>
 </div>
  </li>
@@ -255,19 +249,13 @@
  <div class="correct-wrapper item-wrapper">
             <div class="correct-item item">
 <img width="450" height="150"src="/images/jhula.jpg"/> </div>
-
  <div class="hover">
                              <p><strong>Hammock & Swings</strong></p>
                              <p><small>From ₹299</small>
                               <small>MT HUB, Swingzy...</small></p>
-
-
-
 <div class="shop-add-btn-cont">
                     <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
                   </div>
-
-
  </div>
  </div>
  </li>
@@ -286,13 +274,10 @@
  </div>
  </div>
  </li>
-
-
  <li class="bx-container">
  <div class="correct-wrapper item-wrapper">
             <div class="correct-item item">
 <img width="250" height="150"src="/images/58.jpg"/></div>
-
  <div class="hover">
                              <p><strong>Study Table</strong></p>
                              <p><small>From ₹ 3,2901</small>
@@ -300,21 +285,15 @@
  <div class="shop-add-btn-cont">
                     <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
                   </div>
-
  </div>
 </div>
-
 </li>
-
-
  <li class="bx-container">
  <div class="correct-wrapper item-wrapper">
  <div class="correct-item">
  <a onclick="ImageClick()">
 <img src="/images/00739013_fast-shipping.jpg" id="tv_1" ></div>
  </a>
-
-
  <div class="hover">
                              <p><strong>Wakefit Athena <br> Study Table</strong></p>
                              <p><small>₹5,501</small>
@@ -482,19 +461,11 @@
 	<h3>From ₹99</h3>
 	 </div>
 
-
-
-
 	 <ul class="bxslider">
-
-
  <li class="bx-container">
 <div class="correct-wrapper item-wrapper">
  <div class="correct-item item">
  <img src="images/41AwYdB4C0L._AC_SY200_.jpg"/></div>
-
-
-
  <div class="#">
  <div class="hover">
                              <p><strong>Inflatable Sofas</strong></p>
@@ -540,32 +511,20 @@
  <div class="shop-add-btn-cont">
                     <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
                   </div>
-
-
 </div>
-
  </div>
-
 </li>
 <li class="bx-container">
 <div class="correct-wrapper item-wrapper">
  <div class="correct-item item">
  <img src="images/pwb000237748.jpg"/></div>
-
-
 <div class="hover">
                              <p><strong>Hammock & Swings</strong></p>
                              <p><small>From ₹299</small>
                                <small>MT HUB, Swingzy...</small></p>
-
-
-
 <div class="shop-add-btn-cont">
                     <a class="button medium gray-light shop-add-btn btn btn-outline-light" href="#">See More</a>
                   </div>
-
-
-
  </div>
  </div>
  </li>
@@ -574,9 +533,6 @@
  <div class="correct-wrapper item-wrapper">
  <div class="correct-item item">
  <img src="images/Sofa.jpg"/></div>
-
-
-
  <div class="hover">
                              <p><strong>Top 20 Inflatable Sofa</strong></p>
                              <p><small>From ₹1,169</small>
@@ -873,12 +829,6 @@ jQuery(document).ready(function() {
   });
 
  });
-
-function ImageClick(){
- alert("hh");
-
-}
-
 </script>
 </body>
 </html>

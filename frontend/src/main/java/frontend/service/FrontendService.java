@@ -23,7 +23,7 @@ public interface FrontendService {
 
 	TokenStatus isValidToken(String authorizationToken);
 
-	TokenStatus invalidateToken(HttpServletRequest request);
+	TokenStatus invalidateToken(String authToken);
 
 	ResponseConstant changePassword(ChangePasswordReqest request);
 
@@ -36,7 +36,7 @@ public interface FrontendService {
 
 	frontend.response.AddToCartResponse addToCart(AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response);
 
-	AddToCartCountProductsResponse addToCartProductCount(String token, HttpServletRequest request, HttpServletResponse response);
+	AddToCartCountProductsResponse addToCartProductCount(Long userId);
 
 	ResetPasswordResponse userNameCheck(String email);
 
@@ -44,4 +44,7 @@ public interface FrontendService {
 
 	OrderResponseDto saveOrder(String accessToken,OrderRequest request);
 
+	TokenStatus refreshToken(String authentication,String browser);
+
 	}
+

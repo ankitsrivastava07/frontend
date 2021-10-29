@@ -1,5 +1,6 @@
 package frontend.service;
 
+import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.ChangePasswordRequestDto;
 import frontend.api.request.CreateUserRequestDto;
@@ -10,6 +11,7 @@ import frontend.dto.OrderRequest;
 import frontend.response.ResetPasswordResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import frontend.controller.LoginStatus;
@@ -17,7 +19,7 @@ import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "users", url = "http://cloud-gateway-spring.herokuapp.com/")
+@FeignClient(name = "users", url = "http://cloud-gateway-spring.herokuapp.com/",decode404 = true)
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
@@ -32,6 +34,9 @@ public interface ApiGatewayRequestUri {
 	@PostMapping("/users/get-first-name")
 	public ResponseEntity<String> getFirstName(@RequestBody String token);
 
+	@PostMapping("/users/findEmail")
+	public ResponseEntity<UserDto> findByEmail(@RequestHeader(name="email",required = true) String email);
+
 	@PostMapping("/token-session/validate-token")
 	public ResponseEntity<TokenStatus> isValidToken(@RequestHeader(name="AuthenticationToken",required = true) String authenticationToken);
 
@@ -42,7 +47,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<TokenStatus> invalidateTokens(@RequestBody ChangePasswordRequestDto dto);
 	
 	@PostMapping("/users/add-to-cart-product-count")
-	public ResponseEntity<AddToCartCountProductsResponse> addToCartProductCount(@RequestBody String token);
+	public ResponseEntity<AddToCartCountProductsResponse> addToCartProductCount(@RequestBody Long userId);
 
 	@PostMapping("/users/add-to-cart-product")
 	public ResponseEntity<AddToCartResponse> addToCart(@RequestBody AddToCartRequest addToCartRequest);
@@ -54,4 +59,7 @@ public interface ApiGatewayRequestUri {
 	ResponseEntity<ResponseConstant> authenticateIdentityToken(@RequestBody String code);
 	@PostMapping("/orders/save-order")
 	ResponseEntity<?> saveOrder(@RequestHeader(name="Authentication")String authentication, @RequestBody OrderRequest orderRequest);
+
+	@PostMapping("/token_session")
+	ResponseEntity<TokenStatus> refreshToken(@RequestHeader("Authentication")String authentication,@RequestHeader("browser")String browser);
 }

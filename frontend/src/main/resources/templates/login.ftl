@@ -104,7 +104,7 @@ display: block;
 			</#if>
 		      		<div class="form-group">
 		      		<label for="recipient-name" class="col-form-label">Email or Mobile number</label>
-		      			<input type="text" class="form-control rounded-left" maxlength="30" name="email" id="emailOrMobile" autocomplete=on Placeholder="Enter your email/mobile number">
+		      			<input type="text" class="form-control rounded-left" maxlength="30" name="emailOrMobile" id="emailOrMobile" autocomplete=on Placeholder="Enter your email/mobile number">
 		      		</div>
 	            <div class="form-group">
 
@@ -125,7 +125,7 @@ display: block;
 		</div>
 		</div>
 	</section>
-	
+	<script src="ecommerce/js/cookie.js"></script>
 	<script src="/login-form/js/login.js"></script>
 	</body>
 </html>

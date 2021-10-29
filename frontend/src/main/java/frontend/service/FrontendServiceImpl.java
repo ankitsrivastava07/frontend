@@ -24,6 +24,7 @@ import frontend.dto.OrderRequest;
 import frontend.dto.OrderResponseDto;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
+import frontend.tenant.TenantContext;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,12 +99,11 @@ public class FrontendServiceImpl implements FrontendService {
 		return tokenStatus;
 	}
 
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "defaultFallbackMethodHandleRequest")
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "tokenValidFallback")
 	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
 		String token = getToken(request);
-		TokenStatus tokenStatus = null;
+		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		if (Objects.nonNull(token) && !token.isEmpty()) {
-			tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
 			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
 				setCookie(request, response, tokenStatus.getAccessToken());
 			return tokenStatus;
@@ -111,20 +111,13 @@ public class FrontendServiceImpl implements FrontendService {
 		return tokenStatus;
 	}
 
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "invalidateFallbackMethod")
-	public TokenStatus invalidateToken(HttpServletRequest request) {
-
-		String token = getToken(request);
-
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "invalidateFallBack")
+	public TokenStatus invalidateToken(String authToken) {
 		TokenStatus tokenStatus = null;
-
-		if (Objects.nonNull(token) && !token.isEmpty())
-
-		tokenStatus = apiGatewayRequestUri.invalidateToken(token).getBody();
-
+		if (Objects.nonNull(authToken) && !authToken.isEmpty())
+		tokenStatus = apiGatewayRequestUri.invalidateToken(authToken).getBody();
 		CircuitBreakerStateMachine circuitBreaker= new CircuitBreakerStateMachine("cloud-gateway-spring");
 		io.github.resilience4j.circuitbreaker.CircuitBreaker.State state=circuitBreaker.getState();
-
 		return tokenStatus;
 	}
 
@@ -181,7 +174,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@JmsListener(destination = "register-success")
+	//@JmsListener(destination = "register-success")
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "registerFallBackMethod")
 	public CreateUserResponseStatus register(Message message, CreateUserRequestDto createUserRequestDto) {
 		CreateUserResponseStatus createUserResponseStatus = new CreateUserResponseStatus();
@@ -212,7 +205,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return createUserResponseStatus;
 	}
 
-	public TokenStatus defaultFallbackMethodHandleRequest(HttpServletRequest request, HttpServletResponse response,
+	public TokenStatus tokenValidFallback(HttpServletRequest request, HttpServletResponse response,
 			Throwable exception) {
 
 		TokenStatus tokenStatus = new TokenStatus();
@@ -239,7 +232,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return tokenStatus;
 	}
 
-	public TokenStatus invalidateFallbackMethod(HttpServletRequest request, Throwable exception) {
+	public TokenStatus invalidateFallBack(String jwtTOken, Throwable exception) {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
@@ -272,11 +265,10 @@ public class FrontendServiceImpl implements FrontendService {
 	
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "addToCartProductCountFallbackMethod")
-	public AddToCartCountProductsResponse addToCartProductCount(String token, HttpServletRequest request, HttpServletResponse response) {
+	public AddToCartCountProductsResponse addToCartProductCount(Long userId) {
 
-		AddToCartCountProductsResponse addToCartResponse = apiGatewayRequestUri.addToCartProductCount(token).getBody();
+		AddToCartCountProductsResponse addToCartResponse = apiGatewayRequestUri.addToCartProductCount(userId).getBody();
 		if(addToCartResponse.getIsAccessTokenNewCreated()) {
-			setCookie(request,response,addToCartResponse.getSessionToken());
 		}
 		return addToCartResponse;
 	}
@@ -328,6 +320,21 @@ public class FrontendServiceImpl implements FrontendService {
 
 		OrderResponseDto orderResponseDto=(OrderResponseDto)apiGatewayRequestUri.saveOrder(accessToken,request).getBody();
 		return orderResponseDto;
+	}
+
+	@Override
+	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "refreshTokenFallBack")
+	public TokenStatus refreshToken(String authentication, String browser) {
+		TokenStatus tokenStatus= apiGatewayRequestUri.refreshToken(authentication,browser).getBody();
+		return tokenStatus;
+	}
+
+	public TokenStatus refreshTokenFallBack(String authentication, String browser,Throwable exception) {
+		logger.info(exception.getMessage());
+		System.out.println(exception.getMessage());
+		TokenStatus tokenStatus = new TokenStatus();
+		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		return tokenStatus;
 	}
 
 	public OrderResponseDto saveOrderFallback(String accessToken,OrderRequest request,Throwable exception) {
