@@ -4,6 +4,7 @@ import javax.jms.Message;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.CreateUserRequestDto;
 import frontend.api.request.UserCredentialRequest;
@@ -29,10 +30,9 @@ public interface FrontendService {
 
 	TokenStatus removeAllTokens(TokenStatus tokenStatus);
 
-	LoginStatus createAuthenticationToken(UserCredentialRequest userCredential, HttpServletRequest request,
-										  HttpServletResponse response);
+	LoginStatus createAuthenticationToken(UserCredentialRequest userCredential);
 
-	CreateUserResponseStatus register(Message message,CreateUserRequestDto createUserRequestDto);
+	CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto);
 
 	frontend.response.AddToCartResponse addToCart(AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response);
 
@@ -46,5 +46,6 @@ public interface FrontendService {
 
 	TokenStatus refreshToken(String authentication,String browser);
 
+	UserDto profileUpdate(String authentication);
 	}
 

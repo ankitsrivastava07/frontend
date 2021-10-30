@@ -59,7 +59,7 @@ function login(formData) {
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			cache: false,
-			success: function(response) {
+			success: function(response,textStatus, request) {
 			$(".error").remove();
 				$(".alert").remove();
 				if (response.status)
@@ -72,7 +72,7 @@ function login(formData) {
 					}
 				}, 500);
 				if (response.status) {
-				    $.cookie("session_Token",response.token);
+				    $.cookie("session_Token",request.getResponseHeader('session_Token'));
 					window.location.href = "/"
 				}
 			},

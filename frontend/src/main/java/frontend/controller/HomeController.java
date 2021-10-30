@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.CreateUserRequestDto;
 import frontend.api.request.UserCredentialRequest;
@@ -18,7 +19,6 @@ import frontend.exceptionHandle.InvalidHeaderException;
 import frontend.response.ResetPasswordResponse;
 import frontend.service.AddToCartCountProductsResponse;
 import frontend.session_validator.JwtAccessTokenUtil;
-import frontend.spring_security.authentication_provider.AuthenticateUser;
 import frontend.tenant.TenantContext;
 import lombok.val;
 import org.slf4j.Logger;
@@ -30,11 +30,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -134,24 +130,8 @@ public class HomeController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody CreateUserRequestDto createUserRequestDto,
-									  HttpServletRequest request, HttpServletResponse response) {
-
-		String email = createUserRequestDto.getEmail().length() == 0 ? null : createUserRequestDto.getEmail();
-		createUserRequestDto.setEmail(email);
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && tokenStatus.isStatus()) {
-			tokenStatus.setAccessToken(null);
-			tokenStatus.setMessage(null);
-			tokenStatus.setFirstName(null);
-			tokenStatus.setLogined(true);
-			return new ResponseEntity<>(tokenStatus, HttpStatus.OK);
-		}
-		CreateUserResponseStatus status = frontendService.register(null,createUserRequestDto);
-		if (!status.isStatus() && status.getHttpStatus() != null && status.getHttpStatus() == 503)
-			return new ResponseEntity<>(status.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
-		else if (!status.isStatus())
-			return new ResponseEntity<>(status, HttpStatus.OK);
+	public ResponseEntity<?> register(@RequestBody CreateUserRequestDto createUserRequestDto) {
+		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 
@@ -227,10 +207,19 @@ public class HomeController {
 	@GetMapping("/users/profile/edit")
 	public ModelAndView profile(HttpServletResponse response) {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
-		/*if (tokenStatus != null && !tokenStatus.isStatus())
-			return new ModelAndView("redirect:" + "/signin");*/
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
+		UserDto userDto= new UserDto();
+		if (tokenStatus!=null){
+			userDto=frontendService.profileUpdate(tokenStatus.getAccessToken());
+			mv.addObject("firstName",userDto.getFirstName());
+			mv.addObject("lastName",userDto.getLastName());
+			mv.addObject("email",userDto.getEmail());
+			mv.addObject("mobile",userDto.getMobile());
+			mv.addObject("alterNameMobile",userDto.getAlternateMobile());
+		}
+		/*if (tokenStatus != null && !tokenStatus.isStatus())
+			return new ModelAndView("redirect:" + "/signin");*/
 		return mv;
 	}
 

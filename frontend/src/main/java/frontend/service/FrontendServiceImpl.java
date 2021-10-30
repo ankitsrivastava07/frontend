@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import frontend.activemq.controller.MessagePublishRequest;
+import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.ChangePasswordRequestDto;
 import frontend.api.request.CreateUserRequestDto;
@@ -27,6 +28,7 @@ import frontend.response.ResetPasswordResponse;
 import frontend.tenant.TenantContext;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.apache.activemq.command.ActiveMQTextMessage;
+import org.bouncycastle.asn1.ocsp.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jms.annotation.EnableJms;
@@ -151,20 +153,13 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "loginFallBackMethod")
-	public LoginStatus createAuthenticationToken(UserCredentialRequest userCredential, HttpServletRequest request,
-												 HttpServletResponse response) {
-
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "loginFallBack")
+	public LoginStatus createAuthenticationToken(UserCredentialRequest userCredential) {
 		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
-
-		if (loginStatus.isStatus())
-			setCookie(request, response, loginStatus.getToken());
-		//loginStatus.setToken(null);
 		return loginStatus;
 	}
 
-	public LoginStatus loginFallBackMethod(UserCredentialRequest userCredential, HttpServletRequest request,
-                                           HttpServletResponse response, Throwable exception) {
+	public LoginStatus loginFallBack(UserCredentialRequest userCredential,Throwable exception) {
 
 		LoginStatus loginStatus = new LoginStatus();
 		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
@@ -173,31 +168,12 @@ public class FrontendServiceImpl implements FrontendService {
 		return loginStatus;
 	}
 
-	@Override
-	//@JmsListener(destination = "register-success")
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "registerFallBackMethod")
-	public CreateUserResponseStatus register(Message message, CreateUserRequestDto createUserRequestDto) {
-		CreateUserResponseStatus createUserResponseStatus = new CreateUserResponseStatus();
- try {
-	 if(message==null)
-		 messagePublishRequest.publishMessageForUserRegister(createUserRequestDto);
-	 jmsTemplate.setReceiveTimeout(10000);
-	 message = jmsTemplate.receive("register-success");
-	 if(message!=null) {
-		 ActiveMQTextMessage textMessage = (ActiveMQTextMessage) message;
-		 String payload = textMessage.getText();
-		 createUserResponseStatus = mapper.readValue(payload, CreateUserResponseStatus.class);
-		 return createUserResponseStatus;
-	 }
-	 createUserResponseStatus.setMessage("we are processing your request we will notify once your request complete");
-	 return createUserResponseStatus;
- }catch (Exception exception){
-	 exception.printStackTrace();
-	 return createUserResponseStatus;
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "registerFallBack")
+	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto) {
+		CreateUserResponseStatus responseStatus=apiGatewayRequestUri.register(createUserRequestDto).getBody();
+	 return responseStatus;
  }
-	}
-
-	public CreateUserResponseStatus registerFallBackMethod(Throwable exception) {
+	public CreateUserResponseStatus registerFallBack(CreateUserRequestDto createUserRequestDto,Throwable exception) {
 		CreateUserResponseStatus createUserResponseStatus = new CreateUserResponseStatus();
 		createUserResponseStatus.setMessage("Sorry Server is currently down.Please try again later");
 		createUserResponseStatus.setHttpStatus(503);
@@ -346,6 +322,18 @@ public class FrontendServiceImpl implements FrontendService {
 		responseConstant.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
 		responseConstant.setPath(httpServletRequest.getRequestURI());
 		return responseConstant;
+	}
+
+	@Override
+	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileUpdateFallBack")
+	public UserDto profileUpdate(String authentication) {
+		UserDto userDto =apiGatewayRequestUri.updateProfile(authentication).getBody();
+		return userDto;
+	}
+
+	public Object profileUpdateFallBack(String authentication) {
+		ResponseConstant responseConstant = new ResponseConstant();
+		return null;
 	}
 
 }

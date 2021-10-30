@@ -13,5 +13,4 @@ public class CreateUserRequestDto implements Serializable {
 	private String email;
 	private Boolean isBlocked=Boolean.FALSE;
 	private String password;
-
 }

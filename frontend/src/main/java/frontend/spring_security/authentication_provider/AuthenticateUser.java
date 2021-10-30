@@ -3,6 +3,7 @@ package frontend.spring_security.authentication_provider;
 import frontend.api.request.UserCredentialRequest;
 import frontend.controller.LoginStatus;
 import frontend.service.ApiGatewayRequestUri;
+import frontend.service.FrontendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 @Component
 public class AuthenticateUser implements AuthenticationProvider {
-    @Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
+    @Autowired private FrontendService frontendService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -25,7 +26,7 @@ public class AuthenticateUser implements AuthenticationProvider {
         UserCredentialRequest userCredentialRequest = new UserCredentialRequest();
         userCredentialRequest.setEmailOrMobile(emailOrMobile);
         userCredentialRequest.setPassword(password);
-        LoginStatus loginStatus= apiGatewayRequestUri.createAuthenticationToken(userCredentialRequest).getBody();
+        LoginStatus loginStatus= frontendService.createAuthenticationToken(userCredentialRequest);
          if (loginStatus.isStatus())
              return new UsernamePasswordAuthenticationToken(emailOrMobile,password,new ArrayList<>());
          throw new BadCredentialsException("Invalid email/mobile and password");

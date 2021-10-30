@@ -22,6 +22,5 @@ public class UserCredentialRequest {
 	@NotBlank(message = "Please enter password")
 	private String password;
 	private boolean authenticated = false;
-	public UserCredentialRequest(){}
 
 }
