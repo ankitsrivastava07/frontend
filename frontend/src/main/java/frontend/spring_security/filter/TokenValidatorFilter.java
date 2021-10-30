@@ -54,7 +54,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
     public boolean shouldNotFilter(HttpServletRequest request){
         String url="/users/profile/edit";
         String urlReq=request.getServletPath();
-        boolean flag= urlReq.equalsIgnoreCase("/change-password") || urlReq.equalsIgnoreCase("/signout") || request.getServletPath().equals("/change-password?code=") || request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
+        boolean flag= urlReq.equalsIgnoreCase("/change-password") || urlReq.equalsIgnoreCase("/signin") || urlReq.equalsIgnoreCase("/signout") || request.getServletPath().equals("/change-password?code=") || request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
         return flag;
     }
 
