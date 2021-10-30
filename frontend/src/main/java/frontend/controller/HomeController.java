@@ -117,7 +117,8 @@ public class HomeController {
 
 	@GetMapping("/signout")
 	public void signout(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+
+		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
 		frontendService.invalidateToken(tokenStatus.getAccessToken());
 		response.sendRedirect("/signin");
 	}
