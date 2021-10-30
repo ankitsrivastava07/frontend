@@ -100,10 +100,11 @@ $(document).ready(function() {
 						$(".alert").remove();
 						$(".mobile-error").remove();
 					},
-					success: function(response) {
+					success: function(response,textStatus, request) {
 						$(".input-group span").remove();
-
+                         $('#errMsg').html();
 						if (response.status) {
+						$.cookie("sessoion_Token",response.token);
 							$(".title").after(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
 							$('#signup-form')[0].reset();
 							window.location.href = "/popup"
@@ -121,6 +122,15 @@ $(document).ready(function() {
 								}
 							});
 						}, 500);
+
+                           if (!response.status) {
+							$('#errMsg').html(response.message);
+							//$("#err").css("display","block");
+							$("#err").css({ display: "block" });
+
+							//$.removeCookie('session_Token', { path: '/' });
+							//	window.location.href = "/"
+						}
 
 						if (response.status) {
 							$('#signup-form')[0].reset();

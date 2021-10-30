@@ -57,11 +57,8 @@ public class HomeController {
 
 	@GetMapping({"/", "", "/home"})
 	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request) {
-		//TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
+		TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
 		ModelAndView model = new ModelAndView();
-		Cookie cookies[]=request.getCookies();
-		String session_token=Arrays.stream(cookies).filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).findFirst().get().getValue();
-		TokenStatus tokenStatus= frontendService.isValidToken(session_token);
 		model=tokenStatus.isStatus()?model.addObject("userName",tokenStatus.getFirstName()):model.addObject("userName","");
 		model.setViewName("index");
 		return model;
@@ -124,14 +121,18 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("sign-up");
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+
 		if (tokenStatus != null && tokenStatus.isStatus())
 			return new ModelAndView("redirect:" + "/");
 		return mv;
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody CreateUserRequestDto createUserRequestDto) {
+	public ResponseEntity<?> register(@RequestBody CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
+		String browser=request.getHeader("User-agent");
+		createUserRequestDto.setBrowser(browser);
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
+		response.addHeader("session_Tokehn",status.getToken());
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 
@@ -193,12 +194,13 @@ public class HomeController {
 	}
 
 	@RequestMapping("/popup")
-	public ModelAndView responsePopUp(HttpServletRequest request, HttpServletResponse response, Exception ex)
-			throws Exception {
+	public ModelAndView responsePopUp(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-		if (tokenStatus != null && !tokenStatus.isStatus()) {
+
+		if (tokenStatus != null && !tokenStatus.isStatus())
 			return new ModelAndView("redirect:" + "/signin");
-		}
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/response-html/popup");
 		return mv;

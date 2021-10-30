@@ -73,7 +73,9 @@ background-color: #fdf6f6;
     text-align: center;
 
 }
-
+#err{
+display: none;
+}
 .alert-success {
     color: #3c763d;
     background-color: #dff0d8;
@@ -89,6 +91,9 @@ background-color: #fdf6f6;
 					<h2 class="title">
 						<center>Sign up</center>
 					</h2>
+					<div class="alert alert-danger" role="alert" id="err">
+                                           <span id="errMsg"></span>
+                                            </div>
 					<form method="POST" id="signup-form">
 						<div class="row row-space">
 							<div class="col-2">

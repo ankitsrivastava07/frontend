@@ -27,7 +27,6 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
         this.frontendService=frontendService;
     }
 
-    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -39,22 +38,14 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
              response.sendRedirect("/signin");
              return;
          }
-         for(Cookie cookie:cookies)
+         for(Cookie cookie:cookies){
              if(cookie.getName().equalsIgnoreCase("session_Token")) {
                  session_Token = cookie.getValue();
-                 /*if(!isValidToken(session_Token)) {
+                 if (!isValidToken(session_Token)) {
                      response.sendRedirect("/signin");
                      return;
-                 }*/
-                 try {
-                     jwtAccessTokenUtil.validateToken(session_Token);
-                 }catch (ExpiredJwtException exception){
-                     TokenStatus tokenStatus=frontendService.refreshToken(session_Token,browser);
-                     if (!tokenStatus.isStatus() && tokenStatus.getHttpStatus()==401 && tokenStatus.getRefreshTokenExpired()){
-                         response.sendRedirect("/signin");
-                         return;
-                     }
                  }
+             }
              }
     if(session_Token==null) {
         response.sendRedirect("/signin");
@@ -66,12 +57,12 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
     public boolean shouldNotFilter(HttpServletRequest request){
         String url="/users/profile/edit";
         String urlReq=request.getServletPath();
-        boolean flag= request.getServletPath().equalsIgnoreCase("/") || request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
+        boolean flag= request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
         return flag;
     }
 
     private boolean isValidToken(String authenticationToken){
-        TokenStatus tokenStatus=apiGatewayRequestUri.isValidToken(authenticationToken).getBody();
+        TokenStatus tokenStatus=frontendService.isValidToken(authenticationToken);
         if (tokenStatus.isStatus()) {
             TenantContext.setTokenStatus(tokenStatus);
             return true;
