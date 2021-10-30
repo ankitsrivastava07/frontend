@@ -41,7 +41,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<TokenStatus> isValidToken(@RequestHeader("Authentication") String authenticationToken);
 
 	@PostMapping("/token-session/invalidate-token")
-	public ResponseEntity<TokenStatus> invalidateToken(@RequestBody String token);
+	public ResponseEntity<TokenStatus> invalidateToken(@RequestHeader("Authentication") String authentication);
 
 	@PostMapping("/token-session/invalidate-tokens")
 	public ResponseEntity<TokenStatus> invalidateTokens(@RequestBody ChangePasswordRequestDto dto);
