@@ -104,7 +104,7 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "tokenValidFallback")
 	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
 		String token = getToken(request);
-		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+		TokenStatus tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
 		if (Objects.nonNull(token) && !token.isEmpty()) {
 			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
 				setCookie(request, response, tokenStatus.getAccessToken());
@@ -217,7 +217,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "addToCartFallbackMethod")
+	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "addToCartFallBack")
 	public AddToCartResponse addToCart(AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response) {
 		AddToCartResponse addToCartResponse = apiGatewayRequestUri.addToCart(addToCartRequest).getBody();
 		if(addToCartResponse.getIsAccessTokenNewCreated()) {
@@ -227,7 +227,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	
-	public AddToCartResponse addToCartFallbackMethod(AddToCartRequest addToCartRequest,HttpServletRequest request, HttpServletResponse response,Throwable exception) {
+	public AddToCartResponse addToCartFallBack(AddToCartRequest addToCartRequest,HttpServletRequest request, HttpServletResponse response,Throwable exception) {
 		
 		AddToCartResponse addToCartResponse = new AddToCartResponse();
 		addToCartResponse.setStatus(Boolean.FALSE);
@@ -331,9 +331,12 @@ public class FrontendServiceImpl implements FrontendService {
 		return userDto;
 	}
 
-	public Object profileUpdateFallBack(String authentication) {
-		ResponseConstant responseConstant = new ResponseConstant();
-		return null;
+	public UserDto profileUpdateFallBack(String authentication,Throwable exception) {
+		UserDto responseConstant = new UserDto();
+		responseConstant.setStatus(Boolean.FALSE);
+		responseConstant.setMessage("Server down please try again later.");
+		responseConstant.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+		return responseConstant;
 	}
 
 }

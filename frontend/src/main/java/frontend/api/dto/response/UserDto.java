@@ -19,4 +19,6 @@ public class UserDto {
     private Integer httpStatus= HttpStatus.OK.value();
     private Boolean status;
     private Boolean alternateMobileAlreadyExist=Boolean.FALSE;
+    private String message;
 }
+

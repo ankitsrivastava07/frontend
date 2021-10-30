@@ -92,7 +92,9 @@ span#message {
 	            		<label class="checkbox-wrap checkbox-primary">Remember Me
 									  <input type="checkbox" checked>
 									  <span class="checkmark"></span>
+									  <a href="/signin">Sign in
 									</label>
+
 								</div>
 	            </div>
 	          </form>

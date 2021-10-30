@@ -11,13 +11,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Component
 public class AuthenticateUser implements AuthenticationProvider {
     @Autowired private FrontendService frontendService;
+    @Autowired
+    HttpServletRequest request;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -26,6 +30,8 @@ public class AuthenticateUser implements AuthenticationProvider {
         UserCredentialRequest userCredentialRequest = new UserCredentialRequest();
         userCredentialRequest.setEmailOrMobile(emailOrMobile);
         userCredentialRequest.setPassword(password);
+        String userAgent=request.getHeader("User-agent");
+        userCredentialRequest.setBrowser(userAgent);
         LoginStatus loginStatus= frontendService.createAuthenticationToken(userCredentialRequest);
          if (loginStatus.isStatus())
              return new UsernamePasswordAuthenticationToken(emailOrMobile,password,new ArrayList<>());

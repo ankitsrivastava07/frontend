@@ -83,5 +83,9 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticateUser);
     }
 
+   /* @Override
+    public void configure(AuthenticationProvider authenticationProvider){
+        authenticationProvider.authenticate(new UserCredentialRequest());
+    }*/
 
 }

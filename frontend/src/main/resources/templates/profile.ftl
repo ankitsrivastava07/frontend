@@ -72,14 +72,14 @@
 
                           <div class="col-xs-6">
                               <label for="first_name"><h4>First name</h4></label>
-                              <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
+                              <input type="text" class="form-control" name="first_name" id="first_name" title="enter your first name if any." value=${firstName}>
                           </div>
                       </div>
                       <div class="form-group">
 
                           <div class="col-xs-6">
                             <label for="last_name"><h4>Last name</h4></label>
-                              <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
+                              <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any." value="${lastName}">
                           </div>
                       </div>
 
@@ -101,21 +101,21 @@
 
                           <div class="col-xs-6">
                               <label for="email"><h4>Email</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                              <input type="email" class="form-control" name="email" id="email" title="enter your email." value = ${email}>
                           </div>
                       </div>
                       <div class="form-group">
 
                           <div class="col-xs-6">
                               <label for="email"><h4>Location</h4></label>
-                              <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
+                              <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location" >
                           </div>
                       </div>
                       <div class="form-group">
 
                           <div class="col-xs-6">
                               <label for="password"><h4>Password</h4></label>
-                              <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
+                              <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password." value="*******">
                           </div>
                       </div>
                       <div class="form-group">
@@ -154,7 +154,7 @@
 
                           <div class="col-xs-6">
                             <label for="last_name"><h4>Last name</h4></label>
-                              <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
+                              <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any." value="${lastName}">
                           </div>
                       </div>
 

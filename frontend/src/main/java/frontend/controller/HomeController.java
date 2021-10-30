@@ -60,15 +60,10 @@ public class HomeController {
 		TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
 		ModelAndView model = new ModelAndView();
 
-		/*Cookie cookies[]=request.getCookies();
-		for(Cookie cookie : cookies)
-			if(cookie.getName().equalsIgnoreCase("session_Token")){
-				tokenStatus=frontendService.isValidToken(cookie.getValue());
-			}
-*/
+		model.addObject("userName","");
 		if(tokenStatus!=null && tokenStatus.isStatus())
 			model.addObject("userName",tokenStatus.getFirstName());
-		model.addObject("userName","");
+
 		model.setViewName("index");
 		return model;
 	}
@@ -90,10 +85,12 @@ public class HomeController {
 	public ModelAndView signin(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
-		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+		String userAgent=request.getHeader("User-agent");
+		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
+
 		if (tokenStatus != null && tokenStatus.isStatus()) {
 			ModelAndView model = new ModelAndView();
-		//	model.setViewName("redirect:/");
+			model.setViewName("redirect:/");
 			return model;
 		}
 		if (tokenStatus != null && !tokenStatus.isStatus())
@@ -166,7 +163,6 @@ public class HomeController {
 
 	@GetMapping("/signout-from-all-devices")
 	public void signOutFromAllDevices(@RequestParam(value = "redirect") String urlRedirect, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
 		frontendService.removeAllTokens(tokenStatus);
 		response.sendRedirect("/signin");
@@ -221,17 +217,16 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		UserDto userDto= new UserDto();
-		if (tokenStatus!=null){
+		if (tokenStatus!=null && tokenStatus.isStatus()){
 			userDto=frontendService.profileUpdate(tokenStatus.getAccessToken());
 			mv.addObject("firstName",userDto.getFirstName());
 			mv.addObject("lastName",userDto.getLastName());
 			mv.addObject("email",userDto.getEmail());
 			mv.addObject("mobile",userDto.getMobile());
 			mv.addObject("alterNameMobile",userDto.getAlternateMobile());
+			return mv;
 		}
-		/*if (tokenStatus != null && !tokenStatus.isStatus())
-			return new ModelAndView("redirect:" + "/signin");*/
-		return mv;
+		return new ModelAndView("redirect:" + "/signin");
 	}
 
 	@GetMapping("/check-connection")
