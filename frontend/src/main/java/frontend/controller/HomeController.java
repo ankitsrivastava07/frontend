@@ -59,7 +59,9 @@ public class HomeController {
 	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request) {
 		TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
 		ModelAndView model = new ModelAndView();
-		model=tokenStatus.isStatus()?model.addObject("userName",tokenStatus.getFirstName()):model.addObject("userName","");
+		if(tokenStatus!=null)
+			model.addObject("userName",tokenStatus.getFirstName());
+		model.addObject("userName","");
 		model.setViewName("index");
 		return model;
 	}

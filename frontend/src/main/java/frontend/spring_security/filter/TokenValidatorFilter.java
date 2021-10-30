@@ -21,6 +21,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
     @Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
     @Autowired private JwtAccessTokenUtil jwtAccessTokenUtil;
     @Autowired private FrontendService frontendService;
+
     public TokenValidatorFilter(ApiGatewayRequestUri apiGatewayRequestUri,JwtAccessTokenUtil jwtAccessTokenUtil,FrontendService frontendService) {
         this.apiGatewayRequestUri = apiGatewayRequestUri;
         this.jwtAccessTokenUtil= jwtAccessTokenUtil;
@@ -57,7 +58,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
     public boolean shouldNotFilter(HttpServletRequest request){
         String url="/users/profile/edit";
         String urlReq=request.getServletPath();
-        boolean flag= request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
+        boolean flag=request.getServletPath().equals("/") || request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
         return flag;
     }
 
