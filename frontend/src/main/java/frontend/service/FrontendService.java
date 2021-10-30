@@ -46,6 +46,7 @@ public interface FrontendService {
 
 	TokenStatus refreshToken(String authentication,String browser);
 
-	UserDto profileUpdate(String authentication);
+	UserDto editProfile(String authentication,UserDto userDto);
+	UserDto profile(String authentication);
 	}
 

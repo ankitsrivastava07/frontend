@@ -325,18 +325,33 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	@Override
-	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileUpdateFallBack")
-	public UserDto profileUpdate(String authentication) {
-		UserDto userDto =apiGatewayRequestUri.updateProfile(authentication).getBody();
-		return userDto;
+	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileFallBack")
+	public UserDto profile(String authentication) {
+		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
+		return userDto1;
 	}
 
-	public UserDto profileUpdateFallBack(String authentication,Throwable exception) {
+	public UserDto profileFallBack(String authentication,Throwable exception) {
 		UserDto responseConstant = new UserDto();
 		responseConstant.setStatus(Boolean.FALSE);
 		responseConstant.setMessage("Server down please try again later.");
 		responseConstant.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
 		return responseConstant;
+	}
+
+	@Override
+	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "editProfileFallBack")
+	public UserDto editProfile(String authentication,UserDto userDto) {
+		UserDto userDto1 =  apiGatewayRequestUri.editProfile(authentication,userDto).getBody();
+		return userDto1;
+	}
+
+	public UserDto editProfileFallBack(String authentication,UserDto userDto) {
+		Object object =  apiGatewayRequestUri.editProfile(authentication,userDto).getBody();
+		if(object instanceof TokenStatus){
+			TokenStatus tokenStatus= (TokenStatus) object;
+		}
+		return (UserDto)object;
 	}
 
 }

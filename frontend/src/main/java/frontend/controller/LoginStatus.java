@@ -13,4 +13,15 @@ public class LoginStatus {
 	private String token;
 	private Integer httpStatus=200;
 	private String browser;
+
+	public LoginStatus(){}
+
+	public LoginStatus(Boolean status,String message,String token,String browser){
+		this.status=status;
+		this.message=message;
+		this.token=token;
+		this.browser=browser;
+		this.httpStatus=httpStatus;
+	}
+
 }

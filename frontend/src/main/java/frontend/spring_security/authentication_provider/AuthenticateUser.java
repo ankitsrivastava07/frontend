@@ -34,8 +34,10 @@ public class AuthenticateUser implements AuthenticationProvider {
         userCredentialRequest.setBrowser(userAgent);
         LoginStatus loginStatus= frontendService.createAuthenticationToken(userCredentialRequest);
          if (loginStatus.isStatus())
-             return new UsernamePasswordAuthenticationToken(emailOrMobile,password,new ArrayList<>());
-         throw new BadCredentialsException("Invalid email/mobile and password");
+             return new UserCredentialRequest(loginStatus.getToken(),loginStatus.getMessage(),loginStatus.getHttpStatus());
+         else if (!loginStatus.isStatus() && loginStatus.getHttpStatus()==503)
+             new UserCredentialRequest(loginStatus.getToken(),loginStatus.getMessage(),loginStatus.getHttpStatus());
+             throw new BadCredentialsException("Invalid email/mobile and password");
          }
 
     @Override

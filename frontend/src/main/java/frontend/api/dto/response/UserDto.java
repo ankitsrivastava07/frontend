@@ -20,5 +20,9 @@ public class UserDto {
     private Boolean status;
     private Boolean alternateMobileAlreadyExist=Boolean.FALSE;
     private String message;
+    private String accessToken;
+    private Boolean accessTokenNew=Boolean.FALSE;
+    private Boolean refreshTokenExpired=Boolean.FALSE;
+
 }
 

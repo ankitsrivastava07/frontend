@@ -24,13 +24,16 @@ public class UserCredentialRequest implements Authentication {
 	private String password;
 	private boolean authenticated = false;
 	private String browser;
+	private String token;
+	private String message;
+	private Integer httpStatus;
 
 	public UserCredentialRequest(){}
 
-	public UserCredentialRequest(String emailOrMobile, String password, List<String> list){
-		this.emailOrMobile=emailOrMobile;
-		this.password=password;
-		list=list;
+	public UserCredentialRequest(String token, String message,Integer httpStatus){
+		this.token=token;
+		this.message=message;
+		this.httpStatus=httpStatus;
 	}
 
 	@Override

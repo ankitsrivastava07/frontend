@@ -56,18 +56,16 @@ public class HomeController {
 	private JwtAccessTokenUtil jwtAccessTokenUtil;
 
 	@GetMapping({"/", "", "/home"})
-	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request) {
-		TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
+	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request,HttpServletResponse response) {
+		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
 		ModelAndView model = new ModelAndView();
-
 		model.addObject("userName","");
 		if(tokenStatus!=null && tokenStatus.isStatus())
 			model.addObject("userName",tokenStatus.getFirstName());
-
 		model.setViewName("index");
+	//	profile(request,response);
 		return model;
 	}
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping({"/contact"})
 	public ModelAndView contactUs(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
@@ -102,9 +100,12 @@ public class HomeController {
 	public ResponseEntity<?> signIn(@RequestBody @Valid UserCredentialRequest userCredential, HttpServletRequest request,
 								   HttpServletResponse response) throws JsonProcessingException {
       try {
-		 LoginStatus loginStatus= (LoginStatus) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredential.getEmailOrMobile(),userCredential.getPassword()));
-		  if(loginStatus.getHttpStatus()==503 && !loginStatus.isStatus())
-			  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+		  UserCredentialRequest userCredentialRequest= (UserCredentialRequest) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredential.getEmailOrMobile(),userCredential.getPassword()));
+		LoginStatus loginStatus= new LoginStatus();
+		loginStatus.setStatus(Boolean.TRUE);
+		loginStatus.setToken(userCredentialRequest.getToken());
+		loginStatus.setMessage(userCredentialRequest.getMessage());
+		  response.addHeader("session_Token",loginStatus.getToken());
 		  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
 	  }catch (BadCredentialsException exception){
 		  LoginStatus loginStatus = new LoginStatus();
@@ -126,7 +127,6 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("sign-up");
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-
 		if (tokenStatus != null && tokenStatus.isStatus())
 			return new ModelAndView("redirect:" + "/");
 		return mv;
@@ -202,7 +202,6 @@ public class HomeController {
 	public ModelAndView responsePopUp(HttpServletRequest request, HttpServletResponse response, Exception ex) {
 
 		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
-
 		if (tokenStatus != null && !tokenStatus.isStatus())
 			return new ModelAndView("redirect:" + "/signin");
 
@@ -211,14 +210,32 @@ public class HomeController {
 		return mv;
 	}
 
-	@GetMapping("/users/profile/edit")
-	public ModelAndView profile(HttpServletResponse response) {
+	@GetMapping("/users/profile")
+	public ModelAndView profile(HttpServletRequest request,HttpServletResponse response) {
+		String session=request.getHeader("session_Token");
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
-		UserDto userDto= new UserDto();
+		UserDto userDto= null;
 		if (tokenStatus!=null && tokenStatus.isStatus()){
-			userDto=frontendService.profileUpdate(tokenStatus.getAccessToken());
+			userDto=frontendService.profile(tokenStatus.getAccessToken());
+			mv.addObject("firstName",userDto.getFirstName());
+			mv.addObject("lastName",userDto.getLastName());
+			mv.addObject("email",userDto.getEmail());
+			mv.addObject("mobile",userDto.getMobile());
+			mv.addObject("alterNameMobile",userDto.getAlternateMobile());
+			return mv;
+		}
+		return new ModelAndView("redirect:" + "/signin");
+	}
+
+	@PostMapping("/users/profile/edit")
+	public ModelAndView editProfile(@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto) {
+		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("profile");
+		if (tokenStatus!=null && tokenStatus.isStatus()){
+			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
 			mv.addObject("firstName",userDto.getFirstName());
 			mv.addObject("lastName",userDto.getLastName());
 			mv.addObject("email",userDto.getEmail());
@@ -235,8 +252,10 @@ public class HomeController {
 	}
 
 	@GetMapping(value = "/product/add-to-cart")
-	public ModelAndView addToCart() {
+	public ModelAndView addToCart(HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
+		/*Cookie cookie= new Cookie("session_Token",tokenStatus.getAccessToken());
+		response.addCookie(cookie);*/
 		mv.setViewName("add-to-cart-detail-page");
 		return mv;
 	}

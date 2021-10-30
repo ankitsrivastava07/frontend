@@ -121,7 +121,7 @@
                                    <li><a href="#">Wishlist</a></li>
                                    <li><a href="#">Gift Cards</a></li>
                                    <li><a href="#">Save Address</a></li>
-                                   <li><a href="/users/profile/update">Your Account</a></li>
+                                   <li><a href="/users/profile">Edit Profile</a></li>
                                    <li><a href="/signout?redirect=/signin">Sign out</a></li>
                                    <li><a href="/signout-from-all-devices?redirect=/signin"">Sign out from all devices</a></li>
                     </ul>

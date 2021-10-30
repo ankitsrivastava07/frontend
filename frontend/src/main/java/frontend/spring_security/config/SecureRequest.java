@@ -20,7 +20,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.GenericFilterBean;
 
+import javax.servlet.GenericFilter;
 import java.util.Arrays;
 
 @Configuration
@@ -45,6 +47,7 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authentication", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("Authentication"));
+        configuration.setMaxAge((long) -1);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
                     return configuration;

@@ -161,15 +161,15 @@
                       <div class="form-group">
 
                           <div class="col-xs-6">
-                              <label for="phone"><h4>Phone</h4></label>
-                              <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                              <label for="phone"><h4>Mobile</h4></label>
+                              <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any." ${mobile}>
                           </div>
                       </div>
 
                       <div class="form-group">
                           <div class="col-xs-6">
-                             <label for="mobile"><h4>Mobile</h4></label>
-                              <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
+                             <label for="mobile"><h4>Alter Name Mobile</h4></label>
+                              <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any." <#if alterNameMobile?has_content>${alterNameMobile}</#if>
                           </div>
                       </div>
                       <div class="form-group">
@@ -241,7 +241,7 @@
                       <div class="form-group">
                           <div class="col-xs-6">
                              <label for="mobile"><h4>Mobile</h4></label>
-                              <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
+                              <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any." ${mobile}>
                           </div>
                       </div>
                       <div class="form-group">
@@ -302,4 +302,18 @@
             readURL(this);
         });
     });
+     $(document).ready(function() {
+        $.ajax({
+          type: "GET",
+          beforeSend: function(request) {
+            request.setRequestHeader("Authentication", $.cookie("session_Token",$.cookie(session_Token);
+          },
+          url: "/users/profile",
+          success: function(msg) {
+            $("#results").append("The result =" + StringifyPretty(msg));
+          }
+        });
+        });
+
+
     </script>
