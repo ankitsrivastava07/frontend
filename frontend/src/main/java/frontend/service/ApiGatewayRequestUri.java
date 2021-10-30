@@ -19,7 +19,7 @@ import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "users", url = "http://localhost:8765/",decode404 = true)
+@FeignClient(name = "users", url = "http://cloud-gateway-spring.herokuapp.com/")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
@@ -63,7 +63,7 @@ public interface ApiGatewayRequestUri {
 	@PostMapping("/token_session")
 	ResponseEntity<TokenStatus> refreshToken(@RequestHeader("Authentication")String authentication,@RequestHeader("browser")String browser);
 
-	@PostMapping("/user/profile/edit")
+	@PostMapping("/users/profile/edit")
 	ResponseEntity<UserDto> updateProfile(@RequestHeader("Authentication")String authentication);
 
 }
