@@ -59,7 +59,14 @@ public class HomeController {
 	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request) {
 		TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
 		ModelAndView model = new ModelAndView();
-		if(tokenStatus!=null)
+
+		/*Cookie cookies[]=request.getCookies();
+		for(Cookie cookie : cookies)
+			if(cookie.getName().equalsIgnoreCase("session_Token")){
+				tokenStatus=frontendService.isValidToken(cookie.getValue());
+			}
+*/
+		if(tokenStatus!=null && tokenStatus.isStatus())
 			model.addObject("userName",tokenStatus.getFirstName());
 		model.addObject("userName","");
 		model.setViewName("index");
@@ -81,7 +88,6 @@ public class HomeController {
 
 	@GetMapping("/signin")
 	public ModelAndView signin(HttpServletRequest request, HttpServletResponse response) {
-
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
@@ -139,7 +145,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/change-password")
-	public ModelAndView changePasswod(@RequestParam(value = "code", required = true) String code, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView changePasswod(@RequestParam(value = "code", required = true) String code, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
 		if (!responseConstant.getStatus()) {
@@ -152,7 +158,8 @@ public class HomeController {
 	}
 
 	@PostMapping("/change-password")
-	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token, @RequestBody ChangePasswordReqest req, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
+		req.setBrowserName(request.getHeader("User-agent"));
 		ResponseConstant responseConstant = frontendService.changePassword(req);
 		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}

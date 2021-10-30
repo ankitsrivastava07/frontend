@@ -35,30 +35,26 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
          String browser=request.getHeader("User-Agent");
          String session_Token=null;
 
-         if(cookies==null){
+         if(cookies==null && !request.getServletPath().equals("/")){
              response.sendRedirect("/signin");
              return;
          }
+         if(cookies!=null)
          for(Cookie cookie:cookies)
              if(cookie.getName().equalsIgnoreCase("session_Token")) {
                  session_Token = cookie.getValue();
-                 if (!isValidToken(session_Token) && !request.getServletPath().equals("/")) {
+                 if (!isValidToken(session_Token)) {
                      response.sendRedirect("/signin");
                      return;
                  }
              }
-
-    if(session_Token==null) {
-        response.sendRedirect("/signin");
-        return;
-    }
         filterChain.doFilter(request,response);
     }
     @Override
     public boolean shouldNotFilter(HttpServletRequest request){
         String url="/users/profile/edit";
         String urlReq=request.getServletPath();
-        boolean flag=request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
+        boolean flag= urlReq.equalsIgnoreCase("/change-password") || request.getServletPath().equals("/change-password?code=") || request.getServletPath().equals("/check-connection") || request.getServletPath().equals("/contact");
         return flag;
     }
 

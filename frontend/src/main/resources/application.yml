@@ -15,7 +15,7 @@ feign:
        default:
         loggerLevel: basic
         connectTimeout: 6000
-        readTimeout: 8000
+        readTimeout: 12000
         logger-level: FULL 
 
 feign.compression.request.enabled: true
