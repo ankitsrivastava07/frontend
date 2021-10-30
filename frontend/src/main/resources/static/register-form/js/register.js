@@ -104,7 +104,7 @@ $(document).ready(function() {
 						$(".input-group span").remove();
                          $('#errMsg').html();
 						if (response.status) {
-						$.cookie("sessoion_Token",response.token);
+						$.cookie("session_Token",response.token);
 							$(".title").after(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
 							$('#signup-form')[0].reset();
 							window.location.href = "/popup"

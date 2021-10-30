@@ -35,7 +35,7 @@ public class FrontendApplication {
 	public FilterRegistrationBean logFilter() {
 		FilterRegistrationBean registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new TokenValidatorFilter(apiGatewayRequestUri,jwtAccessTokenUtil,frontendService));
-		registrationBean.addUrlPatterns("/change-password","/orders","/signout-from-all-devices","/signout","/account");
+		registrationBean.addUrlPatterns("/","/change-password","/orders","/signout-from-all-devices","/signout","/account");
 		return registrationBean;
 	}
 }
