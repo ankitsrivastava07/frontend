@@ -83,9 +83,7 @@ public class HomeController {
 	public ModelAndView signin(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
-		String userAgent=request.getHeader("User-agent");
 		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
-
 		if (tokenStatus != null && tokenStatus.isStatus()) {
 			ModelAndView model = new ModelAndView();
 			model.setViewName("redirect:/");
@@ -118,7 +116,7 @@ public class HomeController {
 	@GetMapping("/signout")
 	public void signout(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
-		frontendService.invalidateToken(tokenStatus.getAccessToken());
+		tokenStatus=frontendService.invalidateToken(tokenStatus.getAccessToken());
 		response.sendRedirect("/signin");
 	}
 
@@ -212,38 +210,35 @@ public class HomeController {
 
 	@GetMapping("/users/profile")
 	public ModelAndView profile(HttpServletRequest request,HttpServletResponse response) {
-		String session=request.getHeader("session_Token");
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		UserDto userDto= null;
 		if (tokenStatus!=null && tokenStatus.isStatus()){
-			userDto=frontendService.profile(tokenStatus.getAccessToken());
-			mv.addObject("firstName",userDto.getFirstName());
-			mv.addObject("lastName",userDto.getLastName());
-			mv.addObject("email",userDto.getEmail());
-			mv.addObject("mobile",userDto.getMobile());
-			mv.addObject("alterNameMobile",userDto.getAlternateMobile());
+			String browser=request.getHeader("User-agent");
+			userDto=frontendService.profile(tokenStatus.getAccessToken(),browser);
+			mv.addObject("userDto",userDto);
 			return mv;
 		}
 		return new ModelAndView("redirect:" + "/signin");
 	}
 
 	@PostMapping("/users/profile/edit")
-	public ModelAndView editProfile(@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto) {
+	public ResponseEntity<?> editProfile(HttpServletRequest request,@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto) {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		if (tokenStatus!=null && tokenStatus.isStatus()){
+			userDto.setBrowser(request.getHeader("User-agent"));
 			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
 			mv.addObject("firstName",userDto.getFirstName());
 			mv.addObject("lastName",userDto.getLastName());
 			mv.addObject("email",userDto.getEmail());
 			mv.addObject("mobile",userDto.getMobile());
 			mv.addObject("alterNameMobile",userDto.getAlternateMobile());
-			return mv;
+			return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 		}
-		return new ModelAndView("redirect:" + "/signin");
+		return new ResponseEntity<>("Un authorize request", HttpStatus.UNAUTHORIZED);
 	}
 
 	@GetMapping("/check-connection")

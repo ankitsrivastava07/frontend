@@ -38,7 +38,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<UserDto> findByEmail(@RequestHeader(name="email",required = true) String email);
 
 	@PostMapping("/token-session/validate-token")
-	public ResponseEntity<TokenStatus> isValidToken(@RequestHeader("Authentication") String authenticationToken);
+	public ResponseEntity<TokenStatus> isValidToken(@RequestHeader("Authentication") String authentication);
 
 	@PostMapping("/token-session/invalidate-token")
 	public ResponseEntity<TokenStatus> invalidateToken(@RequestHeader("Authentication") String authentication);
@@ -64,7 +64,7 @@ public interface ApiGatewayRequestUri {
 	ResponseEntity<TokenStatus> refreshToken(@RequestHeader("Authentication")String authentication,@RequestHeader("browser")String browser);
 
 	@PostMapping("/users/profile")
-	ResponseEntity<UserDto> profile(@RequestHeader("Authentication")String authentication);
+	ResponseEntity<UserDto> profile(@RequestHeader("Authentication")String authentication,@RequestHeader("Browser")String Browser);
 
 	@PostMapping("/users/profile/edit")
 	ResponseEntity<UserDto> editProfile(@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto);

@@ -9,12 +9,12 @@ import java.util.Date;
 public class UserDto {
     private String email;
     private String mobile;
-    private String password;
     private String alternateMobile;
     private String firstName;
     private String lastName;
     private String address;
     private String gender;
+    private String browser;
     private Date createdAt;
     private Integer httpStatus= HttpStatus.OK.value();
     private Boolean status;

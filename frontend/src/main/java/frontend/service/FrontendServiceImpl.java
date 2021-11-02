@@ -104,7 +104,9 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "tokenValidFallback")
 	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
 		String token = getToken(request);
-		TokenStatus tokenStatus = apiGatewayRequestUri.isValidToken(token).getBody();
+		TokenStatus tokenStatus=null;
+		if(token!=null)
+			tokenStatus= apiGatewayRequestUri.isValidToken(token).getBody();
 		if (Objects.nonNull(token) && !token.isEmpty()) {
 			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
 				setCookie(request, response, tokenStatus.getAccessToken());
@@ -326,8 +328,8 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileFallBack")
-	public UserDto profile(String authentication) {
-		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
+	public UserDto profile(String authentication,String browser) {
+		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication,browser).getBody();
 		return userDto1;
 	}
 
