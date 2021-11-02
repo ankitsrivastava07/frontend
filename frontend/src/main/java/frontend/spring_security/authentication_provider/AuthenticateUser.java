@@ -36,7 +36,7 @@ public class AuthenticateUser implements AuthenticationProvider {
          if (loginStatus.isStatus())
              return new UserCredentialRequest(loginStatus.getToken(),loginStatus.getMessage(),loginStatus.getHttpStatus());
          else if (!loginStatus.isStatus() && loginStatus.getHttpStatus()==503)
-             new UserCredentialRequest(loginStatus.getToken(),loginStatus.getMessage(),loginStatus.getHttpStatus());
+             return new UserCredentialRequest(loginStatus.getToken(),loginStatus.getMessage(),loginStatus.getHttpStatus());
              throw new BadCredentialsException("Invalid email/mobile and password");
          }
 
