@@ -333,7 +333,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return userDto1;
 	}
 
-	public UserDto profileFallBack(String authentication,Throwable exception) {
+	public UserDto profileFallBack(String authentication,String browser,Throwable exception) {
 		UserDto responseConstant = new UserDto();
 		responseConstant.setStatus(Boolean.FALSE);
 		responseConstant.setMessage("Server down please try again later.");
