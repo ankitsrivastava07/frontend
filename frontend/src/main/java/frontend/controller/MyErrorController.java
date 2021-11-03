@@ -1,4 +1,3 @@
-/*
 
 package frontend.controller;
 
@@ -49,4 +48,3 @@ public class MyErrorController implements ErrorController {
 	}
 
 }
-*/

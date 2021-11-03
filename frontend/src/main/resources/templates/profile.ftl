@@ -69,6 +69,26 @@ display:none;
                 <li class="active"><a data-toggle="tab">Profile</a></li>
               </ul>
 
+<!-- Modal -->
+<div class="modal fade" id="server_error" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_title">Website Under Maintenance</h5>
+      </div>
+      <div class="modal-body">
+        <span id="message">
+         Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="signin">Sign</button>
+      </div>
+    </div>
+  </div>
+</div>
+
           <div class="tab-content" id="update_profile_popup">
             <div class="tab-pane active" id="home">
                 <hr>

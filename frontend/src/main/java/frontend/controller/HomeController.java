@@ -233,6 +233,10 @@ public class HomeController {
 				mv.addObject("address","");
 			else
 			mv.addObject("address",userDto.getAddress().trim());
+
+			if(userDto.getHttpStatus()==503)
+				mv.addObject("userDto","");
+
 			return mv;
 		}
 		return new ModelAndView("redirect:" + "/signin");
@@ -241,19 +245,12 @@ public class HomeController {
 	@PostMapping("/users/profile/edit")
 	public ResponseEntity<?> editProfile(HttpServletRequest request,@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto) {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("profile");
 		if (tokenStatus!=null && tokenStatus.isStatus()){
 			userDto.setBrowser(userDto.getBrowser());
 			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
-			mv.addObject("firstName",userDto.getFirstName());
-			mv.addObject("lastName",userDto.getLastName());
-			mv.addObject("email",userDto.getEmail());
-			mv.addObject("mobile",userDto.getMobile());
-			mv.addObject("alterNameMobile",userDto.getAlternateMobile());
 			return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 		}
-		return new ResponseEntity<>("Un authorize request", HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(tokenStatus, HttpStatus.valueOf(tokenStatus.getHttpStatus()));
 	}
 
 	@GetMapping("/check-connection")

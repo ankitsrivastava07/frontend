@@ -47,6 +47,11 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
                      response.sendRedirect("/signin");
                      return;
                  }
+                 /*TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
+                 if (tokenStatus!=null && tokenStatus.getHttpStatus()==503) {
+                     response.sendError(HttpStatus.SERVICE_UNAVAILABLE.value(),"Server down");
+                     filterChain.doFilter(request,response);
+                 }*/
              }
         filterChain.doFilter(request,response);
     }
@@ -62,6 +67,10 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
         TokenStatus tokenStatus=frontendService.isValidToken(authenticationToken);
         String browser=request.getHeader("browser");
         if (tokenStatus.isStatus()) {
+            TenantContext.setTokenStatus(tokenStatus);
+            return true;
+        }
+        else if(!tokenStatus.isStatus() && tokenStatus.getHttpStatus()==503) {
             TenantContext.setTokenStatus(tokenStatus);
             return true;
         }

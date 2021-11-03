@@ -97,6 +97,7 @@ public class FrontendServiceImpl implements FrontendService {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		tokenStatus.setHttpStatus(503);
 		logger.info(exception.getMessage());
 		return tokenStatus;
 	}
@@ -189,6 +190,7 @@ public class FrontendServiceImpl implements FrontendService {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
+		tokenStatus.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
 		logger.info(exception.getMessage());
 		return tokenStatus;
 	}

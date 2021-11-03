@@ -70,9 +70,24 @@ $.ajax({
         $("#alert_msg").show();
         }
   },
-   error: function(jqXHR, textStatus, err) {
-        console.log(jqXHR, '\n', textStatus, '\n', err)
-      }
+   error: function(error) {
+               url = window.location.pathname.replace(/\/+$/, '') + "/error";
+               $(".alert").remove();
+
+           if(error.status==503){
+              $('#server_error').modal('show');
+              $(document).ajaxStop(function () {
+              console.log("ajax stoped");
+              });
+            }
+        else if(error.status==401 && !error.responseJSON.status && error.responseJSON.isMailServiceDown){
+              $("#message").html(error.responseJSON.message);
+              $('#server_error').modal('show');
+              $(document).ajaxStop(function () {
+              console.log("ajax stoped");
+              });
+            }
+     }
 });
 return true;
 }
