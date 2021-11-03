@@ -228,6 +228,7 @@ public class HomeController {
 		UserDto userDto= null;
 		if (tokenStatus!=null && tokenStatus.isStatus()){
 			userDto=frontendService.profile(tokenStatus.getAccessToken(),tokenStatus.getBrowser());
+			mv.addObject("userDto",userDto);
 			if(userDto.getAddress()==null)
 				mv.addObject("address","");
 			else
