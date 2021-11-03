@@ -26,8 +26,12 @@ text-align: center;
 display:none;
 }
 
+.error{
+    font-size: 12px;
+    color: #da534d;
+    padding: 3px 0px;
+}
 </style>
-
 <hr>
 <#if userDto?has_content>
 <div class="container bootstrap snippet">
@@ -71,7 +75,7 @@ display:none;
                   <form class="form" id="profile" method="post" name="profile">
                       <div class="form-group">
                       <div class="alert alert-danger" role="alert" id="alert_msg"> </div>
-                      <div class="alert alert-success" role="alert" id="alert_success"> </div>
+                      <div class="alert alert-success" role="alert" id="alert_success_msg"> </div>
                           <div class="col-xs-6">
                               <label for="first_name"><h4>First name</h4></label>
                               <input type="text" class="form-control" name="firstName" id="firstName" title="${userDto.firstName}" value="${userDto.firstName}">
@@ -88,14 +92,14 @@ display:none;
 
                           <div class="col-xs-6">
                               <label for="phone"><h4>Phone</h4></label>
-							  <input  a href="update.html" class="form-control" name="phone" id="phone" title="9990545169" value="9990545169">
+							  <input type="text" class="form-control" name="phone" id="phone" title="${userDto.mobile}" value="${userDto.mobile}">
                           </div>
                       </div>
 
                       <div class="form-group">
                           <div class="col-xs-6">
                              <label for="mobile"><h4>Alternate Mobile number</h4></label>
-                              <input type="text" class="form-control" name="mobile" id="alternate_mobile" placeholder="enter mobile number" title=<#if alternateNameMobile?has_content>${userDto.alternateNameMobile}</#if> value=<#if userDto.alternateNameMobile?has_content>${userDto.alternateNameMobile}</#if>>
+                              <input type="text" class="form-control" name="alternate_mobile" id="alternate_mobile" placeholder="enter mobile number" title=<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if> value=<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>>
                           </div>
                       </div>
                       <div class="form-group">
@@ -109,7 +113,7 @@ display:none;
 
                           <div class="col-xs-6">
                               <label for="email"><h4>Address</h4></label>
-                              <input type="text" class="form-control" id="address" placeholder="somewhere"  name="address" title="enter a location" value="<#if userDto.address?has_content> ${userDto.address}</#if>" >
+                              <input type="text" class="form-control" id="address" placeholder="Enter your address"  name="address" value="${address}" >
                           </div>
                       </div>
                       <div class="form-group">

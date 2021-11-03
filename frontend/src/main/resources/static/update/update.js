@@ -23,11 +23,11 @@ $(document).ready(function() {
 		},
 		messages: {
 
-			first_name: {
+			firstName: {
 				required: "Please enter your first name",
 			},
 
-			last_name: {
+			lastName: {
 				required: "Please enter your last name",
 			},
         email: {
@@ -61,14 +61,14 @@ $.ajax({
     },
   success: function(response) {
     if(response.status){
-    $("#altert_success").html(response.message);
-    $("#alert_success").show();
+    $("#alert_success_msg").html(response.message);
+    $("#alert_success_msg").show();
     location.reload();
     }
     if(!response.status && response.alternateMobileAlreadyExist){
         $("#alert_msg").html(response.message);
         $("#alert_msg").show();
-}
+        }
   },
    error: function(jqXHR, textStatus, err) {
         console.log(jqXHR, '\n', textStatus, '\n', err)
