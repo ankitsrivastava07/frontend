@@ -18,7 +18,7 @@
 #phone{
  cursor: pointer;
 }
-#alert_msg{
+.alert{
 display:none;
 text-align: center;
 }
@@ -70,7 +70,8 @@ display:none;
                 <hr>
                   <form class="form" id="profile" method="post" name="profile">
                       <div class="form-group">
-<div class="alert alert-danger" role="alert" id="alert_msg"> </div>
+                      <div class="alert alert-danger" role="alert" id="alert_msg"> </div>
+                      <div class="alert alert-success" role="alert" id="alert_success"> </div>
                           <div class="col-xs-6">
                               <label for="first_name"><h4>First name</h4></label>
                               <input type="text" class="form-control" name="firstName" id="firstName" title="${userDto.firstName}" value="${userDto.firstName}">

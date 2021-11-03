@@ -60,9 +60,11 @@ $.ajax({
       request.setRequestHeader("Authentication", $.cookie("session_Token"));
     },
   success: function(response) {
-    if(response.status)
+    if(response.status){
+    $("#altert_success").html(response.message);
+    $("#alert_success").show();
     location.reload();
-
+    }
     if(!response.status && response.alternateMobileAlreadyExist){
         $("#alert_msg").html(response.message);
         $("#alert_msg").show();
