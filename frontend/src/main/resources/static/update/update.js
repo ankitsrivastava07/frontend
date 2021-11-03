@@ -61,7 +61,7 @@ $.ajax({
    $(".alert").remove();
     if(response.status){
     setTimeout(function() {
-        if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
+        if (response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
             $("#formGroup").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
         } else if (!response.status) {
             $(".alert").html(response.message);
