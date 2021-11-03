@@ -60,8 +60,13 @@ $.ajax({
   success: function(response) {
    $(".alert").remove();
     if(response.status){
-    $("#alert_success_msg").html(response.message);
-    $("#alert_success_msg").show();
+    setTimeout(function() {
+        if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
+            $("#formGroup").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
+        } else if (!response.status) {
+            $(".alert").html(response.message);
+        }
+        }, 500);
     location.reload();
     }
         var duration = 400;
