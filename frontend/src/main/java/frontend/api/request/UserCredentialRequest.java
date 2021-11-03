@@ -30,10 +30,11 @@ public class UserCredentialRequest implements Authentication {
 
 	public UserCredentialRequest(){}
 
-	public UserCredentialRequest(String token, String message,Integer httpStatus){
+	public UserCredentialRequest(String token, String message,Integer httpStatus,String browser){
 		this.token=token;
 		this.message=message;
 		this.httpStatus=httpStatus;
+		this.browser=browser;
 	}
 
 	@Override

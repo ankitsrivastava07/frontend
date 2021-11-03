@@ -8,6 +8,7 @@ import frontend.tenant.TenantContext;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.*;
@@ -32,10 +33,9 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
          Cookie cookies[]=request.getCookies();
-         String browser=request.getHeader("User-Agent");
-         String session_Token=null;
+         String session_Token=request.getHeader("session_Token");
 
-         if(cookies==null && !request.getServletPath().equals("/")){
+         if(cookies==null && !request.getServletPath().equals("/")) {
              response.sendRedirect("/signin");
              return;
          }
@@ -43,7 +43,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
          for(Cookie cookie:cookies)
              if(cookie.getName().equalsIgnoreCase("session_Token")) {
                  session_Token = cookie.getValue();
-                 if (!isValidToken(session_Token)) {
+                 if (!isValidToken(session_Token,request)) {
                      response.sendRedirect("/signin");
                      return;
                  }
@@ -58,8 +58,9 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
         return flag;
     }
 
-    private boolean isValidToken(String authenticationToken){
+    private boolean isValidToken(String authenticationToken,HttpServletRequest request){
         TokenStatus tokenStatus=frontendService.isValidToken(authenticationToken);
+        String browser=request.getHeader("browser");
         if (tokenStatus.isStatus()) {
             TenantContext.setTokenStatus(tokenStatus);
             return true;

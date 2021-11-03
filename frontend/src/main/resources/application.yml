@@ -18,7 +18,7 @@ feign:
         readTimeout: 12000
         logger-level: FULL 
 
-feign.compression.request.enabled: true
-feign.compression.response.enabled: true
+#feign.compression.request.enabled: true
+#feign.compression.response.enabled: true
 logging.level.frontend.service.ApiGatewayRequestUri: DEBUG
 

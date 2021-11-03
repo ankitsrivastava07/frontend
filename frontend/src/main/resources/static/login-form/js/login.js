@@ -72,6 +72,7 @@ function login(formData) {
 					}
 				}, 500);
 				if (response.status) {
+				    $.cookie("browser",response.browser);
 				    $.cookie("session_Token",request.getResponseHeader('session_Token'));
 					window.location.href = "/"
 				}

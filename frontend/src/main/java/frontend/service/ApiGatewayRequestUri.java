@@ -64,7 +64,7 @@ public interface ApiGatewayRequestUri {
 	ResponseEntity<TokenStatus> refreshToken(@RequestHeader("Authentication")String authentication,@RequestHeader("browser")String browser);
 
 	@PostMapping("/users/profile")
-	ResponseEntity<UserDto> profile(@RequestHeader("Authentication")String authentication,@RequestHeader("Browser")String Browser);
+	ResponseEntity<UserDto> profile(@RequestHeader("Authentication")String authentication,@RequestHeader(value = "Browser",required = false)String Browser);
 
 	@PostMapping("/users/profile/edit")
 	ResponseEntity<UserDto> editProfile(@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto);

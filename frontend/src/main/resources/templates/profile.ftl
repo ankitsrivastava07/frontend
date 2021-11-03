@@ -1,20 +1,16 @@
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/login-form/js/jquery.min.js"></script>
+<script src="/login-form/js/validate.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 
+<!------ Include the above in your HEAD tag ---------->
 <head>
-  <title>Bootstrap Example</title>
+  <title>Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
@@ -22,7 +18,10 @@
 #phone{
  cursor: pointer;
 }
-
+#alert_msg{
+display:none;
+text-align: center;
+}
 #phone_verification{
 display:none;
 }
@@ -69,19 +68,18 @@ display:none;
           <div class="tab-content" id="update_profile_popup">
             <div class="tab-pane active" id="home">
                 <hr>
-                  <form class="form" action="##" method="post" id="registrationForm">
+                  <form class="form" id="profile" method="post" name="profile">
                       <div class="form-group">
-
+<div class="alert alert-danger" role="alert" id="alert_msg"> </div>
                           <div class="col-xs-6">
                               <label for="first_name"><h4>First name</h4></label>
-                              <input type="text" class="form-control" name="first_name" id="first_name" title="${userDto.firstName}" value=${userDto.firstName}>
+                              <input type="text" class="form-control" name="firstName" id="firstName" title="${userDto.firstName}" value="${userDto.firstName}">
                           </div>
                       </div>
                       <div class="form-group">
-
                           <div class="col-xs-6">
                             <label for="last_name"><h4>Last name</h4></label>
-                              <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="${userDto.lastName}" value="${userDto.lastName}">
+                              <input type="text" class="form-control" name="lastName" id="lastName" placeholder="last name" title="${userDto.lastName}" value="${userDto.lastName}">
                           </div>
                       </div>
 
@@ -110,13 +108,9 @@ display:none;
 
                           <div class="col-xs-6">
                               <label for="email"><h4>Address</h4></label>
-                              <input type="email" class="form-control" id="address" placeholder="somewhere" title="enter a location" >
+                              <input type="text" class="form-control" id="address" placeholder="somewhere"  name="address" title="enter a location" value="<#if userDto.address?has_content> ${userDto.address}</#if>" >
                           </div>
                       </div>
-                      <div class="form-group">
-
-                      </div>
-
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
@@ -134,7 +128,7 @@ display:none;
 	<div id="phone_verification">
             <div class="tab-pane active" id="home">
                 <hr>
-                  <form class="form" action="##" method="post" id="registrationForm">
+                  <form class="form" method="post" id="update_mobile" name="update_mobile">
                       <div class="form-group">
 
                           <div class="col-xs-6">
@@ -278,6 +272,7 @@ display:none;
             </div><!--/col-9-->
         </div><!--/row-->
     </#if>
+    <script src="/ecommerce/js/cookie.js"></script>
     <script src="/update/update.js"></script>
     <script>
     $(document).ready(function(){

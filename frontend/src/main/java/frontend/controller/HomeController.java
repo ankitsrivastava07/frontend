@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
 import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.CreateUserRequestDto;
@@ -45,7 +47,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class HomeController {
 
 	@Autowired
@@ -54,6 +55,9 @@ public class HomeController {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private JwtAccessTokenUtil jwtAccessTokenUtil;
+
+	public HomeController() {
+	}
 
 	@GetMapping({"/", "", "/home"})
 	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request,HttpServletResponse response) {
@@ -100,8 +104,15 @@ public class HomeController {
       try {
 		  UserCredentialRequest userCredentialRequest= (UserCredentialRequest) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredential.getEmailOrMobile(),userCredential.getPassword()));
 		LoginStatus loginStatus= new LoginStatus();
-		loginStatus.setStatus(Boolean.TRUE);
+		loginStatus.setHttpStatus(userCredentialRequest.getHttpStatus());
+
+		if(loginStatus.getHttpStatus()==503)
+			loginStatus.setStatus(Boolean.FALSE);
+		  else
+			  loginStatus.setStatus(Boolean.TRUE);
+
 		loginStatus.setToken(userCredentialRequest.getToken());
+		loginStatus.setBrowser(userCredentialRequest.getBrowser());
 		loginStatus.setMessage(userCredentialRequest.getMessage());
 		  response.addHeader("session_Token",loginStatus.getToken());
 		  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
@@ -211,12 +222,12 @@ public class HomeController {
 	@GetMapping("/users/profile")
 	public ModelAndView profile(HttpServletRequest request,HttpServletResponse response) {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		UserDto userDto= null;
 		if (tokenStatus!=null && tokenStatus.isStatus()){
-			String browser=request.getHeader("User-agent");
-			userDto=frontendService.profile(tokenStatus.getAccessToken(),browser);
+			userDto=frontendService.profile(tokenStatus.getAccessToken(),tokenStatus.getBrowser());
 			mv.addObject("userDto",userDto);
 			return mv;
 		}
@@ -229,7 +240,7 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		if (tokenStatus!=null && tokenStatus.isStatus()){
-			userDto.setBrowser(request.getHeader("User-agent"));
+			userDto.setBrowser(userDto.getBrowser());
 			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
 			mv.addObject("firstName",userDto.getFirstName());
 			mv.addObject("lastName",userDto.getLastName());

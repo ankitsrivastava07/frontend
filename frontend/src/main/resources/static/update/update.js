@@ -1,13 +1,13 @@
 $(document).ready(function() {
 
-	$("#login-form").validate({
+	$("#profile").validate({
 
 		rules: {
-			first_name: {
+			firstName: {
 				required: true,
 			},
 
-			last_name: {
+			lastName: {
 				required: true,
 			},
 
@@ -37,11 +37,12 @@ $(document).ready(function() {
 		submitHandler: function(form) {
 
 			var formData = {
-				"firstName": $("#first_name").val(),
-				"lastName": $("#last_name").val(),
+				"firstName": $("#firstName").val(),
+				"lastName": $("#lastName").val(),
 				"email": $("#email").val(),
-				"alternate_mobile": $("#alternate_mobile").val(),
+				"alternateMobile": $("#alternate_mobile").val(),
 				"address": $("#address").val(),
+				"browser" : $.cookie("browser")
 			}
 			updateUser(formData);
 		}
@@ -49,19 +50,41 @@ $(document).ready(function() {
 })
 
 function updateUser(formData){
+if(checkConnection()){
 $.ajax({
-  type: "POST",
-  beforeSend: function(request) {
-    request.setRequestHeader("Authentication", $.cookie("session_Token"));
-  },
-  url: "/users/profile/edit",
-  data: formData,
+   type: "POST",
+   url: "/users/profile/edit",
+   contentType: "application/json",
+   data: JSON.stringify(formData),
+   beforeSend: function(request) {
+      request.setRequestHeader("Authentication", $.cookie("session_Token"));
+    },
   success: function(response) {
-    $("#results").append("The result =" + StringifyPretty(response));
-    alert(response);
+    if(response.status)
+    location.reload();
+
+    if(!response.status && response.alternateMobileAlreadyExist){
+        $("#alert_msg").html(response.message);
+        $("#alert_msg").show();
+}
   },
    error: function(jqXHR, textStatus, err) {
         console.log(jqXHR, '\n', textStatus, '\n', err)
       }
 });
+return true;
+}
+return false;
+}
+
+function checkConnection(){
+$.ajax('/check-connection', {
+  statusCode: {
+    0: function() {
+      alert(" We can’t connect to the server please check your internet connection or the page which you are looking for has been removed.");
+      return false
+    }
+  }
+});
+return true;
 }

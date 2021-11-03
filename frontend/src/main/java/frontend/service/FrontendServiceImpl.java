@@ -348,12 +348,12 @@ public class FrontendServiceImpl implements FrontendService {
 		return userDto1;
 	}
 
-	public UserDto editProfileFallBack(String authentication,UserDto userDto) {
-		Object object =  apiGatewayRequestUri.editProfile(authentication,userDto).getBody();
-		if(object instanceof TokenStatus){
-			TokenStatus tokenStatus= (TokenStatus) object;
-		}
-		return (UserDto)object;
+	public UserDto editProfileFallBack(String authentication,UserDto userDto,Throwable exception) {
+		UserDto responseConstant = new UserDto();
+		responseConstant.setStatus(Boolean.FALSE);
+		responseConstant.setMessage("Server down please try again later.");
+		responseConstant.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+		return responseConstant;
 	}
 
 }

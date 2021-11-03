@@ -1,3 +1,4 @@
+/*
 
 package frontend.controller;
 
@@ -39,7 +40,7 @@ public class MyErrorController implements ErrorController {
 			}
 		}
 
-		return new ModelAndView("error/error");
+		return null;
 	}
 
 	@Override
@@ -48,3 +49,4 @@ public class MyErrorController implements ErrorController {
 	}
 
 }
+*/
