@@ -10,7 +10,6 @@ $(document).ready(function() {
 			lastName: {
 				required: true,
 			},
-
 			email: {
             	required: true,
    			},
@@ -35,7 +34,6 @@ $(document).ready(function() {
                 },
 		},
 		submitHandler: function(form) {
-
 			var formData = {
 				"firstName": $("#firstName").val(),
 				"lastName": $("#lastName").val(),
@@ -60,15 +58,20 @@ $.ajax({
       request.setRequestHeader("Authentication", $.cookie("session_Token"));
     },
   success: function(response) {
+   $(".alert").remove();
     if(response.status){
     $("#alert_success_msg").html(response.message);
     $("#alert_success_msg").show();
     location.reload();
     }
-    if(!response.status && response.alternateMobileAlreadyExist){
-        $("#alert_msg").html(response.message);
-        $("#alert_msg").show();
-        }
+        var duration = 400;
+        $({to:0}).animate({to:1}, duration, function() {
+         if (!response.status && response.alternateMobileAlreadyExist && $(".alert").length == 0 || $(".input-group span").length == undefined) {
+             $("#formGroup").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
+         } else if (!response.status) {
+             $(".alert").html(response.message);
+         }
+        });
   },
    error: function(error) {
                url = window.location.pathname.replace(/\/+$/, '') + "/error";
