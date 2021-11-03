@@ -19,19 +19,110 @@
  cursor: pointer;
 }
 .alert{
-display:none;
 text-align: center;
 }
 #phone_verification{
 display:none;
 }
-
 .error{
     font-size: 12px;
     color: #da534d;
     padding: 3px 0px;
 }
 </style>
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Bootstrap Dropdown Hover JS -->
+      <script src="/ecommerce/js/bootstrap-dropdownhover.min.js"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href=""><img src="/images/logo-dark3.png" class="img-fluid"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-light" aria-current="page" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/">Mobile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Fashion
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/" tabindex="-1" aria-disabled="true">Electronics</a>
+		<li class="nav-item">
+          <a class="nav-link text-light" href="/contact" tabindex="-1" aria-disabled="true">Contact Us</a>
+        </li>
+      </ul>
+
+      <form class="d-flex" action="/" method="get">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
+      </form>
+
+      <!-- Bag Icon -->
+<a href="/product/add-to-cart">
+<i class="fa fa-shopping-bag num"></i>
+<span id="product_count">0</span>
+</a>
+            <#if userName?has_content>
+                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Hello, ${userName}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                       <li><a href="/orders">Orders</a></li>
+                       <li><a href="#">Wishlist</a></li>
+                       <li><a href="#">Gift Cards</a></li>
+                       <li><a href="#">Save Address</a></li>
+                       <li><a href="/users/profile">Edit Profile</a></li>
+                       <li><a href="/signout?redirect=/signin">Sign out</a></li>
+                       <li><a href="/signout-from-all-devices?redirect=/signin"">Sign out from all devices</a></li>
+                    </ul>
+                  </li>
+                           </div><!-- /.navbar-collapse -->
+                         </div><!-- /.container-fluid -->
+          	  <a href="/signin" class="btn btn-dark" data-bs-whatever="@mdo"></a>
+                <#else>
+           <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Hello, Sign in
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a href="/signin">Sign In</a></li>
+                                <li><a href="/orders">Orders</a></li>
+                                <li><a href="#">Wishlist</a></li>
+                                <li><a href="#">Gift Cards</a></li>
+                                <li><a href="#">Saved Address</a></li>
+                               <li>
+                                <span class="new_customer"> New Customer ?
+                                 <a href="/register">Start Here</a></span>
+                                 </li>
+                                <li><a href="/account">Your Account</a></li>
+                    </ul>
+                  </li>
+                  </#if>
+                 </div><!-- /.navbar-collapse -->
+               </div><!-- /.container-fluid -->
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </div>
+  </div>
+</nav>
+
 <hr>
 <#if userDto?has_content>
 <div class="container bootstrap snippet">
@@ -93,9 +184,8 @@ display:none;
             <div class="tab-pane active" id="home">
                 <hr>
                   <form class="form" id="profile" method="post" name="profile">
-                      <div class="form-group">
-                      <div class="alert alert-danger" role="alert" id="alert_msg"> </div>
-                      <div class="alert alert-success" role="alert" id="alert_success_msg"> </div>
+                      <div class="form-group" id="formGroup">
+
                           <div class="col-xs-6">
                               <label for="first_name"><h4>First name</h4></label>
                               <input type="text" class="form-control" name="firstName" id="firstName" title="${userDto.firstName}" value="${userDto.firstName}">
@@ -119,7 +209,7 @@ display:none;
                       <div class="form-group">
                           <div class="col-xs-6">
                              <label for="mobile"><h4>Alternate Mobile number</h4></label>
-                              <input type="text" class="form-control" name="alternate_mobile" id="alternate_mobile" placeholder="enter mobile number" title=<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if> value=<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>>
+                              <input type="text" class="form-control" name="alternate_mobile" id="alternate_mobile" placeholder="enter mobile number" title="<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>" value=<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>>
                           </div>
                       </div>
                       <div class="form-group">
