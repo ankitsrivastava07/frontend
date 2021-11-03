@@ -59,16 +59,15 @@ $.ajax({
     },
   success: function(response) {
    $(".alert").remove();
-    if(response.status){
     setTimeout(function() {
         if (response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
             $("#formGroup").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
         } else if (!response.status) {
             $(".alert").html(response.message);
         }
-        }, 800);
-    location.reload();
-    }
+        location.reload();
+        }, 500);
+
         var duration = 400;
         $({to:0}).animate({to:1}, duration, function() {
          if (!response.status && response.alternateMobileAlreadyExist && $(".alert").length == 0 || $(".input-group span").length == undefined) {
