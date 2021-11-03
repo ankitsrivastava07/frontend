@@ -66,7 +66,7 @@ $.ajax({
         } else if (!response.status) {
             $(".alert").html(response.message);
         }
-        }, 500);
+        }, 800);
     location.reload();
     }
         var duration = 400;
