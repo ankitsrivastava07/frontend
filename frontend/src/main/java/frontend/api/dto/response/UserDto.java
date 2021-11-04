@@ -19,6 +19,7 @@ public class UserDto {
     private Integer httpStatus= HttpStatus.OK.value();
     private Boolean status;
     private Boolean alternateMobileAlreadyExist=Boolean.FALSE;
+    private Boolean emailAlreadyExist=Boolean.FALSE;
     private String message;
     private String accessToken;
     private Boolean accessTokenNew=Boolean.FALSE;

@@ -346,6 +346,11 @@ public class FrontendServiceImpl implements FrontendService {
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "editProfileFallBack")
 	public UserDto editProfile(String authentication,UserDto userDto) {
+		String alternateMobile=userDto.getAlternateMobile();
+		if(userDto.getAlternateMobile().equals(""))
+			userDto.setAlternateMobile(null);
+		if(userDto.getEmail().equals(""))
+			userDto.setEmail(null);
 		UserDto userDto1 =  apiGatewayRequestUri.editProfile(authentication,userDto).getBody();
 		return userDto1;
 	}

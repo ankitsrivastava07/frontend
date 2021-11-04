@@ -69,7 +69,7 @@ $.ajax({
         }, 400);
         var duration = 300;
         $({to:0}).animate({to:1}, duration, function() {
-         if (!response.status && response.alternateMobileAlreadyExist && $(".alert").length == 0 || $(".input-group span").length == undefined) {
+         if (!response.status && response.alternateMobileAlreadyExist || response.emailAlreadyExist && $(".alert").length == 0 || $(".input-group span").length == undefined) {
              $("#formGroup").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
          } else if (!response.status) {
              $(".alert").html(response.message);
