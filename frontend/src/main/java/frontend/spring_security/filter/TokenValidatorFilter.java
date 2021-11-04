@@ -65,7 +65,6 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
 
     private boolean isValidToken(String authenticationToken,HttpServletRequest request){
         TokenStatus tokenStatus=frontendService.isValidToken(authenticationToken);
-        String browser=request.getHeader("browser");
         if (tokenStatus.isStatus()) {
             TenantContext.setTokenStatus(tokenStatus);
             return true;
