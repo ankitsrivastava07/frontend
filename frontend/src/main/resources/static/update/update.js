@@ -65,7 +65,7 @@ $.ajax({
         } else if (!response.status) {
             $(".alert").html(response.message);
         }
-        location.reload();
+        //location.reload();
         }, 400);
         var duration = 300;
         $({to:0}).animate({to:1}, duration, function() {
