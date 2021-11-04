@@ -65,6 +65,7 @@ $.ajax({
         } else if (!response.status) {
             $(".alert").html(response.message);
         }
+
         location.reload();
         }, 400);
         var duration = 300;
