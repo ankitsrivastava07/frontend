@@ -143,7 +143,8 @@ public class HomeController {
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
-		String browser=request.getHeader("User-agent");
+
+		String browser=UUID.randomUUID().toString();
 		createUserRequestDto.setBrowser(browser);
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
 		response.addHeader("session_Tokehn",status.getToken());
@@ -229,6 +230,7 @@ public class HomeController {
 		if (tokenStatus!=null && tokenStatus.isStatus()){
 			userDto=frontendService.profile(tokenStatus.getAccessToken(),tokenStatus.getBrowser());
 			mv.addObject("userDto",userDto);
+			mv.addObject("userName",userDto.getFirstName());
 			if(userDto.getAddress()==null)
 				mv.addObject("address","");
 			else
@@ -273,6 +275,7 @@ public class HomeController {
 		return null;
 	}
 
+	@PreAuthorize("isValid()")
 	@RequestMapping(value = "/product/add-to-cart-count-products", method = RequestMethod.POST)
 	public ResponseEntity<?> addToCartCountProducts(@RequestHeader(name="Authentication",required = false) String authentication) {
 		if(StringUtils.isEmpty(authentication))
@@ -339,6 +342,11 @@ public class HomeController {
 	public ResponseEntity<?> refreshAccessToken(@RequestHeader(name="Authentication")String authentication,@RequestHeader("browser")String browser){
 		TokenStatus tokenStatus=frontendService.refreshToken(authentication,browser);
 	  return tokenStatus.isStatus()?new ResponseEntity<>(tokenStatus,HttpStatus.valueOf(tokenStatus.getHttpStatus())) : new ResponseEntity<>(tokenStatus,HttpStatus.UNAUTHORIZED);
+	}
+
+	public  boolean isValid(){
+		System.out.println("Is valid method called");
+		return false;
 	}
 
 }
