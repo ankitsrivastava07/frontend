@@ -370,8 +370,8 @@ body {
 			</div>
 			<div class="modal-body text-center">
 				<h5>Mail Saint!</h5>
-				<p>We’ve sent an email to your email address. Follow the steps provided in the email to update your password or click Log In button if you don’t want to change your password at this time.</p>
-			<input type="submit" id="signin" class="btn btn-secondary" value="Signin">
+				<p>We’ve sent an email to your email address. Follow the steps provided in the email to update your password or click Sign In button if you don’t want to change your password at this time.</p>
+			<input type="submit" id="signin" class="btn btn-secondary" value="Sign In">
 			</div>
 		</div>
 	</div>
