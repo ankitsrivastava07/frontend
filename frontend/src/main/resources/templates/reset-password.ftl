@@ -325,6 +325,19 @@ body {
 		margin: 100px auto;
 	}
 
+	#signin {
+    margin: auto;
+    width: 100px;
+    background-color: #4a90e2;
+    -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+    height: 36px;
+    cursor: pointer;
+    line-height: 18px;
+    cursor: pointer;
+    font-size: 14px;
+    }
+
 	</style>
 	<body id="modal_confirm">
 <!-- Modal -->
@@ -356,8 +369,9 @@ body {
 				</div>
 			</div>
 			<div class="modal-body text-center">
-				<h4>Great!</h4>
-				<p>We've saint a change password link to your e-mail for verification. Please click on the link to reset password</p>
+				<h5>Mail Saint!</h5>
+				<p>We’ve sent an email to your email address. Follow the steps provided in the email to update your password or click Log In button if you don’t want to change your password at this time.</p>
+			<input type="submit" id="signin" class="btn btn-secondary" value="Signin">
 			</div>
 		</div>
 	</div>
