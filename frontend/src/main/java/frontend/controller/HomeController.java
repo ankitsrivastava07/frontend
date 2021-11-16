@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import eu.bitwalker.useragentutils.Browser;
-import eu.bitwalker.useragentutils.UserAgent;
 import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.CreateUserRequestDto;
@@ -126,8 +124,8 @@ public class HomeController {
 
 	@GetMapping("/signout")
 	public void signout(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
-		tokenStatus=frontendService.invalidateToken(tokenStatus.getAccessToken());
+		String token=frontendService.getToken(request);
+		TokenStatus tokenStatus=frontendService.invalidateToken(token);
 		response.sendRedirect("/signin");
 	}
 
@@ -143,7 +141,6 @@ public class HomeController {
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
-
 		String browser=UUID.randomUUID().toString();
 		createUserRequestDto.setBrowser(browser);
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
