@@ -48,6 +48,7 @@ public interface FrontendService {
 
 	UserDto editProfile(String authentication,UserDto userDto);
 	UserDto profile(String authentication,String browser);
+	String getToken(HttpServletRequest request);
 
 }
 
