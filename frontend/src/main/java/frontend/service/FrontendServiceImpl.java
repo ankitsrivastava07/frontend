@@ -72,16 +72,16 @@ public class FrontendServiceImpl implements FrontendService {
 		response.addCookie(cookie);
 	}
 
+	@Override
 	public String getToken(HttpServletRequest request) {
 
 		Cookie cookies[] = request.getCookies();
-		String userName = null;
+		String jwtToken = null;
 		if (cookies != null)
 			for (Cookie cookie : cookies)
 				if (cookie.getName().equalsIgnoreCase("session_Token"))
-					return userName = cookie.getValue();
-
-		return userName;
+					return jwtToken = cookie.getValue();
+		return jwtToken;
 	}
 
 	@Override
