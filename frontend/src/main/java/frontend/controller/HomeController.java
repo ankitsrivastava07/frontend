@@ -170,7 +170,7 @@ public class HomeController {
 
 	@GetMapping("/signout-from-all-devices")
 	public void signOutFromAllDevices(@RequestParam(value = "redirect") String urlRedirect, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+        TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
 		frontendService.removeAllTokens(tokenStatus);
 		response.sendRedirect("/signin");
 	}
