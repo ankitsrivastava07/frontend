@@ -133,7 +133,7 @@ public class HomeController {
 	public ModelAndView register(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("sign-up");
-		TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		if (tokenStatus != null && tokenStatus.isStatus())
 			return new ModelAndView("redirect:" + "/");
 		return mv;
@@ -171,7 +171,7 @@ public class HomeController {
 	@GetMapping("/signout-from-all-devices")
 	public void signOutFromAllDevices(@RequestParam(value = "redirect") String urlRedirect, HttpServletRequest request, HttpServletResponse response) throws IOException {
         TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
-		frontendService.removeAllTokens(tokenStatus);
+		tokenStatus=frontendService.removeAllTokens(tokenStatus);
 		response.sendRedirect("/signin");
 	}
 
