@@ -41,7 +41,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
          for(Cookie cookie:cookies)
              if(cookie.getName().equalsIgnoreCase("session_Token")) {
                  session_Token = cookie.getValue();
-                 if (!isValidToken(session_Token,request) && !request.getServletPath().equals("/") && !request.getServletPath().equals("/register")) {
+                 if (!isValidToken(session_Token,request) && !request.getServletPath().equals("/")  && !request.getServletPath().equals("/register")) {
                      response.sendRedirect("/signin");
                      return;
                  }
