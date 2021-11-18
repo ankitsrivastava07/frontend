@@ -151,6 +151,11 @@ public class HomeController {
 	@GetMapping("/change-password")
 	public ModelAndView changePasswod(@RequestParam(value = "code",required = false) String code, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
+		String jwtToken= frontendService.getToken(request);
+		if(jwtToken!=null && frontendService.isValidToken(jwtToken).isStatus())
+			return new ModelAndView("redirect:" + "/");
+		else if(code==null)
+			return new ModelAndView("redirect:" + "/signin");
 		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
 		if (!responseConstant.getStatus()) {
 			mv.setViewName("token_valid");
