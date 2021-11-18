@@ -33,7 +33,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
          Cookie cookies[]=request.getCookies();
          String session_Token=request.getHeader("session_Token");
-         if(cookies==null && !request.getServletPath().equals("/")) {
+         if(cookies==null && !request.getServletPath().equals("/") && !request.getServletPath().equals("/register")) {
              response.sendRedirect("/signin");
              return;
          }
