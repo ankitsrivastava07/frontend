@@ -58,7 +58,7 @@ public class HomeController {
 	}
 
 	@GetMapping({"/", "", "/home"})
-	public ModelAndView home(@RequestHeader(name = "Authentication",required = false)String authenticationToken,HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView home(@RequestHeader(name = "Authentication")String authenticationToken,HttpServletRequest request,HttpServletResponse response) {
 		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
 		ModelAndView model = new ModelAndView();
 		model.addObject("userName","");
@@ -149,7 +149,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/change-password")
-	public ModelAndView changePasswod(@RequestParam(value = "code", required = true) String code, HttpServletRequest request) {
+	public ModelAndView changePasswod(@RequestParam(value = "code",required = false) String code, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		ResponseConstant responseConstant = frontendService.authenticateIdentityToken(code);
 		if (!responseConstant.getStatus()) {
