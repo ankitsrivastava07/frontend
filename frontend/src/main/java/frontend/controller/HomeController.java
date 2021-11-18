@@ -54,11 +54,8 @@ public class HomeController {
 	@Autowired
 	private JwtAccessTokenUtil jwtAccessTokenUtil;
 
-	public HomeController() {
-	}
-
 	@GetMapping({"/", "", "/home"})
-	public ModelAndView home(@RequestHeader(name = "Authentication")String authenticationToken,HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView home(HttpServletRequest request,HttpServletResponse response) {
 		TokenStatus tokenStatus=frontendService.isValidToken(request,response);
 		ModelAndView model = new ModelAndView();
 		model.addObject("userName","");
