@@ -31,10 +31,8 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
          Cookie cookies[]=request.getCookies();
          String session_Token=request.getHeader("session_Token");
-
          if(cookies==null && !request.getServletPath().equals("/")) {
              response.sendRedirect("/signin");
              return;
