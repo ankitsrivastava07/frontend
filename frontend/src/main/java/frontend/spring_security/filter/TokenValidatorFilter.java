@@ -47,10 +47,6 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
                      response.sendRedirect("/signin");
                      return;
                  }
-                 if (isValidToken(session_Token,request) && request.getServletPath().equals("/register")) {
-                     response.sendRedirect("/");
-                     return;
-                 }
              }
         filterChain.doFilter(request,response);
     }
