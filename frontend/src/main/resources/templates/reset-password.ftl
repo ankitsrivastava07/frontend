@@ -395,7 +395,7 @@ body {
 			<span id="email_response"></span>
 		      		<div class="form-group">
 		      		<label for="recipient-name" class="col-form-label">Email or Mobile number</label>
-		      			<input type="text" class="form-control rounded-left" autocomplete="on" maxlength="30" name="emailOrMobile" id="emailOrMobile" Placeholder="Enter your email/mobile number">
+		      			<input type="text" class="form-control rounded-left" autocomplete=on maxlength="30" name="emailOrMobile" id="emailOrMobile" Placeholder="Enter your email/mobile number">
 		      			<span class="error_email error"></span>
 		      		</div>
 	            <div class="form-group">
