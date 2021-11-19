@@ -235,9 +235,10 @@ public class HomeController {
 			else
 			mv.addObject("address",userDto.getAddress().trim());
 
-			if(userDto.getHttpStatus()==503)
-				mv.addObject("userDto","");
-
+			if(userDto.getHttpStatus()==503) {
+				mv.addObject("userDto", "");
+				mv.addObject("serviceStatus", "Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified");
+			}
 			return mv;
 		}
 		return new ModelAndView("redirect:" + "/signin");
