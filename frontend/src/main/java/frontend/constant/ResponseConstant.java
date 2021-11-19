@@ -11,5 +11,6 @@ public class ResponseConstant {
     private String message;
     private Date date;
     private String accessToken;
+    private String browser;
     private Integer httpStatus=200;
 }

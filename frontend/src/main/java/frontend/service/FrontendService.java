@@ -18,7 +18,7 @@ import frontend.response.ResetPasswordResponse;
 
 public interface FrontendService {
 
-	void setCookie(HttpServletRequest request, HttpServletResponse response, String token);
+	void setCookie(HttpServletRequest request, HttpServletResponse response,String cookieName, String cookieValue);
 
 	TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response);
 

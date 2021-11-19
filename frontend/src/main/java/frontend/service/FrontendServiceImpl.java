@@ -54,21 +54,21 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired
 	JmsTemplate jmsTemplate;
 	@Override
-	public void setCookie(HttpServletRequest request, HttpServletResponse response, String token) {
+	public void setCookie(HttpServletRequest request, HttpServletResponse response,String cookieName, String cookieValue) {
 
 		Cookie cookies[] = request.getCookies();
 
-		if (!token.isEmpty() && cookies != null) {
+		if (!cookieValue.isEmpty() && cookies != null) {
 			for (Cookie cookie : cookies)
 
-				if (cookie.getName().equalsIgnoreCase("session_Token")) {
-					cookie.setValue(token);
+				if (cookie.getName().equalsIgnoreCase(cookieName)) {
+					cookie.setValue(cookieValue);
 					cookie.setPath("/");
 					response.addCookie(cookie);
 					return;
 				}
 		}
-		Cookie cookie = new Cookie("session_Token", token);
+		Cookie cookie = new Cookie(cookieName, cookieValue);
 		response.addCookie(cookie);
 	}
 
@@ -89,7 +89,7 @@ public class FrontendServiceImpl implements FrontendService {
 	public TokenStatus isValidToken(String authorizationToken) {
 		TokenStatus tokenStatus = apiGatewayRequestUri.isValidToken(authorizationToken).getBody();
 			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
-				setCookie(httpServletRequest, httpServletResponse, tokenStatus.getAccessToken());
+				setCookie(httpServletRequest, httpServletResponse,"session_Token", tokenStatus.getAccessToken());
 			return tokenStatus;
 	}
 
@@ -110,7 +110,7 @@ public class FrontendServiceImpl implements FrontendService {
 			tokenStatus= apiGatewayRequestUri.isValidToken(token).getBody();
 		if (Objects.nonNull(token) && !token.isEmpty()) {
 			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
-				setCookie(request, response, tokenStatus.getAccessToken());
+				setCookie(request, response,"session_Token", tokenStatus.getAccessToken());
 			return tokenStatus;
 		}
 		return tokenStatus;
@@ -130,8 +130,10 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "changePasswordFallback")
 	public ResponseConstant changePassword(ChangePasswordReqest request) {
 		ResponseConstant responseConstant = apiGatewayRequestUri.changePassword(request).getBody();
-		if(responseConstant.getStatus())
-			setCookie(httpServletRequest,httpServletResponse,responseConstant.getAccessToken());
+		if(responseConstant.getStatus()) {
+			setCookie(httpServletRequest, httpServletResponse, "session_Token", responseConstant.getAccessToken());
+			setCookie(httpServletRequest, httpServletResponse, "browser", responseConstant.getBrowser());
+		}
 		return responseConstant;
 	}
 
@@ -225,7 +227,7 @@ public class FrontendServiceImpl implements FrontendService {
 	public AddToCartResponse addToCart(AddToCartRequest addToCartRequest, HttpServletRequest request, HttpServletResponse response) {
 		AddToCartResponse addToCartResponse = apiGatewayRequestUri.addToCart(addToCartRequest).getBody();
 		if(addToCartResponse.getIsAccessTokenNewCreated()) {
-			setCookie(request,response,addToCartResponse.getSessionToken());
+			setCookie(request,response,"session_Token",addToCartResponse.getSessionToken());
 		}
 		return addToCartResponse;
 	}
@@ -297,7 +299,6 @@ public class FrontendServiceImpl implements FrontendService {
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring",fallbackMethod="saveOrderFallback")
 	public OrderResponseDto saveOrder(String accessToken,OrderRequest request) {
-
 		OrderResponseDto orderResponseDto=(OrderResponseDto)apiGatewayRequestUri.saveOrder(accessToken,request).getBody();
 		return orderResponseDto;
 	}
