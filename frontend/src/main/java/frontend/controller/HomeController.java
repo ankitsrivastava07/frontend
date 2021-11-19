@@ -165,7 +165,8 @@ public class HomeController {
 
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
-		req.setBrowserName(request.getHeader("User-agent"));
+		String browser=UUID.randomUUID().toString();
+                req.setBrowserName(browser);
 		ResponseConstant responseConstant = frontendService.changePassword(req);
 		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
