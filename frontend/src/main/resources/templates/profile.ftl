@@ -30,6 +30,7 @@ display:none;
     padding: 3px 0px;
 }
 </style>
+<body>
 <hr>
 <#if userDto?has_content>
 <div class="container bootstrap snippet">
@@ -60,32 +61,11 @@ display:none;
             	<i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
             </div>
           </div>
-
         </div><!--/col-3-->
     	<div class="col-sm-9">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab">Profile</a></li>
               </ul>
-
-<!-- Modal -->
-<div class="modal fade" id="server_error" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal_title">Website Under Maintenance</h5>
-      </div>
-      <div class="modal-body">
-        <span id="message">
-         Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified
-        </span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="signin">Sign</button>
-      </div>
-    </div>
-  </div>
-</div>
 
           <div class="tab-content" id="update_profile_popup">
             <div class="tab-pane active" id="home">
@@ -205,6 +185,9 @@ display:none;
             </div><!--/col-3-->
         	<div class="col-sm-9">
                 <ul class="nav nav-tabs">
+                 <#if serviceStatus?has_content>
+                  <li class="active"><a data-toggle="tab">${serviceStatus}</a></li>
+                  </#if>
                     <li class="active"><a data-toggle="tab">Profile</a></li>
                   </ul>
 
@@ -294,13 +277,23 @@ display:none;
             </div><!--/col-9-->
         </div><!--/row-->
     </#if>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script>
+      $(document).ready(function(){
+        $("#phone").click(function(){
+  		$("#update_profile_popup").hide();
+  		$("#phone_verification").show();
+        });
+      });
+  <#if serviceStatus?? && serviceStatus=="503">
+      $(document).ready(function(){
+      //alert("hh")
+      $("#modal_server").modal('show');
+      });
+      </#if>
+      </script>
+
     <script src="/ecommerce/js/cookie.js"></script>
     <script src="/update/update.js"></script>
-    <script>
-    $(document).ready(function(){
-      $("#phone").click(function(){
-		$("#update_profile_popup").hide();
-		$("#phone_verification").show();
-      });
-    });
-    </script>
+</body>
+</html>
