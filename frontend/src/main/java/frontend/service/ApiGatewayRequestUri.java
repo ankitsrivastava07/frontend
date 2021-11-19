@@ -40,8 +40,8 @@ public interface ApiGatewayRequestUri {
 	@PostMapping("/token-session/validate-token")
 	public ResponseEntity<TokenStatus> isValidToken(@RequestHeader("Authentication") String authentication);
 
-	@PostMapping("/token-session/invalidate-token")
-	public ResponseEntity<TokenStatus> invalidateToken(@RequestHeader("Authentication") String authentication);
+	@PostMapping("/token-session/invalidate-session")
+	public ResponseEntity<TokenStatus> invalidateSession(@RequestHeader("Authentication") String authentication);
 
 	@PostMapping("/token-session/invalidate-tokens")
 	public ResponseEntity<TokenStatus> invalidateTokens(@RequestBody ChangePasswordRequestDto dto);

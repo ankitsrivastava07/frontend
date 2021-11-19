@@ -141,7 +141,6 @@ public class HomeController {
 		String browser=UUID.randomUUID().toString();
 		createUserRequestDto.setBrowser(browser);
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
-		response.addHeader("session_Tokehn",status.getToken());
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 
@@ -166,7 +165,7 @@ public class HomeController {
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
 		String browser=UUID.randomUUID().toString();
-                req.setBrowserName(browser);
+		req.setBrowserName(browser);
 		ResponseConstant responseConstant = frontendService.changePassword(req);
 		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}

@@ -105,11 +105,11 @@ $(document).ready(function() {
                          $('#errMsg').html();
 						if (response.status) {
 						$.cookie("session_Token",response.token);
+						$.cookie("browser",response.browser);
 							$(".title").after(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
 							$('#signup-form')[0].reset();
 							window.location.href = "/popup"
 						}
-
 						setTimeout(function() {
 							$.each(response.errorMessage, function(key, value) {
 

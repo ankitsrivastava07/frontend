@@ -12,15 +12,11 @@ import java.util.Map;
 public class CreateUserResponseStatus implements Serializable {
 
 	private boolean status;
-
 	private String token;
-	
+	private String browser;
 	private String message;
-
 	private Date createdAt;
-
 	private Map<String, String> errorMessage;
-
 	private Integer httpStatus;
 	private Boolean isUserServiceAvaliable=Boolean.FALSE;
 }

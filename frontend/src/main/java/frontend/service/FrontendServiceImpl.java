@@ -120,7 +120,7 @@ public class FrontendServiceImpl implements FrontendService {
 	public TokenStatus invalidateToken(String authToken) {
 		TokenStatus tokenStatus = null;
 		if (Objects.nonNull(authToken) && !authToken.isEmpty())
-		tokenStatus = apiGatewayRequestUri.invalidateToken(authToken).getBody();
+		tokenStatus = apiGatewayRequestUri.invalidateSession(authToken).getBody();
 		CircuitBreakerStateMachine circuitBreaker= new CircuitBreakerStateMachine("cloud-gateway-spring");
 		io.github.resilience4j.circuitbreaker.CircuitBreaker.State state=circuitBreaker.getState();
 		return tokenStatus;
