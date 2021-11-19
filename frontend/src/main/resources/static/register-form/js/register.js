@@ -135,15 +135,12 @@ $(document).ready(function() {
 						}
 					},
 					error: function(xhr, ajaxOptions, thrownError) {
-						$(".alert").remove();
-						setTimeout(function() {
-							if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
-								$(".title").after(("<div class='alert alert-danger' role='alert'>" + xhr.responseText + "</div>"));
-								$(".alert").html(xhr.responseText);
-							} else {
-								$(".alert").html(xhr.responseText);
-							}
-						}, 500);
+						if(xhr.status==503){
+               			$('#server_error').modal('show');
+               }
+               $('#close').click(function(){
+                    $('#server_error').modal('hide');
+                });
 					}
 				});
 			}
