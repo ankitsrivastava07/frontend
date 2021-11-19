@@ -112,7 +112,6 @@ $(document).ready(function() {
 						}
 						setTimeout(function() {
 							$.each(response.errorMessage, function(key, value) {
-
 								if (!response.status && $(".input-group span").length == 0 || $(".input-group span").length == undefined) {
 									var span = $('<span />').addClass(key + '-error error').html(value);
 									$("#" + key).after(span);
@@ -122,16 +121,13 @@ $(document).ready(function() {
 								}
 							});
 						}, 500);
-
                            if (!response.status) {
 							$('#errMsg').html(response.message);
 							//$("#err").css("display","block");
 							$("#err").css({ display: "block" });
-
 							//$.removeCookie('session_Token', { path: '/' });
 							//	window.location.href = "/"
 						}
-
 						if (response.status) {
 							$('#signup-form')[0].reset();
 							//$.removeCookie('session_Token', { path: '/' });
@@ -144,7 +140,6 @@ $(document).ready(function() {
 							if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
 								$(".title").after(("<div class='alert alert-danger' role='alert'>" + xhr.responseText + "</div>"));
 								$(".alert").html(xhr.responseText);
-
 							} else {
 								$(".alert").html(xhr.responseText);
 							}
@@ -153,6 +148,5 @@ $(document).ready(function() {
 				});
 			}
 		}
-
 	});
 });
