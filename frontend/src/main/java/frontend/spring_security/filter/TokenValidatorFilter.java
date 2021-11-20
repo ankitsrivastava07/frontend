@@ -64,7 +64,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
         }
         else if (!tokenStatus.isStatus()) {
             TenantContext.setTokenStatus(tokenStatus);
-            return true;
+            return false;
         }
         return false;
     }
