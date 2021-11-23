@@ -4,4 +4,4 @@
 
 2.) Show microservice response.
 
-3.) Circuit Breaker pattern (fault tolerance) to prevent from cascading failure and showing human readable response to the user.
+3.) Circuit Breaker pattern (fault tolerance) to prevent from cascading failure and showing human readable response message to the user.
