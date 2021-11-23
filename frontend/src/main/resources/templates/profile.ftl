@@ -31,6 +31,25 @@ display:none;
 }
 </style>
 <body>
+<!-- Modal -->
+<div class="modal fade" id="server_error" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_title">Website Under Maintenance</h5>
+      </div>
+      <div class="modal-body">
+        <span id="message">
+         Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
+        <a href="/signin" class="btn btn-primary" id="signin">Sign In</a>
+      </div>
+    </div>
+  </div>
+</div>
 <hr>
 <#if userDto?has_content>
 <div class="container bootstrap snippet">
@@ -110,7 +129,7 @@ display:none;
 
                           <div class="col-xs-6">
                               <label for="email"><h4>Address</h4></label>
-                              <input type="text" class="form-control" id="address" placeholder="Enter your address"  name="address" value="${address}" title="${address}">
+                              <input type="text" class="form-control" id="address" placeholder="Enter your address"  name="address" value="${address}" title="${address}" autocomplete="on">
                           </div>
                       </div>
                       <div class="form-group">
@@ -185,10 +204,7 @@ display:none;
             </div><!--/col-3-->
         	<div class="col-sm-9">
                 <ul class="nav nav-tabs">
-                 <#if serviceStatus?has_content>
-                  <li class="active"><a data-toggle="tab">${serviceStatus}</a></li>
-                  </#if>
-                    <li class="active"><a data-toggle="tab">Profile</a></li>
+                 <li class="active"><a data-toggle="tab">Profile</a></li>
                   </ul>
 
               <div class="tab-content" id="update_profile_popup">
@@ -235,7 +251,7 @@ display:none;
 
                               <div class="col-xs-6">
                                   <label for="email"><h4>Address</h4></label>
-                                  <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location" >
+                                  <input type="text" class="form-control" id="location" placeholder="somewhere" title="enter a location" >
                               </div>
                           </div>
                           <div class="form-group">
@@ -269,6 +285,7 @@ display:none;
                                <div class="col-xs-12">
                                     <br>
                                   	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Submit</button>
+                                  	<button class="btn btn-lg" type="submit" id="back">Back</button>
                                 </div>
                           </div>
                   <hr>
@@ -277,18 +294,21 @@ display:none;
             </div><!--/col-9-->
         </div><!--/row-->
     </#if>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script>
       $(document).ready(function(){
         $("#phone").click(function(){
   		$("#update_profile_popup").hide();
   		$("#phone_verification").show();
         });
+
+        $("#back").click(function(){
+        $("#update_profile_popup").show();
+        $("#phone_verification").hide();
+        });
       });
   <#if serviceStatus?? && serviceStatus=="503">
       $(document).ready(function(){
-      //alert("hh")
-      $("#modal_server").modal('show');
+      $("#server_error").modal('show');
       });
       </#if>
       </script>

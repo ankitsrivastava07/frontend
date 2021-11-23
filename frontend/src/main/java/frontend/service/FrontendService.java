@@ -1,6 +1,5 @@
 package frontend.service;
 
-import javax.jms.Message;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

@@ -5,15 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
-
-import javax.jms.Message;
-import javax.jms.TextMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import frontend.activemq.controller.MessagePublishRequest;
 import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.ChangePasswordRequestDto;
@@ -27,13 +23,8 @@ import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
 import frontend.tenant.TenantContext;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
-import org.apache.activemq.command.ActiveMQTextMessage;
-import org.bouncycastle.asn1.ocsp.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.annotation.JmsListeners;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -48,11 +39,7 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
 	@Autowired HttpServletRequest httpServletRequest;
 	@Autowired HttpServletResponse httpServletResponse;
-	@Autowired	private MessagePublishRequest messagePublishRequest;
 	private ObjectMapper mapper = new ObjectMapper();
-
-	@Autowired
-	JmsTemplate jmsTemplate;
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response,String cookieName, String cookieValue) {
 

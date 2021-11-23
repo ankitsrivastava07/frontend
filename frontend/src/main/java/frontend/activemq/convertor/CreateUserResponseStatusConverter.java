@@ -1,3 +1,4 @@
+/*
 package frontend.activemq.convertor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -6,11 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.stereotype.Component;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.TextMessage;
 
 @Component
 public class CreateUserResponseStatusConverter implements MessageConverter {
@@ -56,4 +52,4 @@ public class CreateUserResponseStatusConverter implements MessageConverter {
       return createUserRequestDto;
     }
   }
-}
+}*/

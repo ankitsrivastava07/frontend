@@ -28,10 +28,10 @@ $(document).ready(function() {
 
 			lastName: {
 				required: "Please enter your last name",
-			},
-        email: {
-                  required: "Please enter your email",
-                },
+			   },
+            email: {
+                      required: "Please enter your email",
+                   },
 		},
 		submitHandler: function(form) {
 			var formData = {
@@ -58,29 +58,29 @@ $.ajax({
       request.setRequestHeader("Authentication", $.cookie("session_Token"));
     },
   success: function(response) {
-   $(".alert").remove();
-    setTimeout(function() {
-        if (response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
-            $("#formGroup").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
-        } else if (!response.status) {
-            $(".alert").html(response.message);
-        }
-
-        location.reload();
-        }, 400);
-        var duration = 300;
-        $({to:0}).animate({to:1}, duration, function() {
-         if (!response.status && response.alternateMobileAlreadyExist || response.emailAlreadyExist && $(".alert").length == 0 || $(".input-group span").length == undefined) {
-             $("#formGroup").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
+    $(".alert").remove();
+     setTimeout(function() {
+         if (response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
+             $("#formGroup").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
+             location.reload();
          } else if (!response.status) {
              $(".alert").html(response.message);
          }
-        });
+        // location.reload();
+         }, 400);
+         var duration = 300;
+          if (!response.status && response.alternateMobileAlreadyExist || response.emailAlreadyExist && $(".alert").length == 0 || $(".input-group span").length == undefined) {
+              $("#formGroup").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
+          } else if (!response.status) {
+              $(".alert").html(response.message);
+          }
+     setTimeout(function() {
+          $(".alert").remove();
+           }, 9500);
   },
    error: function(error) {
                url = window.location.pathname.replace(/\/+$/, '') + "/error";
                $(".alert").remove();
-
            if(error.status==503){
               $('#server_error').modal('show');
               $(document).ajaxStop(function () {

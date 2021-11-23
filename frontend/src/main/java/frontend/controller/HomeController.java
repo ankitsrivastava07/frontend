@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import frontend.api.dto.response.UserDto;
+import frontend.api.error.ApiError;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.CreateUserRequestDto;
 import frontend.api.request.UserCredentialRequest;
@@ -38,10 +39,7 @@ import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("")
@@ -191,10 +189,10 @@ public class HomeController {
 	@PostMapping("/save-order")
 	public ResponseEntity<?> saveOrder(@RequestHeader(name = "Authentication") String authentication,@RequestBody @Valid OrderRequest orderRequest){
 
-		if(StringUtils.isEmpty(authentication))
-			return new ResponseEntity<>("Un authroize request ",HttpStatus.UNAUTHORIZED);
-
-		jwtAccessTokenUtil.validateToken(authentication);
+		if(StringUtils.isEmpty(authentication)) {
+			ApiError apiError = new ApiError(new Date(),HttpStatus.UNAUTHORIZED.value(),"Your session has been expired","/save-order");
+			return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+		}
 		OrderResponseDto responseConstant = frontendService.saveOrder(authentication,orderRequest);
 		return new ResponseEntity<>(responseConstant,HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
@@ -222,7 +220,6 @@ public class HomeController {
 	@GetMapping("/users/profile")
 	public ModelAndView profile(HttpServletRequest request,HttpServletResponse response) {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
-
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("profile");
 		UserDto userDto= null;
@@ -237,7 +234,7 @@ public class HomeController {
 
 			if(userDto.getHttpStatus()==503) {
 				mv.addObject("userDto", "");
-				mv.addObject("serviceStatus", "Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified");
+				mv.addObject("serviceStatus", "503");
 			}
 			return mv;
 		}
