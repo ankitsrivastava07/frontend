@@ -35,6 +35,7 @@ $(document).ready(function() {
 		},
 		submitHandler: function(form) {
 			var formData = {
+
 				"firstName": $("#firstName").val(),
 				"lastName": $("#lastName").val(),
 				"email": $("#email").val(),
