@@ -14,7 +14,7 @@ public class UserDto {
     @NotBlank
     @Pattern(regexp="^(\\d*)$",message = "Please enter valid mobile number")
     private String mobile;
-    @Pattern(regexp="^(\\d)$",message="Please enter alternate mobile number")
+    //@Pattern(regexp="^(\\d)$",message="Please enter alternate mobile number")
     private String alternateMobile;
     @NotBlank(message="Please enter valid first name")
     private String firstName;
