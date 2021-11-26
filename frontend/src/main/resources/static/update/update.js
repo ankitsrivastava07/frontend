@@ -39,7 +39,8 @@ $(document).ready(function() {
 				"lastName": $("#lastName").val(),
 				"email": $("#email").val(),
 				"alternateMobile": $("#alternate_mobile").val(),
-				"address": $("#address").val()
+				"address": $("#address").val(),
+				"browser" : $.cookie("browser")
 			}
 			updateUser(formData);
 		}
@@ -55,11 +56,10 @@ $.ajax({
    data: JSON.stringify(formData),
    beforeSend: function(request) {
       request.setRequestHeader("Authentication", $.cookie("session_Token"));
-      request.setRequestHeader("browser", $.cookie("browser"));
     },
-  success: function(response,textStatus,request) {
+  success: function(response) {
     $(".alert").remove();
-    setTimeout(function() {
+     setTimeout(function() {
          if (response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
              $("#formGroup").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
              location.reload();
@@ -87,8 +87,12 @@ $.ajax({
               console.log("ajax stoped");
               });
             }
-        else if(error.status==401 && error.responseJSON.redirect){
-             window.location.replace(error.responseJSON.redirectURL)
+        else if(error.status==401 && !error.responseJSON.status && error.responseJSON.isMailServiceDown){
+              $("#message").html(error.responseJSON.message);
+              $('#server_error').modal('show');
+              $(document).ajaxStop(function () {
+              console.log("ajax stoped");
+              });
             }
      }
 });
