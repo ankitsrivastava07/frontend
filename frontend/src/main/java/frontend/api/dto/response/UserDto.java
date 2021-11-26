@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 public class UserDto {
-    @Pattern(regexp=".+@.+\\.[a-z]+",message="Please enter valid email")
+    //@Pattern(regexp=".+@.+\\.[a-z]+",message="Please enter valid email")
     private String email;
     @NotBlank
     @Pattern(regexp="^(\\d*)$",message = "Please enter valid mobile number")

@@ -40,7 +40,7 @@ $(document).ready(function() {
 				"email": $("#email").val(),
 				"alternateMobile": $("#alternate_mobile").val(),
 				"address": $("#address").val(),
-				"email": $("#phone").val(),
+				"mobile": $("#phone").val(),
 			}
 			updateUser(formData);
 		}
