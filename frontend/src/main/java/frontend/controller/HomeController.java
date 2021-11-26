@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import frontend.api.dto.response.UnauthorizedRequestURL;
 import frontend.api.dto.response.UserDto;
 import frontend.api.error.ApiError;
 import frontend.api.request.ChangePasswordReqest;
@@ -24,6 +25,7 @@ import frontend.tenant.TenantContext;
 import lombok.val;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,14 +66,14 @@ public class HomeController {
 		return model;
 	}
 	@GetMapping({"/contact"})
-	public ModelAndView contactUs(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView contact(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("contact-us");
 		return model;
 	}
 
 	@RequestMapping(value = "/", method = {RequestMethod.POST})
-	public void contactUs(@RequestParam("redirect") String redirectUrl, HttpServletResponse response) throws IOException {
+	public void redirect(@RequestParam("redirect") String redirectUrl, HttpServletResponse response) throws IOException {
 		response.sendRedirect(redirectUrl);
 		return;
 	}
@@ -86,8 +88,10 @@ public class HomeController {
 			model.setViewName("redirect:/");
 			return model;
 		}
-		if (tokenStatus != null && !tokenStatus.isStatus())
+		if (tokenStatus != null && !tokenStatus.isStatus()) {
 			mv.addObject("message", tokenStatus.getMessage());
+			//return new ModelAndView("redirect:"+"/");
+		}
 		return mv;
 	}
 
@@ -242,14 +246,14 @@ public class HomeController {
 	}
 
 	@PostMapping("/users/profile/edit")
-	public ResponseEntity<?> editProfile(HttpServletRequest request,@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto) {
+	public ResponseEntity<?> editProfile(HttpServletRequest request,@RequestHeader("Authentication")String authentication,@RequestHeader("browser")String browser,@Valid @RequestBody UserDto userDto) {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		if (tokenStatus!=null && tokenStatus.isStatus()){
-			userDto.setBrowser(userDto.getBrowser());
+			userDto.setBrowser(browser);
 			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
 			return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 		}
-		return new ResponseEntity<>(tokenStatus, HttpStatus.valueOf(tokenStatus.getHttpStatus()));
+		return new ResponseEntity<>(tokenStatus,HttpStatus.valueOf(tokenStatus.getHttpStatus()));
 	}
 
 	@GetMapping("/check-connection")
@@ -341,9 +345,15 @@ public class HomeController {
 	  return tokenStatus.isStatus()?new ResponseEntity<>(tokenStatus,HttpStatus.valueOf(tokenStatus.getHttpStatus())) : new ResponseEntity<>(tokenStatus,HttpStatus.UNAUTHORIZED);
 	}
 
-	public  boolean isValid(){
-		System.out.println("Is valid method called");
-		return false;
+	@RequestMapping("/unauthorzied-request")
+	public ResponseEntity<?> UnauthorizedRequest(HttpServletRequest request){
+		String token=request.getHeader("Authentication");
+		TokenStatus tokenStatus= frontendService.isValidToken(token);
+		UnauthorizedRequestURL unauthorizedRequest = new UnauthorizedRequestURL();
+		unauthorizedRequest.setRedirect(Boolean.TRUE);
+		unauthorizedRequest.setRedirectURL("/signin");
+		unauthorizedRequest.setMessage(tokenStatus.getMessage());
+		return new ResponseEntity<>(unauthorizedRequest,HttpStatus.UNAUTHORIZED);
 	}
 
 }

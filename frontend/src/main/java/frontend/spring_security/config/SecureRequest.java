@@ -45,8 +45,8 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                     CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authentication", "content-type", "x-auth-token"));
-        configuration.setExposedHeaders(Arrays.asList("Authentication"));
+        configuration.setAllowedHeaders(Arrays.asList("Authentication","response_header", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("Authentication","response_header"));
         configuration.setMaxAge((long) -1);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -25,7 +25,6 @@ import frontend.tenant.TenantContext;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import frontend.controller.LoginStatus;
@@ -335,9 +334,9 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "editProfileFallBack")
 	public UserDto editProfile(String authentication,UserDto userDto) {
 		String alternateMobile=userDto.getAlternateMobile();
-		if(userDto.getAlternateMobile().equals(""))
+		if(alternateMobile!=null && userDto.getAlternateMobile().equals(""))
 			userDto.setAlternateMobile(null);
-		if(userDto.getEmail().equals(""))
+		if(userDto.getEmail()!=null && userDto.getEmail().equals(""))
 			userDto.setEmail(null);
 		UserDto userDto1 =  apiGatewayRequestUri.editProfile(authentication,userDto).getBody();
 		return userDto1;

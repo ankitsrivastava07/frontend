@@ -1,8 +1,6 @@
 package frontend.activemq.listener;
 
 import frontend.activemq.request.MessagePublishRequest;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 /*

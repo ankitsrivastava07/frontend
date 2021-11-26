@@ -19,7 +19,7 @@ import frontend.dto.AddToCartRequest;
 import frontend.response.AddToCartResponse;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "cloud-gateway-spring", url = "http://cloud-gateway-spring.herokuapp.com/")
+@FeignClient(name = "cloud-gateway-spring", url = "http://localhost:8765")
 public interface ApiGatewayRequestUri {
 
 	@PostMapping("/users/login")
