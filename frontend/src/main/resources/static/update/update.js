@@ -40,6 +40,7 @@ $(document).ready(function() {
 				"email": $("#email").val(),
 				"alternateMobile": $("#alternate_mobile").val(),
 				"address": $("#address").val(),
+				"mobile": $("#mobile").val(),
 				"browser" : $.cookie("browser")
 			}
 			updateUser(formData);
