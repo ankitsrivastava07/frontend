@@ -56,6 +56,7 @@ $.ajax({
    data: JSON.stringify(formData),
    beforeSend: function(request) {
       request.setRequestHeader("Authentication", $.cookie("session_Token"));
+      request.setRequestHeader("browser", $.cookie("browser"));
     },
   success: function(response) {
     $(".alert").remove();
@@ -94,6 +95,9 @@ $.ajax({
               console.log("ajax stoped");
               });
             }
+            else if(error.status==401 && error.responseJSON.redirect){
+                         window.location.replace(error.responseJSON.redirectURL)
+                        }
      }
 });
 return true;
