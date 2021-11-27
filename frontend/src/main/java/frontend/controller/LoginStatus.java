@@ -3,10 +3,12 @@ package frontend.controller;
 import lombok.Data;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+
+import java.io.Serializable;
 import java.util.Collection;
 
 @Data
-public class LoginStatus {
+public class LoginStatus implements Serializable {
 
 	private boolean status;
 	private String message;
