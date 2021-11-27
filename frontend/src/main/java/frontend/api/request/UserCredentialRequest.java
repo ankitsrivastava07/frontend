@@ -12,12 +12,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Data
-public class UserCredentialRequest implements Authentication {
+public class UserCredentialRequest implements Authentication, Serializable {
 	@NotBlank(message = "Please enter email/mobile")
 	private String emailOrMobile;
 	@NotBlank(message = "Please enter password")
