@@ -147,7 +147,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/change-password")
-	public ModelAndView changePasswod(@RequestParam(value = "code",required = false) String code, HttpServletRequest request) {
+	public ModelAndView changePasswod(@RequestParam(value = "code",required = true) String code, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		String jwtToken= frontendService.getToken(request);
 		if(jwtToken!=null && frontendService.isValidToken(jwtToken).isStatus())
@@ -165,7 +165,7 @@ public class HomeController {
 	}
 
 	@PostMapping("/change-password")
-	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization") String token, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
+	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authentication") String token, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
 		String browser=UUID.randomUUID().toString();
 		req.setBrowserName(browser);
 		ResponseConstant responseConstant = frontendService.changePassword(req);
@@ -276,7 +276,7 @@ public class HomeController {
 		return null;
 	}
 
-	@PreAuthorize("isValid()")
+	@PreAuthorize("has_ROLE(USER)")
 	@RequestMapping(value = "/product/add-to-cart-count-products", method = RequestMethod.POST)
 	public ResponseEntity<?> addToCartCountProducts(@RequestHeader(name="Authentication",required = false) String authentication) {
 		if(StringUtils.isEmpty(authentication))
@@ -354,6 +354,10 @@ public class HomeController {
 		unauthorizedRequest.setRedirectURL("/signin");
 		unauthorizedRequest.setMessage(tokenStatus.getMessage());
 		return new ResponseEntity<>(unauthorizedRequest,HttpStatus.UNAUTHORIZED);
+	}
+
+	public void isValid(){
+		System.out.println("Is valid method called");
 	}
 
 }
