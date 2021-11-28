@@ -37,20 +37,19 @@ display:none;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal_title">Website Under Maintenance</h5>
+        <h5 class="modal-title" id="modal_title">Un Authorize Request</h5>
       </div>
       <div class="modal-body">
-        <span id="message">
-         Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified
-        </span>
+        Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
-        <a href="/signin" class="btn btn-primary" id="signin">Sign In</a>
+        <button type="button" class="btn btn-primary" id="signin">Sign</button>
       </div>
     </div>
   </div>
 </div>
+
 <hr>
 <#if userDto?has_content>
 <div class="container bootstrap snippet">
