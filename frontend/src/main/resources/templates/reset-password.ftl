@@ -62,6 +62,22 @@ display: block;
     text-align: center;
 }
 
+.modal-footer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* -webkit-box-pack: end; */
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    /* padding: 1rem; */
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: 0.3rem;
+    border-bottom-left-radius: 0.3rem;
+}
+
 #back {
     background-color: rgba(0,0,0,0);
     /* border: 0; */
@@ -326,7 +342,6 @@ body {
 	}
 
 	#signin {
-    margin: auto;
     width: 100px;
     background-color: #4a90e2;
     -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
@@ -339,7 +354,8 @@ body {
     }
 
 	</style>
-	<body id="modal_confirm">
+	<body id="modal_confirm1">
+
 <!-- Modal -->
 <div class="modal fade" id="server_error" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

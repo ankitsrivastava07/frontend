@@ -2,13 +2,14 @@ package frontend.validation;
 
 import frontend.api.request.ChangePasswordReqest;
 import org.passay.*;
+import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, ChangePasswordReqest> {
 
     @Override

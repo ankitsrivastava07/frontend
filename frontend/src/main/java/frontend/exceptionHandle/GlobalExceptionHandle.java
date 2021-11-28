@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 @ControllerAdvice
+//@EnableWebMvc
 public class GlobalExceptionHandle {
     @Autowired
     HttpServletRequest request;
@@ -59,6 +61,11 @@ public class GlobalExceptionHandle {
     public ResponseEntity<?> authenticationTokenMissing(MissingRequestHeaderException exception) {
         ApiError apiError = new ApiError(new Date(),Integer.valueOf(HttpStatus.UNAUTHORIZED.value()), "Missing authentication token",request.getRequestURI());
         return new ResponseEntity<>(apiError,HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ModelAndView missingServletRequestParameter(MissingServletRequestParameterException exception) {
+        return new ModelAndView("error/400-error");
     }
 
     @ExceptionHandler(InvalidHeaderException.class)

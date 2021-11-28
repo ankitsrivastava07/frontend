@@ -114,7 +114,7 @@ function changePassword(formData) {
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			beforeSend: function(xhr){
-			xhr.setRequestHeader('Authorization', formData.code)
+			xhr.setRequestHeader('Authentication', formData.code)
 			},
 			cache: false,
 			success: function(response) {
@@ -199,11 +199,11 @@ function changePassword(formData) {
 jQuery('#change-password').validate({
 	rules: {
 		password: {
-			minlength: 5,
+			minlength: 6,
 			required: true
 		},
-		password_confirm: {
-			minlength: 5,
+		confirm_password: {
+			minlength: 6,
 			required: true,
 			equalTo: "#password"
 		},
@@ -211,10 +211,10 @@ jQuery('#change-password').validate({
 	messages: {
 		password: {
 			required: "Please enter password",
-			minlength: "Password should be atleast 5 characters long",
+			minlength: "Password should be atleast 6 characters long",
 		},
 		confirm_password: {
-			minlength: "Confirm password should be atleast 5 characters long",
+			minlength: "Confirm password should be atleast 6 characters long",
 			equalTo: "Password not matched",
 			required: "Please Enter confirm password"
 		}
