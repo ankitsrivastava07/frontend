@@ -2,6 +2,7 @@ package frontend.api.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,6 +18,6 @@ public class CreateUserResponseStatus implements Serializable {
 	private String message;
 	private Date createdAt;
 	private Map<String, String> errorMessage;
-	private Integer httpStatus;
+	private Integer httpStatus= HttpStatus.OK.value();
 	private Boolean isUserServiceAvaliable=Boolean.FALSE;
 }

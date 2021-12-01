@@ -29,6 +29,24 @@ display:none;
     color: #da534d;
     padding: 3px 0px;
 }
+.circular--square {
+ border-radius: 50%;
+     width: 50%;
+     height: 120px;
+     width: 60px;
+     height: 60px;
+     -webkit-border-radius: 60px;
+     -webkit-background-clip: padding-box;
+     -moz-border-radius: 60px;
+     -moz-background-clip: padding;
+     border-radius: 60px;
+     background-clip: padding-box;
+     /* margin: 7px 0 0 5px; */
+     /* float: left; */
+     background-size: cover;
+     /* background-position: center center;
+}
+
 </style>
 <body>
 
@@ -56,9 +74,13 @@ display:none;
     <div class="row">
   		<div class="col-sm-3"><!--left col-->
       <div class="text-center">
+      <#if fileStream?has_content>
+        <img src="${fileStream}" class="circular--square" id="photo" value="Ankit Srivastava">
+        <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+        </#if>
         <h4>${userDto.firstName} ${userDto.lastName}</h4>
-        <input type="file" class="text-center center-block file-upload">
+        <input type="file" class="text-center center-block file-upload" name="image" id="image">
       </div></hr><br>
 
           <div class="panel panel-default">
@@ -178,7 +200,7 @@ display:none;
           <div class="text-center">
             <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
             <h6></h6>
-            <input type="file" class="text-center center-block file-upload">
+            <input type="file" class="text-center center-block file-upload" name="image" id="image">
           </div></hr><br>
 
               <div class="panel panel-default">

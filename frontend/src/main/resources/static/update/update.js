@@ -34,15 +34,9 @@ $(document).ready(function() {
                    },
 		},
 		submitHandler: function(form) {
-			var formData = {
-
-				"firstName": $("#firstName").val(),
-				"lastName": $("#lastName").val(),
-				"email": $("#email").val(),
-				"alternateMobile": $("#alternate_mobile").val(),
-				"address": $("#address").val(),
-				"mobile": $("#phone").val(),
-			}
+			 var formTag = $("#profile")[0];
+             var formData = new FormData(formTag);
+			formData.append('image', $('#image')[0].files[0]);
 			updateUser(formData);
 		}
 	})
@@ -53,8 +47,9 @@ if(checkConnection()){
 $.ajax({
    type: "POST",
    url: "/users/profile/edit",
-   contentType: "application/json",
-   data: JSON.stringify(formData),
+   contentType: false,
+   processData: false,
+   data: formData,
    beforeSend: function(request) {
       request.setRequestHeader("Authentication", $.cookie("session_Token"));
       request.setRequestHeader("browser", $.cookie("browser"));
@@ -76,9 +71,11 @@ $.ajax({
           } else if (!response.status) {
               $(".alert").html(response.message);
           }
+          $(".alert").remove();
      setTimeout(function() {
           $(".alert").remove();
-           }, 9500);
+          location.reload();
+           }, 5500);
   },
    error: function(error) {
                url = window.location.pathname.replace(/\/+$/, '') + "/error";
@@ -96,9 +93,15 @@ $.ajax({
               console.log("ajax stoped");
               });
             }
-            else if(error.status==401 && error.responseJSON.redirect){
-                         window.location.replace(error.responseJSON.redirectURL)
-                        }
+           else if(error.status==401 && error.responseJSON.redirect){
+               $("#message").html(error.responseJSON.message);
+               $('#server_error').modal('show');
+               $(document).ajaxStop(function () {
+               console.log("ajax stoped");
+               });
+               window.location.href=error.responseJSON.redirectURL
+             }
+
      }
 });
 return true;

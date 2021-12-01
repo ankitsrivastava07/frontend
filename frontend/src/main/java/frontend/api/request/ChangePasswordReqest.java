@@ -10,16 +10,15 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 public class ChangePasswordReqest {
-
-	@NotBlank(message = "password is mandatory")
-	@Size(min=5,max=30,message = "Password minimum 5 characters and maximum 30 characters long")
 	@ValidPassword
-	@JsonProperty(value="password")
+	//@NotBlank(message = "password is mandatory")
+	//@Size(min=5,max=30,message = "Password minimum 5 characters and maximum 30 characters long")
 	private String password;
-	@NotBlank(message = "Confirm password is mandatory")
-	private String confirmPassword;
 	@ValidPassword
-	@NotBlank(message = "code token can't be empty")
+	//@NotBlank(message = "Confirm password is mandatory")
+	private String confirmPassword;
+	//@ValidPassword
+	@NotBlank(message = "auth token can't be empty")
 	private String code;
 	private Boolean isPasswordChangeFromCodeIdentity;
 	private String token;

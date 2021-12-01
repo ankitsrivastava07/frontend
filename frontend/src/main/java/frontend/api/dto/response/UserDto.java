@@ -1,6 +1,9 @@
 package frontend.api.dto.response;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,18 +12,15 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
-@Data
-public class UserDto implements Serializable {
-    //@Pattern(regexp=".+@.+\\.[a-z]+",message="Please enter valid email")
+@Getter
+@Setter
+@NoArgsConstructor
+public class UserDto {
+
     private String email;
-    @NotBlank
-    @Pattern(regexp="^(\\d*)$",message = "Please enter valid mobile number")
     private String mobile;
-    //@Pattern(regexp="^(\\d)$",message="Please enter alternate mobile number")
     private String alternateMobile;
-    @NotBlank(message="Please enter valid first name")
     private String firstName;
-    @NotBlank(message = "Please enter valid last name")
     private String lastName;
     private String address;
     private String gender;
@@ -34,6 +34,11 @@ public class UserDto implements Serializable {
     private String accessToken;
     private Boolean accessTokenNew=Boolean.FALSE;
     private Boolean refreshTokenExpired=Boolean.FALSE;
-    private MultipartFile image;
+    private String fileName;
+    private String path;
+    private Short fileSize;
+    private String contentType;
+    private byte contents[];
+
 }
 

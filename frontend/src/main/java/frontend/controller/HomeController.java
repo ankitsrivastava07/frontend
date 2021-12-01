@@ -35,12 +35,15 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @RestController
@@ -143,7 +146,7 @@ public class HomeController {
 		String browser=UUID.randomUUID().toString();
 		createUserRequestDto.setBrowser(browser);
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
-		return new ResponseEntity<>(status, HttpStatus.OK);
+		return new ResponseEntity<>(status, HttpStatus.valueOf(status.getHttpStatus()));
 	}
 
 	@GetMapping("/change-password")
@@ -231,6 +234,9 @@ public class HomeController {
 			userDto=frontendService.profile(tokenStatus.getAccessToken(),tokenStatus.getBrowser());
 			mv.addObject("userDto",userDto);
 			mv.addObject("userName",userDto.getFirstName());
+			String encoded = "data:image/jpg;base64,"+Base64.getEncoder().encodeToString(userDto.getContents());
+			InputStream fileStream = userDto.getContents()==null?null : new ByteArrayInputStream(userDto.getContents());
+			mv.addObject("fileStream",encoded);
 			if(userDto.getAddress()==null)
 				mv.addObject("address","");
 			else
@@ -246,10 +252,15 @@ public class HomeController {
 	}
 
 	@PostMapping("/users/profile/edit")
-	public ResponseEntity<?> editProfile(HttpServletRequest request,@RequestHeader("Authentication")String authentication,@RequestHeader("browser")String browser,@Valid @RequestBody UserDto userDto) {
+	public ResponseEntity<?> editProfile(@RequestHeader(name="browser") String browser, UserDto userDto,@RequestParam("image") MultipartFile multipartFile) throws IOException {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		if (tokenStatus!=null && tokenStatus.isStatus()){
 			userDto.setBrowser(browser);
+			userDto.setFileName(multipartFile.getOriginalFilename());
+            userDto.setContentType(multipartFile.getContentType());
+			userDto.setContents(multipartFile.getBytes());
+			userDto.setFileSize(Short.valueOf((short) ((short) multipartFile.getSize()*0.00000095367432)));
+			userDto.setPath(multipartFile.getName());
 			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
 			return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 		}
@@ -276,7 +287,7 @@ public class HomeController {
 		return null;
 	}
 
-	@PreAuthorize("has_ROLE(USER)")
+	//@PreAuthorize("has_ROLE(USER)")
 	@RequestMapping(value = "/product/add-to-cart-count-products", method = RequestMethod.POST)
 	public ResponseEntity<?> addToCartCountProducts(@RequestHeader(name="Authentication",required = false) String authentication) {
 		if(StringUtils.isEmpty(authentication))
