@@ -2,13 +2,15 @@ package frontend.api.dto.response;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
     //@Pattern(regexp=".+@.+\\.[a-z]+",message="Please enter valid email")
     private String email;
     @NotBlank
@@ -32,6 +34,6 @@ public class UserDto {
     private String accessToken;
     private Boolean accessTokenNew=Boolean.FALSE;
     private Boolean refreshTokenExpired=Boolean.FALSE;
-
+    private MultipartFile image;
 }
 
