@@ -318,7 +318,7 @@ public class FrontendServiceImpl implements FrontendService {
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileFallBack")
 	public UserDto profile(String authentication,String browser) {
-		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication,browser).getBody();
+		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
 		return userDto1;
 	}
 
