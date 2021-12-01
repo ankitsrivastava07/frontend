@@ -15,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserDto {
+public class UserDto implements Serializable {
 
     private String email;
     private String mobile;
