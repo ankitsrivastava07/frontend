@@ -234,8 +234,9 @@ public class HomeController {
 			userDto=frontendService.profile(tokenStatus.getAccessToken(),tokenStatus.getBrowser());
 			mv.addObject("userDto",userDto);
 			mv.addObject("userName",userDto.getFirstName());
-			String encoded = "data:image/jpg;base64,"+Base64.getEncoder().encodeToString(userDto.getContents());
-			InputStream fileStream = userDto.getContents()==null?null : new ByteArrayInputStream(userDto.getContents());
+			String encoded="";
+			if(userDto.getContents()!=null)
+			encoded = "data:image/jpg;base64,"+Base64.getEncoder().encodeToString(userDto.getContents());
 			mv.addObject("fileStream",encoded);
 			if(userDto.getAddress()==null)
 				mv.addObject("address","");
