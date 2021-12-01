@@ -76,11 +76,12 @@ display:none;
       <div class="text-center">
       <#if fileStream?has_content>
         <img src="${fileStream}" class="circular--square" id="photo" value="Ankit Srivastava">
+        <input type="file" class="text-center center-block file-upload" name="${userDto.fileName}" value="${fileStream}" id="image">
         <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+        <input type="file" class="text-center center-block file-upload" name="image" id="image">Upload Profile Pick
         </#if>
         <h4>${userDto.firstName} ${userDto.lastName}</h4>
-        <input type="file" class="text-center center-block file-upload" name="image" id="image">
       </div></hr><br>
 
           <div class="panel panel-default">
@@ -88,20 +89,16 @@ display:none;
             <div class="panel-body"><a href="http://bootnipets.com">bootnipets.com</a></div>
           </div>
 
-          <ul class="list-group">
-            <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
-          </ul>
-
-          <div class="panel panel-default">
-            <div class="panel-heading">Social Media</div>
-            <div class="panel-body">
-            	<i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
-            </div>
+         <div class="panel panel-default">
+            <div class="panel-heading">Orders <i class="fa fa-link fa-1x"></i></div>
+            <div class="panel-body"><a href="/orders">Orders and Returns</a></div>
           </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Profile <i class="fa fa-link fa-1x"></i></div>
+            <div class="panel-body"><a href="/users/profile">Profile</a></div>
+          </div>
+
         </div><!--/col-3-->
     	<div class="col-sm-9">
             <ul class="nav nav-tabs">
@@ -127,7 +124,6 @@ display:none;
                       </div>
 
                       <div class="form-group">
-
                           <div class="col-xs-6">
                               <label for="phone"><h4>Phone</h4></label>
 							  <input type="text" class="form-control" name="phone" id="phone" title="${userDto.mobile}" value="${userDto.mobile}">
