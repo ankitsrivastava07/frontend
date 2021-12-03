@@ -1,5 +1,6 @@
 package frontend.service;
 
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
@@ -24,6 +26,7 @@ import frontend.response.ResetPasswordResponse;
 import frontend.tenant.TenantContext;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -38,12 +41,14 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
 	@Autowired HttpServletRequest httpServletRequest;
 	@Autowired HttpServletResponse httpServletResponse;
+	@Autowired private AmazonS3 amazonS3;
+	@Value("${aws.s3.bucket}")
+	@Autowired private String bucketName;
+
 	private ObjectMapper mapper = new ObjectMapper();
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response,String cookieName, String cookieValue) {
-
 		Cookie cookies[] = request.getCookies();
-
 		if (!cookieValue.isEmpty() && cookies != null) {
 			for (Cookie cookie : cookies)
 
@@ -60,7 +65,6 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	public String getToken(HttpServletRequest request) {
-
 		Cookie cookies[] = request.getCookies();
 		String jwtToken = null;
 		if (cookies != null)

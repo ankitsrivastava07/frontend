@@ -108,6 +108,22 @@ return true;
 }
 return false;
 }
+$(document).ready(function() {
+
+image.onchange = evt => {
+  const [file] = image.files
+  if (file) {
+    img.src = URL.createObjectURL(file)
+  }
+}
+
+$('#file-upload').change(function() {
+  var i = $(this).prev('label').clone();
+  var file = $('#file-upload')[0].files[0].name;
+  $(this).prev('label').text(file);
+});
+
+});
 
 function checkConnection(){
 $.ajax('/check-connection', {

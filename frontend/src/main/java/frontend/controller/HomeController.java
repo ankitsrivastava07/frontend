@@ -41,9 +41,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 @RestController
@@ -235,8 +233,9 @@ public class HomeController {
 			mv.addObject("userDto",userDto);
 			mv.addObject("userName",userDto.getFirstName());
 			String encoded="";
-			if(userDto.getContents()!=null)
-			encoded = "data:image/jpg;base64,"+Base64.getEncoder().encodeToString(userDto.getContents());
+			if(userDto.getS3BucketFileURL()!=null)
+				encoded =userDto.getS3BucketFileURL();
+
 			mv.addObject("fileStream",encoded);
 			if(userDto.getAddress()==null)
 				mv.addObject("address","");
@@ -253,15 +252,17 @@ public class HomeController {
 	}
 
 	@PostMapping("/users/profile/edit")
-	public ResponseEntity<?> editProfile(@RequestHeader(name="browser") String browser, UserDto userDto,@RequestParam("image") MultipartFile multipartFile) throws IOException {
+	public ResponseEntity<?> editProfile(HttpServletRequest request,@RequestHeader(name="browser") String browser, UserDto userDto,@RequestParam(name="image",required = false) MultipartFile multipartFile) throws IOException {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
-		if (tokenStatus!=null && tokenStatus.isStatus()){
+		if (tokenStatus!=null && tokenStatus.isStatus() ){
 			userDto.setBrowser(browser);
-			userDto.setFileName(multipartFile.getOriginalFilename());
-            userDto.setContentType(multipartFile.getContentType());
-			userDto.setContents(multipartFile.getBytes());
-			userDto.setFileSize(Short.valueOf((short) ((short) multipartFile.getSize()*0.00000095367432)));
-			userDto.setPath(multipartFile.getName());
+			if(multipartFile!=null) {
+				userDto.setFileName(multipartFile.getOriginalFilename());
+				userDto.setContentType(multipartFile.getContentType());
+				userDto.setContents(multipartFile.getBytes());
+				userDto.setFileSize(Short.valueOf((short) ((short) multipartFile.getSize() * 0.00000095367432)));
+				userDto.setPath(multipartFile.getName());
+			}
 			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
 			return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 		}

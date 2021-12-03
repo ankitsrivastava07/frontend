@@ -75,11 +75,11 @@ display:none;
   		<div class="col-sm-3"><!--left col-->
       <div class="text-center">
       <#if fileStream?has_content>
-        <img src="${fileStream}" class="circular--square" id="photo" value="Ankit Srivastava">
-        <input type="file" class="text-center center-block file-upload" name="${userDto.fileName}" value="${fileStream}" id="image">
+        <img src="${fileStream}" class="avatar img-circle img-thumbnail" id="img">
+        <input type="file" accept="image/*" class="text-center center-block file-upload" name="${userDto.fileName}" value="${fileStream}" id="image">
         <#else>
-        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
-        <input type="file" class="text-center center-block file-upload" name="image" id="image">Upload Profile Pick
+        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar" id="img">
+        <input type="file" class="text-center center-block file-upload" name="image" id="image">
         </#if>
         <h4>${userDto.firstName} ${userDto.lastName}</h4>
       </div></hr><br>
@@ -194,9 +194,9 @@ display:none;
         <div class="row">
       		<div class="col-sm-3"><!--left col-->
           <div class="text-center">
-            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" id="img" alt="avatar">
             <h6></h6>
-            <input type="file" class="text-center center-block file-upload" name="image" id="image">
+            <input type="file" accept="image/*" class="text-center center-block file-upload" name="image" id="image">
           </div></hr><br>
 
               <div class="panel panel-default">

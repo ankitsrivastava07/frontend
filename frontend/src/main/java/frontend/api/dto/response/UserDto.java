@@ -39,6 +39,8 @@ public class UserDto implements Serializable {
     private Short fileSize;
     private String contentType;
     private byte contents[];
+    private String s3BucketFileURL;
+    private Long userId;
 
 }
 
