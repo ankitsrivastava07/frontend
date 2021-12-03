@@ -49,7 +49,7 @@ $(document).ready(function() {
 			var ex=document.getElementById("imageUpload").value.split('.').pop();
 			if(($("#imageUpload").val()===undefined || $("#imageUpload").val()===""))
 			updateUser(formData);
-			if((!$("#imageUpload").val()===undefined || !$("#imageUpload").val()==="" && $("#imageUpload").val()!=="") && validateFileExtension(ex))
+			if((!$("#imageUpload").val()===undefined || !$("#imageUpload").val()==="" || $("#imageUpload").val()!=="") && validateFileExtension(ex))
 			  updateUser(formData);
 		}
 	})
