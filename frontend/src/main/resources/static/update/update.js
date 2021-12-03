@@ -2,6 +2,9 @@ var fileValid=false
 function validateFileExtension(file){
         var fileExtension = ['jpeg', 'jpg', 'png', 'gif'];
         if ($.inArray(file, fileExtension) == -1){
+        setTimeout(function(){
+          $("#file_error").html("Please select file with given format jpg,png,gif and jpeg");
+          }, 2000);
          $("#file_error").html("Please select file with given format jpg,png,gif and jpeg");
           return false;
           }
