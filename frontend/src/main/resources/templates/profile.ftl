@@ -46,7 +46,29 @@ display:none;
      background-size: cover;
      /* background-position: center center;
 }
-
+.login-layer .btn-primary {
+    margin-top: 30px;
+    text-transform: capitalize;
+    width: 100%;
+    display: inline-block;
+    background-color: #4a90e2;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%);
+    box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%);
+    min-width: 123px;
+    padding: 8px 16px;
+    height: 36px;
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+    line-height: 18px;
+    cursor: pointer;
+    font-size: 14px;
+    border-width: 0;
+}
+.login-layer .loginButton {
+    margin-bottom: 11px;
+}
 </style>
 <body>
 
@@ -76,10 +98,12 @@ display:none;
       <div class="text-center">
       <#if fileStream?has_content>
         <img src="${fileStream}" class="avatar img-circle img-thumbnail" id="img">
-        <input type="file" accept="image/*" class="text-center center-block file-upload" name="${userDto.fileName}" value="${fileStream}" id="image">
+        <input type="file" class="text-center center-block file-upload" name="imageUpload" id="imageUpload" onchange="validateFileExtension(this.value)">
+        <span id="file_error" class="error"></span>
         <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar" id="img">
-        <input type="file" class="text-center center-block file-upload" name="image" id="image">
+       <input type="file" class="text-center center-block file-upload" name="imageUpload"  id="imageUpload">
+       <span id="file_error"></span>
         </#if>
         <h4>${userDto.firstName} ${userDto.lastName}</h4>
       </div></hr><br>
@@ -153,7 +177,7 @@ display:none;
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Submit</button>
+                              	<button type="submit" class="btn-primary loginButton">Submit</button>
                             </div>
                       </div>
               	</form>
@@ -279,7 +303,7 @@ display:none;
                           <div class="form-group">
                                <div class="col-xs-12">
                                     <br>
-                                  	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Submit</button>
+                                  	<button type="submit" class="btn-primary loginButton">Submit</button>
                                 </div>
                           </div>
                   	</form>

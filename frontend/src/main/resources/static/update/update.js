@@ -1,12 +1,21 @@
+var fileValid=false
+function validateFileExtension(file){
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif'];
+        if ($.inArray(file, fileExtension) == -1){
+         $("#file_error").html("Please select file with given format jpg,png,gif and jpeg");
+          return false;
+          }
+        else {
+        return true;
+        }
+}
 $(document).ready(function() {
-
 	$("#profile").validate({
 
 		rules: {
 			firstName: {
 				required: true,
 			},
-
 			lastName: {
 				required: true,
 			},
@@ -21,7 +30,6 @@ $(document).ready(function() {
                    },
 		},
 		messages: {
-
 			firstName: {
 				required: "Please enter your first name",
 			},
@@ -36,8 +44,13 @@ $(document).ready(function() {
 		submitHandler: function(form) {
 			 var formTag = $("#profile")[0];
              var formData = new FormData(formTag);
-			formData.append('image', $('#image')[0].files[0]);
+			formData.append('image', $('#imageUpload')[0].files[0]);
+			$("#file_error").html("");
+			var ex=document.getElementById("imageUpload").value.split('.').pop();
+			if(($("#imageUpload").val()===undefined || $("#imageUpload").val()===""))
 			updateUser(formData);
+			if((!$("#imageUpload").val()===undefined || !$("#imageUpload").val()==="") && validateFileExtension(ex))
+			  updateUser(formData);
 		}
 	})
 })
@@ -101,7 +114,6 @@ $.ajax({
                });
                window.location.href=error.responseJSON.redirectURL
              }
-
      }
 });
 return true;
@@ -109,20 +121,17 @@ return true;
 return false;
 }
 $(document).ready(function() {
-
-image.onchange = evt => {
-  const [file] = image.files
+imageUpload.onchange = evt => {
+  const [file] = imageUpload.files
   if (file) {
     img.src = URL.createObjectURL(file)
   }
 }
-
 $('#file-upload').change(function() {
   var i = $(this).prev('label').clone();
   var file = $('#file-upload')[0].files[0].name;
   $(this).prev('label').text(file);
 });
-
 });
 
 function checkConnection(){
