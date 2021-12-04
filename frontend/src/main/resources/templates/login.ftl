@@ -84,7 +84,7 @@ display: block;
   </div>
 </div>
 
-<form id="login-form" method="post" name="login-form" autocomplete="on">
+<form id="login-form" action="/" name="login-form" autocomplete="on">
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -101,7 +101,7 @@ display: block;
 			<div class="modal-body" id="modal1-body">
 
 			<#if message?? && message?has_content>
-			<div class="alert alert-danger" role="alert"> ${message} </div>
+			<div class="alert alert-danger" role="alert"> <span id="err_msg">${message}</span> </div>
 			</#if>
 		      		<div class="form-group">
 		      		<label for="recipient-name" class="col-form-label">Email or Mobile number</label>
@@ -128,6 +128,9 @@ display: block;
 	</section>
 	<script src="ecommerce/js/cookie.js"></script>
 	<script src="/login-form/js/login.js"></script>
+	<script>
+	$("#err_msg").html(sessionStorage.getItem("error"))
+	</script>
 	</body>
 </html>
 
