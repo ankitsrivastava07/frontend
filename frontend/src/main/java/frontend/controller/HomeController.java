@@ -256,17 +256,13 @@ public class HomeController {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		if (tokenStatus!=null && tokenStatus.isStatus() ){
 			userDto.setBrowser(browser);
-			if(multipartFile!=null) {
-				userDto.setFileName(multipartFile.getOriginalFilename());
-				userDto.setContentType(multipartFile.getContentType());
-				userDto.setContents(multipartFile.getBytes());
-				userDto.setFileSize(Short.valueOf((short) ((short) multipartFile.getSize() * 0.00000095367432)));
-				userDto.setPath(multipartFile.getName());
+			if(multipartFile!=null && !frontendService.isValidFileExtension(multipartFile)){
+				ApiError apiError = new ApiError(new Date(),HttpStatus.BAD_REQUEST.value(),ResponseConstant.FILE_EXTENSION_VALIDATION_FAILED_DEFAULT_MESSAGE,request.getRequestURI());
+				return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
 			}
-			userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto);
-			return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 		}
-		return new ResponseEntity<>(tokenStatus,HttpStatus.valueOf(tokenStatus.getHttpStatus()));
+		userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto,multipartFile);
+		return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 	}
 
 	@GetMapping("/check-connection")

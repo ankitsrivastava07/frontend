@@ -1,17 +1,3 @@
-var fileValid=false
-function validateFileExtension(file){
-        var fileExtension = ['jpeg', 'jpg', 'png', 'gif'];
-        if ($.inArray(file.toLowerCase(), fileExtension) == -1){
-        setTimeout(function(){
-          $("#file_error").html("Please select file with given format jpg,png,gif and jpeg");
-          }, 2000);
-         $("#file_error").html("Please select file with given format jpg,png,gif and jpeg");
-          return false;
-          }
-        else {
-        return true;
-        }
-}
 $(document).ready(function() {
 	$("#profile").validate({
 
@@ -45,16 +31,12 @@ $(document).ready(function() {
                    },
 		},
 		submitHandler: function(form) {
-			 var formTag = $("#profile")[0];
-             var formData = new FormData(formTag);
-			formData.append('image', $('#imageUpload')[0].files[0]);
-			$("#file_error").html("");
-			var ex=document.getElementById("imageUpload").value.split('.').pop();
-			if(($("#imageUpload").val()===undefined || $("#imageUpload").val()===""))
-			updateUser(formData);
-			if((!$("#imageUpload").val()===undefined || !$("#imageUpload").val()==="" || $("#imageUpload").val()!=="") && validateFileExtension(ex))
-			  updateUser(formData);
-		}
+            var formTag = $("#profile")[0];
+            var formData = new FormData(formTag);
+            formData.append('image', $('#imageUpload')[0].files[0]);
+            $("#file_error").html("");
+            updateUser(formData);
+	}
 	})
 })
 
@@ -117,6 +99,12 @@ $.ajax({
                });
                window.location.href=error.responseJSON.redirectURL
              }
+           else if(error.status==400 && !error.responseJSON.isValidFile){
+              $("#file_error").html(error.responseJSON.message);
+              $(document).ajaxStop(function () {
+              console.log("ajax stoped");
+              });
+        }
      }
 });
 return true;

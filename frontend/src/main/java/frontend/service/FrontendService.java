@@ -14,6 +14,7 @@ import frontend.controller.LoginStatus;
 import frontend.dto.OrderRequest;
 import frontend.dto.OrderResponseDto;
 import frontend.response.ResetPasswordResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface FrontendService {
 
@@ -45,9 +46,9 @@ public interface FrontendService {
 
 	TokenStatus refreshToken(String authentication,String browser);
 
-	UserDto editProfile(String authentication,UserDto userDto);
+	UserDto editProfile(String authentication, UserDto userDto, MultipartFile multipartFile);
 	UserDto profile(String authentication,String browser);
 	String getToken(HttpServletRequest request);
-
+	boolean isValidFileExtension(MultipartFile multipartFile);
 }
 

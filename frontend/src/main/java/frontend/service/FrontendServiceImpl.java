@@ -2,9 +2,7 @@ package frontend.service;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +31,7 @@ import org.springframework.stereotype.Service;
 import frontend.controller.LoginStatus;
 import frontend.dto.AddToCartRequest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FrontendServiceImpl implements FrontendService {
@@ -44,8 +43,17 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired private AmazonS3 amazonS3;
 	@Value("${aws.s3.bucket}")
 	@Autowired private String bucketName;
+	private List<String> fileExtension= new ArrayList<>();
 
 	private ObjectMapper mapper = new ObjectMapper();
+
+	public FrontendServiceImpl(){
+		fileExtension.add("image/jpg");
+		fileExtension.add("image/jpeg");
+		fileExtension.add("image/png");
+		fileExtension.add("image/gif");
+	}
+
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response,String cookieName, String cookieValue) {
 		Cookie cookies[] = request.getCookies();
@@ -336,22 +344,39 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "editProfileFallBack")
-	public UserDto editProfile(String authentication,UserDto userDto) {
-		String alternateMobile=userDto.getAlternateMobile();
-		if(alternateMobile!=null && userDto.getAlternateMobile().equals(""))
-			userDto.setAlternateMobile(null);
-		if(userDto.getEmail()!=null && userDto.getEmail().equals(""))
-			userDto.setEmail(null);
-		UserDto userDto1 =  apiGatewayRequestUri.editProfile(authentication,userDto).getBody();
+	public UserDto editProfile(String authentication,UserDto userDto,MultipartFile multipartFile) {
+		try {
+			String alternateMobile = userDto.getAlternateMobile();
+			if (alternateMobile != null && userDto.getAlternateMobile().equals(""))
+				userDto.setAlternateMobile(null);
+			if (userDto.getEmail() != null && userDto.getEmail().equals(""))
+				userDto.setEmail(null);
+			if (multipartFile != null) {
+				userDto.setFileName(multipartFile.getOriginalFilename());
+				userDto.setContentType(multipartFile.getContentType());
+				userDto.setContents(multipartFile.getBytes());
+				userDto.setFileSize(Short.valueOf((short) ((short) multipartFile.getSize() * 0.00000095367432)));
+				userDto.setPath(multipartFile.getName());
+			}
+			UserDto userDto1 = apiGatewayRequestUri.editProfile(authentication, userDto).getBody();
 		return userDto1;
+		}catch (Exception exception){
+			exception.printStackTrace();
+			return null;
+		}
 	}
 
-	public UserDto editProfileFallBack(String authentication,UserDto userDto,Throwable exception) {
+	public UserDto editProfileFallBack(String authentication,UserDto userDto,Throwable exception,MultipartFile multipartFile) {
 		UserDto responseConstant = new UserDto();
 		responseConstant.setStatus(Boolean.FALSE);
 		responseConstant.setMessage("Server down please try again later.");
 		responseConstant.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
 		return responseConstant;
+	}
+
+	@Override
+	public boolean isValidFileExtension(MultipartFile multipartFile){
+		return fileExtension.contains(multipartFile.getContentType());
 	}
 
 }
