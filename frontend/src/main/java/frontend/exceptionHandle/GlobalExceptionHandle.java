@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import frontend.api.error.ApiError;
 import frontend.api.response.AbstractResponse;
 import frontend.constant.ConstantResponse;
+import frontend.constant.ResponseConstant;
 import frontend.service.TokenStatus;
 import frontend.validation.ValidationError;
 import frontend.validation.ValidationUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -109,6 +112,13 @@ public class GlobalExceptionHandle {
         tokenStatus.setAccessTokenExpired(Boolean.TRUE);
         tokenStatus.setMessage("Your session has been expired.Please login again");
         return new ResponseEntity<>(tokenStatus, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<?> tokenException(MaxUploadSizeExceededException exception) {
+        ApiError apiError = new ApiError(new Date(),HttpStatus.BAD_REQUEST.value(), ResponseConstant.FILE_LIMIT_EXCEED_DEAULT_MESSAGE,request.getRequestURI());
+        apiError.setValidFile(Boolean.FALSE);
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
 }

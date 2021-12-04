@@ -13,7 +13,7 @@ public class ApiError {
 	private String message;
 	@JsonProperty
 	private String path;
-	private boolean isValidFile=Boolean.FALSE;
+	private boolean validFile=Boolean.FALSE;
 
 	public ApiError(Date timestamp, Integer status, String message,String path) {
 		this.timestamp = timestamp;
