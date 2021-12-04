@@ -76,8 +76,8 @@ $.ajax({
            }, 5500);
   },
    error: function(error) {
-               url = window.location.pathname.replace(/\/+$/, '') + "/error";
-               $(".alert").remove();
+           url = window.location.pathname.replace(/\/+$/, '') + "/error";
+           $(".alert").remove();
            if(error.status==503){
               $('#server_error').modal('show');
               $(document).ajaxStop(function () {
@@ -92,6 +92,7 @@ $.ajax({
               });
             }
            else if(error.status==401 && error.responseJSON.redirect){
+               $("#modal_title").html(error.responseJSON.title);
                $("#message").html(error.responseJSON.message);
                $('#server_error').modal('show');
                $(document).ajaxStop(function () {
@@ -99,7 +100,7 @@ $.ajax({
                });
                window.location.href=error.responseJSON.redirectURL
              }
-           else if(error.status==400 && !error.responseJSON.isValidFile){
+           else if(error.status==400 && !error.responseJSON.validFile){
               $("#file_error").html(error.responseJSON.message);
               $(document).ajaxStop(function () {
               console.log("ajax stoped");
