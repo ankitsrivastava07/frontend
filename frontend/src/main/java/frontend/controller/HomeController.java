@@ -362,6 +362,7 @@ public class HomeController {
 		unauthorizedRequest.setRedirect(Boolean.TRUE);
 		unauthorizedRequest.setRedirectURL("/signin");
 		unauthorizedRequest.setMessage(tokenStatus.getMessage());
+		unauthorizedRequest.setTitle(ResponseConstant.UNAUTHORIZE_REQUEST_DEAULT_MESSAGE);
 		return new ResponseEntity<>(unauthorizedRequest,HttpStatus.UNAUTHORIZED);
 	}
 
