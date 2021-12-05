@@ -38,7 +38,7 @@ import java.io.*;
 import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping({"/","/userName/check","api/v1/user/"})
+@RequestMapping({"/","api/v1/user/"})
 public class RestApiController {
 
 	@Autowired
