@@ -159,10 +159,10 @@ function changePassword(formData) {
                 });
 		}
 				if (response.status){
-				$.cookie("sessoion_Token",response.accessToken)
+				$.cookie("session_Token",response.accessToken)
 				$.cookie("browser",response.browser)
-                   	window.location ="/"
-                   }
+               	window.location ="/"
+               }
 			},
 			error: function(error) {
 				url = window.location.pathname.replace(/\/+$/, '') + "/error";
