@@ -13,7 +13,6 @@
 <script src="/login-form/js/cookie.js"></script>
   <script src="/login-form/js/popper.js"></script>
   <script src="/login-form/js/bootstrap.min.js"></script>
-  <script src="/login-form/js/main.js"></script>
 <script src="/login-form/js/validate.js"></script>
 
 	</head>
