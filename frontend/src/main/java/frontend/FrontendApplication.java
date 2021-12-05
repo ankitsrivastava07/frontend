@@ -47,7 +47,7 @@ public class FrontendApplication {
 	public FilterRegistrationBean webControllerFilter(){
 		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
 		filterRegistrationBean.setFilter(new WebControllerFilter(frontendService));
-		filterRegistrationBean.addUrlPatterns("/","/home","/signin","/signout","/register","/popup");
+		filterRegistrationBean.addUrlPatterns("/","/home","/signin","/signout","/register","/popup","/forget-password");
 		return filterRegistrationBean;
 	}
 }
