@@ -189,9 +189,9 @@ public class WebController {
         return new ModelAndView("redirect:" + "/change-password?code=" + code);
     }
 
-    @GetMapping("/user/forget-password")
-    public ModelAndView forgetPassword(@RequestParam(value = "code", required = false) String code, HttpServletRequest request, HttpServletResponse response) {
-        //TokenStatus tokenStatus = frontendService.isValidToken(request, response);
+    @GetMapping("/forget-password")
+    public ModelAndView forgetPassword(@RequestParam(name = "code", required = false) String code, HttpServletRequest request, HttpServletResponse response) {
+        //TokenStatus tokenStatus = (request, response);
         ModelAndView mv = new ModelAndView();
         mv.setViewName("reset-password");
         return mv;
