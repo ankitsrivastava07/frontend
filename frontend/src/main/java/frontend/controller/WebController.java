@@ -164,7 +164,7 @@ public class WebController {
         return mv;
     }
 
-    @GetMapping(path = "/user/orders")
+    @GetMapping(path = "/user/order")
     public ModelAndView order() {
         TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
         if (!tokenStatus.isStatus())

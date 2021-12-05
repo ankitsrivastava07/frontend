@@ -114,7 +114,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                   <li><a href="/orders">Orders</a></li>
+                                   <li><a href="/user/order">Orders</a></li>
                                    <li><a href="#">Wishlist</a></li>
                                    <li><a href="#">Gift Cards</a></li>
                                    <li><a href="#">Save Address</a></li>
