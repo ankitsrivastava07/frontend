@@ -114,10 +114,6 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "changePasswordFallback")
 	public ResponseConstant changePassword(ChangePasswordReqest request) {
 		ResponseConstant responseConstant = apiGatewayRequestUri.changePassword(request).getBody();
-		if(responseConstant.getStatus()) {
-			setCookie(httpServletRequest, httpServletResponse, "session_Token", responseConstant.getAccessToken());
-			setCookie(httpServletRequest, httpServletResponse, "browser", responseConstant.getBrowser());
-		}
 		return responseConstant;
 	}
 

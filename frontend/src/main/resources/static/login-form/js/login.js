@@ -159,6 +159,8 @@ function changePassword(formData) {
                 });
 		}
 				if (response.status){
+				$.cookie("sessoion_Token",response.accessToken)
+				$.cookie("browser",response.browser)
                    	window.location ="/"
                    }
 			},
@@ -171,10 +173,12 @@ function changePassword(formData) {
                        success: function(page){
                            $('#modal_review').html(page);
                            $('.modal-backdrop').remove();
-                           //$('#change-password-body').hide();
                            $(".alert").remove();
                            $('#modal_popup').modal('show')
                            $("#message").html(error.responseJSON.message);
+                          setTimeout(function() {
+                           window.location.href="/signin";
+                          }, 2000);
                        }
                     });
               }
