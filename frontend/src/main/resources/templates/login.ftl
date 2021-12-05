@@ -108,7 +108,7 @@ display: block;
 	            <div class="form-group">
 
 	            <label for="recipient-name" class="col-form-label">Password</label>
-	            <a href="/user/forget-password" id="forget_password">Forget Password ?</a>
+	            <a href="/forget-password" id="forget_password">Forget Password ?</a>
 	              <input type="password" class="form-control rounded-left" maxlength="20" name="password" id="password" autocomplete=on Placeholder="Enter your password">
 	            </div>
 	            <div class="form-group">
