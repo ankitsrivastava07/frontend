@@ -27,18 +27,17 @@ public class RequestRedirectFilter implements Filter {
         String jwtToken = request1.getHeader("Authentication");
         Cookie cookies[]=request1.getCookies();
         String url = request1.getServletPath();
+        TokenStatus tokenStatus = null;
+
         if(cookies!=null)
             for(Cookie cookie:cookies)
-                if(cookie.getName().equalsIgnoreCase("session_Token")) {
-                    jwtToken=cookie.getValue();TokenStatus tokenStatus = frontendService.isValidToken(jwtToken);
+                if(cookie.getName().equalsIgnoreCase("session_Token") && !(tokenStatus=frontendService.isValidToken(cookie.getValue())).isStatus()) {
+                    jwtToken=cookie.getValue();
                     TenantContext.setTokenStatus(tokenStatus);
-                    //chain.doFilter(request,response);
-                   // return;
+                    ((HttpServletResponse) response).sendRedirect("/signin");
+                    return;
                 }
-        if(jwtToken==null) {
-            response1.sendRedirect("/signin");
-            return;
-        }
+        TenantContext.setTokenStatus(tokenStatus);
        chain.doFilter(request,response);
     }
 
