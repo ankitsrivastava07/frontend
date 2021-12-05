@@ -110,11 +110,11 @@ function changePassword(formData) {
 	if ($("#change-password").valid() && checkConnection()) {
 		$.ajax({
 			type: "POST",
-			url: "/api/v1/change-password",
+			url: "/change-password",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			beforeSend: function(xhr){
-			xhr.setRequestHeader('Authentication', formData.code)
+			xhr.setRequestHeader('uriToken', formData.code)
 			},
 			cache: false,
 			success: function(response) {

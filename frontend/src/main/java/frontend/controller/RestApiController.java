@@ -87,7 +87,7 @@ public class RestApiController {
 	}
 
 	@PostMapping("/change-password")
-	public ResponseEntity<?> changePassword(@RequestHeader(value = "Authentication") String token, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
+	public ResponseEntity<?> changePassword(@RequestHeader(name = "uriToken") String uriToken, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
 		String browser=UUID.randomUUID().toString();
 		req.setBrowserName(browser);
 		ResponseConstant responseConstant = frontendService.changePassword(req);

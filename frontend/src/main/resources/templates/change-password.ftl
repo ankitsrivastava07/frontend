@@ -99,10 +99,10 @@ span#message {
 	            </div>
 	          </form>
 	        </div>
-				</div>
-			</div>
+		   </div>
+		  </div>
 		</div>
-		</div>
+	   </div>
 	</section>
 	<script src="/login-form/js/login.js"></script>
 	</body>
