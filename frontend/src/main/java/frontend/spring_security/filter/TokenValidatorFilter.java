@@ -32,7 +32,7 @@ public class TokenValidatorFilter implements Filter {
     String uri=request1.getServletPath();
     TokenStatus tokenStatus = frontendService.isValidToken(jwtToken);
     if(!tokenStatus.isStatus()) {
-        response1.sendError(401);
+        response1.sendRedirect("/signin");
         return;
     }
     TenantContext.setTokenStatus(tokenStatus);
