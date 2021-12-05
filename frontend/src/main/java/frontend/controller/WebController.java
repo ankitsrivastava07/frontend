@@ -191,7 +191,9 @@ public class WebController {
 
     @GetMapping("/forget-password")
     public ModelAndView forgetPassword(@RequestParam(name = "code", required = false) String code, HttpServletRequest request, HttpServletResponse response) {
-        //TokenStatus tokenStatus = (request, response);
+        TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
+        if(tokenStatus.isStatus())
+            return new ModelAndView("redirect:"+"/");
         ModelAndView mv = new ModelAndView();
         mv.setViewName("reset-password");
         return mv;
