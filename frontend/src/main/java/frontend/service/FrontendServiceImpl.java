@@ -84,33 +84,19 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "isValidTokenFallback")
-	public TokenStatus isValidToken(String authorizationToken) {
-		TokenStatus tokenStatus = apiGatewayRequestUri.isValidToken(authorizationToken).getBody();
+	public TokenStatus isValidToken(String jwtToken) {
+		TokenStatus tokenStatus = apiGatewayRequestUri.isValidToken(jwtToken).getBody();
 			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
 				setCookie(httpServletRequest, httpServletResponse,"session_Token", tokenStatus.getAccessToken());
 			return tokenStatus;
 	}
 
-	public TokenStatus isValidTokenFallback(String authorizationToken, Throwable exception) {
+	public TokenStatus isValidTokenFallback(String jwtToken, Throwable exception) {
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
 		tokenStatus.setHttpStatus(503);
 		logger.info(exception.getMessage());
-		return tokenStatus;
-	}
-
-	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "tokenValidFallback")
-	public TokenStatus isValidToken(HttpServletRequest request, HttpServletResponse response) {
-		String token = getToken(request);
-		TokenStatus tokenStatus=null;
-		if(token!=null)
-			tokenStatus= apiGatewayRequestUri.isValidToken(token).getBody();
-		if (Objects.nonNull(token) && !token.isEmpty()) {
-			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
-				setCookie(request, response,"session_Token", tokenStatus.getAccessToken());
-			return tokenStatus;
-		}
 		return tokenStatus;
 	}
 
@@ -366,7 +352,7 @@ public class FrontendServiceImpl implements FrontendService {
 		}
 	}
 
-	public UserDto editProfileFallBack(String authentication,UserDto userDto,Throwable exception,MultipartFile multipartFile) {
+	public UserDto editProfileFallBack(String authentication,UserDto userDto,MultipartFile multipartFile,Throwable exception) {
 		UserDto responseConstant = new UserDto();
 		responseConstant.setStatus(Boolean.FALSE);
 		responseConstant.setMessage("Server down please try again later.");

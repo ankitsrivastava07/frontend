@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="ecommerce/js/jquery.min.js"></script>
   <script src="ecommerce/js/cookie.js"></script>
-
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap"/>
@@ -59,8 +58,6 @@
 </head>
 
 <body>
-
-<script src="ecommerce/js/main.js"></script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -121,9 +118,9 @@
                                    <li><a href="#">Wishlist</a></li>
                                    <li><a href="#">Gift Cards</a></li>
                                    <li><a href="#">Save Address</a></li>
-                                   <li><a href="/users/profile">Edit Profile</a></li>
-                                   <li><a href="/signout?redirect=/signin">Sign out</a></li>
-                                   <li><a href="/signout-from-all-devices?redirect=/signin"">Sign out from all devices</a></li>
+                                   <li><a href="/user/profile">Edit Profile</a></li>
+                                   <li><a href="/signout">Sign out</a></li>
+                                   <li><a href="/user/signout-from-all-devices">Sign out from all devices</a></li>
                     </ul>
                   </li>
                            </div><!-- /.navbar-collapse -->

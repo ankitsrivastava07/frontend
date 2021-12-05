@@ -55,7 +55,7 @@ function login(formData) {
 	if ($("#login-form").valid() && checkConnection()) {
 		$.ajax({
 			type: "POST",
-			url: "/signin",
+			url: "/login",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			cache: false,
@@ -110,7 +110,7 @@ function changePassword(formData) {
 	if ($("#change-password").valid() && checkConnection()) {
 		$.ajax({
 			type: "POST",
-			url: "/change-password",
+			url: "/api/v1/change-password",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			beforeSend: function(xhr){

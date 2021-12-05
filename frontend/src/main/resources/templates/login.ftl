@@ -60,7 +60,6 @@ display: block;
     font-size: 14px;
     text-align: center;
 }
-
 	</style>
 	<body>
 
@@ -99,9 +98,8 @@ display: block;
 		      	</div>
 		      	<h3 class="text-center mb-4">Sign in</h3>
 			<div class="modal-body" id="modal1-body">
-
 			<#if message?? && message?has_content>
-			<div class="alert alert-danger" role="alert"> <span id="err_msg">${message}</span> </div>
+			<div class="alert alert-danger" role="alert">${message}</div>
 			</#if>
 		      		<div class="form-group">
 		      		<label for="recipient-name" class="col-form-label">Email or Mobile number</label>
@@ -118,12 +116,12 @@ display: block;
 	            	<span id="create_account">Don't have an account?
 	            	<a href="/register">Create Account</a>
 	            	</span>
-	            </div>
+	           </div>
 	          </form>
 	        </div>
-				</div>
-			</div>
-		</div>
+		   </div>
+		  </div>
+		 </div>
 		</div>
 	</section>
 	<script src="ecommerce/js/cookie.js"></script>

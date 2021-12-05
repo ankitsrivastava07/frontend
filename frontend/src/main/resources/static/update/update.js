@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	$("#profile").validate({
-
 		rules: {
 			firstName: {
 				required: true,
@@ -22,13 +21,12 @@ $(document).ready(function() {
 			firstName: {
 				required: "Please enter your first name",
 			},
-
 			lastName: {
 				required: "Please enter your last name",
 			   },
             email: {
-                      required: "Please enter your email",
-                   },
+                required: "Please enter your email",
+              },
 		},
 		submitHandler: function(form) {
             var formTag = $("#profile")[0];
@@ -44,7 +42,7 @@ function updateUser(formData){
 if(checkConnection()){
 $.ajax({
    type: "POST",
-   url: "/users/profile/edit",
+   url: "/api/v1/user/profile/edit",
    contentType: false,
    processData: false,
    data: formData,

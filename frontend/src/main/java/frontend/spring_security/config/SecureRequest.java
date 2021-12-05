@@ -5,27 +5,34 @@ import frontend.service.FrontendService;
 import frontend.session_validator.JwtAccessTokenUtil;
 import frontend.spring_security.authentication_provider.AuthenticateUser;
 import frontend.spring_security.filter.AuthenticationEntryPointFilter;
+import frontend.spring_security.filter.RequestRedirectFilter;
 import frontend.spring_security.filter.TokenValidatorFilter;
+import frontend.spring_security.filter.WebControllerFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.GenericFilter;
 import java.util.Arrays;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 @EnableWebSecurity(debug = true)
 @EnableGlobalAuthentication
 public class SecureRequest extends WebSecurityConfigurerAdapter {
@@ -39,7 +46,6 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity httpSecurity) throws Exception{
 
         httpSecurity
-        .addFilterBefore(new TokenValidatorFilter(apiGatewayRequestUri,jwtAccessTokenUtil,frontendService), BasicAuthenticationFilter.class)
         .cors().configurationSource(
                 request ->{
                     CorsConfiguration configuration = new CorsConfiguration();
@@ -61,14 +67,14 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register")
                 .permitAll()
                 .antMatchers("/check-connection").permitAll()
-                .antMatchers("/signin").permitAll().and().
-        sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .antMatchers("/signin").permitAll().and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();
         httpSecurity.exceptionHandling().authenticationEntryPoint(authenticationEntryPointFilter).and().headers().cacheControl();
     }
     @Override
     public void configure(WebSecurity webSecurity) {
-        webSecurity.ignoring().antMatchers("/ecommerce/**","/css/**","/images/**","/login-form/**","/response-popup/**","/**/*");
+        webSecurity.ignoring().antMatchers( "/resources/**" );
     }
 
     @Bean
@@ -90,5 +96,4 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationProvider authenticationProvider){
         authenticationProvider.authenticate(new UserCredentialRequest());
     }*/
-
 }
