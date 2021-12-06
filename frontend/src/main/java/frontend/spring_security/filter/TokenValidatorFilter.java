@@ -5,6 +5,7 @@ import frontend.service.TokenStatus;
 import frontend.session_validator.JwtAccessTokenUtil;
 import frontend.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.core.annotation.Order;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ public class TokenValidatorFilter implements Filter {
         this.apiGatewayRequestUri = apiGatewayRequestUri;
         this.jwtAccessTokenUtil= jwtAccessTokenUtil;
         this.frontendService=frontendService;
+
     }
 
     @Override

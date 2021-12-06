@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.util.IOUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
@@ -313,6 +315,16 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileFallBack")
 	public UserDto profile(String authentication,String browser) {
 		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
+		String url= userDto1.getS3BucketFileURL();
+		try {
+			if (userDto1.getS3BucketFileName()!=null) {
+				S3Object s3Object = amazonS3.getObject(bucketName, userDto1.getS3BucketFileName());
+				String enc = "data:"+userDto1.getContentType()+";base64,"+Base64.getEncoder().encodeToString(IOUtils.toByteArray(s3Object.getObjectContent()));
+				userDto1.setS3BucketFileURL(enc);
+			}
+		}catch (IOException exception){
+			exception.printStackTrace();
+		}
 		return userDto1;
 	}
 
