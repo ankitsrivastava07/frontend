@@ -315,22 +315,24 @@ public class FrontendServiceImpl implements FrontendService {
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileFallBack")
 	public UserDto profile(String authentication,String browser) {
-		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
-			String url= userDto1.getS3BucketFileURL();
-
-			if (userDto1.getS3BucketFileName()!=null) {
 			try {
-				S3Object s3Object = amazonS3.getObject(bucketName, userDto1.getS3BucketFileName());
-				String enc = "data:" + userDto1.getContentType() + ";base64," + Base64.getEncoder().encodeToString(IOUtils.toByteArray(s3Object.getObjectContent()));
-				userDto1.setS3BucketFileURL(enc);
+				UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
+				if (userDto1.getS3BucketFileName()!=null) {
+					String url = userDto1.getS3BucketFileURL();
+					S3Object s3Object = amazonS3.getObject(bucketName, userDto1.getS3BucketFileName());
+					String enc = "data:" + userDto1.getContentType() + ";base64," + Base64.getEncoder().encodeToString(IOUtils.toByteArray(s3Object.getObjectContent()));
+					userDto1.setS3BucketFileURL(enc);
+					return userDto1;
+				}
+				return userDto1;
 			} catch (IOException ioException){
 				ioException.printStackTrace();
+				return null;
 			}
 			catch (AmazonS3Exception exception){
 				exception.printStackTrace();
+				return null;
 			}
-			}
-		return userDto1;
 	}
 
 	public UserDto profileFallBack(String authentication,String browser,Throwable exception) {
@@ -359,7 +361,7 @@ public class FrontendServiceImpl implements FrontendService {
 			}
 			UserDto userDto1 = apiGatewayRequestUri.editProfile(authentication, userDto).getBody();
 		return userDto1;
-		}catch (Exception exception){
+		}catch (IOException exception){
 			exception.printStackTrace();
 			return null;
 		}
