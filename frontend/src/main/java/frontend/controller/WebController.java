@@ -56,7 +56,7 @@ public class WebController {
         }
         if (tokenStatus != null && !tokenStatus.isStatus()) {
             mv.addObject("message", tokenStatus.getMessage());
-            //return new ModelAndView("redirect:"+"/signin");
+            return mv;
         }
         return mv;
     }

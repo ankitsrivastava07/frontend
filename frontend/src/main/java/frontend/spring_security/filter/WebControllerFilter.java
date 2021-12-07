@@ -44,8 +44,6 @@ public class WebControllerFilter implements Filter {
                     chain.doFilter(request,response);
                     return;
                 }
-        TokenStatus tokenStatus = frontendService.isValidToken(null);
-        TenantContext.setTokenStatus(tokenStatus);
         chain.doFilter(request,response);
     }
 
