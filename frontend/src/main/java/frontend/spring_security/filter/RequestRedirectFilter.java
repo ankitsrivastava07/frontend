@@ -27,7 +27,7 @@ public class RequestRedirectFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request1=(HttpServletRequest)request;
         HttpServletResponse response1=(HttpServletResponse) response;
-        String jwtToken = request1.getHeader("Authentication");
+        String jwtToken = "";
         Cookie cookies[]=request1.getCookies();
         String url = request1.getServletPath();
         TokenStatus tokenStatus = null;
@@ -41,7 +41,7 @@ public class RequestRedirectFilter implements Filter {
                 }
             }
         if(tokenStatus==null){
-            ((HttpServletResponse) response).sendRedirect("/signin");
+            response1.sendRedirect("/signin");
             return;
         }
         TenantContext.setTokenStatus(tokenStatus);
