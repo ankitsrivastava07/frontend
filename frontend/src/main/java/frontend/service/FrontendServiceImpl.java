@@ -316,20 +316,20 @@ public class FrontendServiceImpl implements FrontendService {
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileFallBack")
 	public UserDto profile(String authentication,String browser) {
 		UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
-		String url= userDto1.getS3BucketFileURL();
-		try {
+			String url= userDto1.getS3BucketFileURL();
+
 			if (userDto1.getS3BucketFileName()!=null) {
 			try {
 				S3Object s3Object = amazonS3.getObject(bucketName, userDto1.getS3BucketFileName());
 				String enc = "data:" + userDto1.getContentType() + ";base64," + Base64.getEncoder().encodeToString(IOUtils.toByteArray(s3Object.getObjectContent()));
 				userDto1.setS3BucketFileURL(enc);
-			}catch (AmazonS3Exception exception){
+			} catch (IOException ioException){
+				ioException.printStackTrace();
+			}
+			catch (AmazonS3Exception exception){
 				exception.printStackTrace();
 			}
 			}
-		}catch (IOException exception){
-			exception.printStackTrace();
-		}
 		return userDto1;
 	}
 
