@@ -40,7 +40,7 @@ public class RequestRedirectFilter implements Filter {
                     return;
                 }
             }
-        else if(tokenStatus==null){
+        if(tokenStatus==null){
             ((HttpServletResponse) response).sendRedirect("/signin");
             return;
         }
