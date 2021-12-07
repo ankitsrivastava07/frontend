@@ -103,7 +103,7 @@ display:none;
         <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar" id="img">
        <input type="file" class="text-center center-block file-upload" name="imageUpload"  id="imageUpload">
-       <span id="file_error"></span>
+       <span id="file_error" class="error"></span>
         </#if>
         <h4>${userDto.firstName} ${userDto.lastName}</h4>
       </div></hr><br>
