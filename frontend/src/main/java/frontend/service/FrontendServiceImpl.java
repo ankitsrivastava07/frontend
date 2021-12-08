@@ -320,7 +320,7 @@ public class FrontendServiceImpl implements FrontendService {
 				userDto =  apiGatewayRequestUri.profile(authentication).getBody();
 				if (userDto.getS3BucketFileName()!=null) {
 					String url = userDto.getS3BucketFileURL();
-					S3Object s3Object = amazonS3.getObject(bucketName, userDto.getS3BucketFileName());
+					S3Object s3Object = amazonS3.getObject(bucketName+"/profile_image", userDto.getS3BucketFileName());
 					String enc = "data:" + userDto.getContentType() + ";base64," + Base64.getEncoder().encodeToString(IOUtils.toByteArray(s3Object.getObjectContent()));
 					userDto.setS3BucketFileURL(enc);
 					return userDto;

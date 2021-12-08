@@ -42,5 +42,6 @@ public class UserDto implements Serializable {
     private String s3BucketFileURL;
     private Long userId;
     private String s3BucketFileName;
+    private String bucketName;
 }
 
