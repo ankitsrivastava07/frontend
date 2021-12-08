@@ -43,10 +43,8 @@ public class WebControllerFilter implements Filter {
                 }
             }
         if(jwtToken==null){
-            FrontendServiceImpl frontendServiceImpl=(FrontendServiceImpl)frontendService;
-            TenantContext.setTokenStatus(frontendServiceImpl.isValidTokenFallback(jwtToken,new Throwable()));
+            TenantContext.setTokenStatus(defaultMessage(null));
         }
-
         chain.doFilter(request,response);
     }
 
@@ -60,4 +58,12 @@ public class WebControllerFilter implements Filter {
         TenantContext.setTokenStatus(tokenStatus);
         return tokenStatus.isStatus();
     }
+
+    public TokenStatus defaultMessage(String message) {
+        TokenStatus tokenStatus = new TokenStatus();
+        tokenStatus.setMessage(message);
+        TenantContext.setTokenStatus(tokenStatus);
+        return tokenStatus;
+    }
+
 }
