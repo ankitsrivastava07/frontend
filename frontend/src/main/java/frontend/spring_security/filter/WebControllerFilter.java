@@ -1,6 +1,7 @@
 package frontend.spring_security.filter;
 
 import frontend.service.FrontendService;
+import frontend.service.FrontendServiceImpl;
 import frontend.service.TokenStatus;
 import frontend.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,20 @@ public class WebControllerFilter implements Filter {
       HttpServletResponse response1 = (HttpServletResponse)response;
         String uri=request1.getServletPath();
         Cookie cookies[]=request1.getCookies();
-
+        String jwtToken=null;
         if(cookies!=null)
             for(Cookie cookie:cookies) {
                 if (cookie.getName().equalsIgnoreCase("session_Token")) {
+                    jwtToken=cookie.getValue();
                     isValidToken(cookie.getValue());
                     chain.doFilter(request, response);
                     return;
                 }
             }
+        if(jwtToken==null){
+            FrontendServiceImpl frontendServiceImpl=(FrontendServiceImpl)frontendService;
+            TenantContext.setTokenStatus(frontendServiceImpl.isValidTokenFallback(jwtToken,new Throwable()));
+        }
         chain.doFilter(request,response);
     }
 
