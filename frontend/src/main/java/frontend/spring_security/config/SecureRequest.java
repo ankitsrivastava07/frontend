@@ -46,6 +46,7 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity httpSecurity) throws Exception{
 
         httpSecurity
+                .headers().cacheControl().disable().and()
         .cors().configurationSource(
                 request ->{
                     CorsConfiguration configuration = new CorsConfiguration();

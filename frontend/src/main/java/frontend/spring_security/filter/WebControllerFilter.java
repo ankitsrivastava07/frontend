@@ -46,6 +46,7 @@ public class WebControllerFilter implements Filter {
             FrontendServiceImpl frontendServiceImpl=(FrontendServiceImpl)frontendService;
             TenantContext.setTokenStatus(frontendServiceImpl.isValidTokenFallback(jwtToken,new Throwable()));
         }
+
         chain.doFilter(request,response);
     }
 
