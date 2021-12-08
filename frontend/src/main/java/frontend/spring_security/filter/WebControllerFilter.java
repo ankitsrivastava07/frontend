@@ -4,6 +4,7 @@ import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 import frontend.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -23,6 +24,7 @@ public class WebControllerFilter implements Filter {
     }
 
 
+    @CacheEvict(cacheNames = {"session_Token","browser"},allEntries = true)
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
       HttpServletRequest request1= (HttpServletRequest)request;

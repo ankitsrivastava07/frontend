@@ -315,23 +315,24 @@ public class FrontendServiceImpl implements FrontendService {
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "profileFallBack")
 	public UserDto profile(String authentication,String browser) {
+		UserDto userDto=null;
 			try {
-				UserDto userDto1 =  apiGatewayRequestUri.profile(authentication).getBody();
-				if (userDto1.getS3BucketFileName()!=null) {
-					String url = userDto1.getS3BucketFileURL();
-					S3Object s3Object = amazonS3.getObject(bucketName, userDto1.getS3BucketFileName());
-					String enc = "data:" + userDto1.getContentType() + ";base64," + Base64.getEncoder().encodeToString(IOUtils.toByteArray(s3Object.getObjectContent()));
-					userDto1.setS3BucketFileURL(enc);
-					return userDto1;
+				userDto =  apiGatewayRequestUri.profile(authentication).getBody();
+				if (userDto.getS3BucketFileName()!=null) {
+					String url = userDto.getS3BucketFileURL();
+					S3Object s3Object = amazonS3.getObject(bucketName, userDto.getS3BucketFileName());
+					String enc = "data:" + userDto.getContentType() + ";base64," + Base64.getEncoder().encodeToString(IOUtils.toByteArray(s3Object.getObjectContent()));
+					userDto.setS3BucketFileURL(enc);
+					return userDto;
 				}
-				return userDto1;
+				return userDto;
 			} catch (IOException ioException){
 				ioException.printStackTrace();
-				return null;
+				return userDto;
 			}
 			catch (AmazonS3Exception exception){
 				exception.printStackTrace();
-				return null;
+				return userDto;
 			}
 	}
 
@@ -353,7 +354,7 @@ public class FrontendServiceImpl implements FrontendService {
 			if (userDto.getEmail() != null && userDto.getEmail().equals(""))
 				userDto.setEmail(null);
 			if (multipartFile != null) {
-				userDto.setFileName(multipartFile.getOriginalFilename());
+				userDto.setFileName(multipartFile.getOriginalFilename().replaceAll("\\s",""));
 				userDto.setContentType(multipartFile.getContentType());
 				userDto.setContents(multipartFile.getBytes());
 				userDto.setFileSize(Short.valueOf((short) ((short) multipartFile.getSize() * 0.00000095367432)));
