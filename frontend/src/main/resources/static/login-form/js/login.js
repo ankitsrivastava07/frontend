@@ -110,7 +110,7 @@ function changePassword(formData) {
 	if ($("#change-password").valid() && checkConnection()) {
 		$.ajax({
 			type: "POST",
-			url: "/change-password",
+			url: "/api/v1/user/change-password",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			beforeSend: function(xhr){
@@ -347,7 +347,7 @@ function userNameCheck(formData){
 
 $.ajax({
         type: "POST",
-        url: "/userName/check",
+        url: "/api/v1/user/userName-check",
         contentType: "application/json",
         data: JSON.stringify(formData),
         async: true,

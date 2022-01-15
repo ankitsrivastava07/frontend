@@ -33,7 +33,6 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FrontendServiceImpl implements FrontendService {
-
 	Logger logger = Logger.getLogger("Response of microservice");
 	@Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
 	@Autowired HttpServletRequest httpServletRequest;
@@ -42,22 +41,18 @@ public class FrontendServiceImpl implements FrontendService {
 	@Value("${aws.s3.bucket}")
 	@Autowired private String bucketName;
 	private List<String> fileExtension= new ArrayList<>();
-
 	private ObjectMapper mapper = new ObjectMapper();
-
 	public FrontendServiceImpl(){
 		fileExtension.add("image/jpg");
 		fileExtension.add("image/jpeg");
 		fileExtension.add("image/png");
 		fileExtension.add("image/gif");
 	}
-
 	@Override
 	public void setCookie(HttpServletRequest request, HttpServletResponse response,String cookieName, String cookieValue) {
 		Cookie cookies[] = request.getCookies();
 		if (!cookieValue.isEmpty() && cookies != null) {
 			for (Cookie cookie : cookies)
-
 				if (cookie.getName().equalsIgnoreCase(cookieName)) {
 					cookie.setValue(cookieValue);
 					cookie.setPath("/");
@@ -145,7 +140,6 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	public LoginStatus loginFallBack(UserCredentialRequest userCredential,Throwable exception) {
-
 		LoginStatus loginStatus = new LoginStatus();
 		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
 		loginStatus.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
@@ -178,7 +172,6 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
 	public TokenStatus defaultFallbackMethodHandleRequest(ChangePasswordReqest request, Throwable exception) {
-
 		TokenStatus tokenStatus = new TokenStatus();
 		System.out.println(exception.getMessage());
 		tokenStatus.setMessage("Sorry Server is currently down.Please try again later");
@@ -212,9 +205,7 @@ public class FrontendServiceImpl implements FrontendService {
 		return addToCartResponse;
 	}
 
-	
 	public AddToCartResponse addToCartFallBack(AddToCartRequest addToCartRequest,HttpServletRequest request, HttpServletResponse response,Throwable exception) {
-		
 		AddToCartResponse addToCartResponse = new AddToCartResponse();
 		addToCartResponse.setStatus(Boolean.FALSE);
 		addToCartResponse.setSessionToken(null);
@@ -236,7 +227,6 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 
   public AddToCartCountProductsResponse addToCartProductCountFallbackMethod(String token,HttpServletRequest request, HttpServletResponse response,Throwable exception) {
-
 	  AddToCartCountProductsResponse addToCartResponse = new AddToCartCountProductsResponse();
 		addToCartResponse.setStatus(Boolean.FALSE);
 		addToCartResponse.setSessionToken(null);

@@ -75,7 +75,6 @@ $(document).ready(function() {
 			submitHandler: function(form) {
 
 				var formData = {
-
 					"firstName": $("#firstName").val(),
 					"lastName": $("#lastName").val(),
 					"email": $("#email").val(),
@@ -87,12 +86,10 @@ $(document).ready(function() {
 		})
 
 		function register(formData) {
-
 			if ($("#signup-form").valid()) {
-
 				$.ajax({
 					type: "POST",
-					url: "/register",
+					url: "/api/v1/user/register",
 					contentType: "application/json",
 					data: JSON.stringify(formData),
 					cache: false,
@@ -139,7 +136,7 @@ $(document).ready(function() {
                			$('#server_error').modal('show');
                }
                $('#close').click(function(){
-                    $('#server_error').modal('hide');
+                 $('#server_error').modal('hide');
                 });
 					}
 				});

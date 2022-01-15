@@ -19,9 +19,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled=true)
-@EnableWebSecurity(debug = true)
 @EnableGlobalAuthentication
+//@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableWebSecurity(debug = true)
 public class SecureRequest extends WebSecurityConfigurerAdapter {
     @Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
     @Autowired private AuthenticateUser authenticateUser;
@@ -32,34 +32,23 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception{
 
-        httpSecurity
-                .headers().cacheControl().disable().and()
-        .cors().configurationSource(
-                request ->{
-                    CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setExposedHeaders(Arrays.asList("Authentication","response_header"));
-        configuration.setAllowedHeaders(Arrays.asList("Authentication","response_header", "content-type", "x-auth-token"));
-        configuration.setExposedHeaders(Arrays.asList("Authentication","response_header"));
-        configuration.setMaxAge((long) -1);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-                    return configuration;
-                })
+        httpSecurity.httpBasic().authenticationEntryPoint(authenticationEntryPointFilter)
                 .and()
-                .authenticationProvider(authenticateUser)
                 .authorizeRequests()
-                .antMatchers("/","/**")
+                .antMatchers("/")
                 .permitAll()
-                .antMatchers("/home")
+                .antMatchers("/home").permitAll()
+                .antMatchers("/popup").permitAll()
+                .antMatchers("/signout").permitAll()
+                .antMatchers("/user/signout-from-all-devices")
                 .permitAll()
-                .antMatchers("/register")
+                .antMatchers("/register","/forget-password")
                 .permitAll()
                 .antMatchers("/check-connection").permitAll()
+                .antMatchers("/ajax/*").permitAll()
                 .antMatchers("/user/profile").permitAll()
                 .antMatchers("/signin").permitAll()
-                .antMatchers("/api/v1/user/*")
+                .antMatchers("/api/v1/user/*","/api/v1/user/profile/*")
                 .permitAll()
                 .antMatchers("/change-password","/change-password?code=")
                 .permitAll()
@@ -68,12 +57,13 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().cors().disable().csrf().disable();
+                 httpSecurity.authenticationProvider(authenticateUser);
                  httpSecurity.exceptionHandling().authenticationEntryPoint(authenticationEntryPointFilter).and().headers().cacheControl();
     }
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().
-         antMatchers( "/images/**","/css/**","/ecommerce/**","/login-form/**","/register-form/**","/respone-popup/**","/update/**");
+         antMatchers( "/images/**","/css/**","/ecommerce/**","/login-form/**","/register-form/**","/response-popup/css/**","/update/**");
     }
 
     @Bean

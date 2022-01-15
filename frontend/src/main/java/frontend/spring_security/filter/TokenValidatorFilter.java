@@ -18,17 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 @Order(2)
 public class TokenValidatorFilter implements Filter {
-
     @Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
     @Autowired private JwtAccessTokenUtil jwtAccessTokenUtil;
     @Autowired private FrontendService frontendService;
-
     public TokenValidatorFilter(ApiGatewayRequestUri apiGatewayRequestUri,JwtAccessTokenUtil jwtAccessTokenUtil,FrontendService frontendService) {
         this.apiGatewayRequestUri = apiGatewayRequestUri;
         this.jwtAccessTokenUtil= jwtAccessTokenUtil;
         this.frontendService=frontendService;
     }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest request1= (HttpServletRequest)request;
@@ -36,7 +33,7 @@ public class TokenValidatorFilter implements Filter {
     String jwtToken = request1.getHeader("Authentication");
     String uri=request1.getServletPath();
     TokenStatus tokenStatus = null;
-    if(!uri.equalsIgnoreCase("/api/v1/user/login")) {
+    if(!uri.equalsIgnoreCase("/api/v1/user/register") && !uri.equalsIgnoreCase("/api/v1/user/change-password") && !uri.equalsIgnoreCase("/api/v1/user/login") && !uri.equals("/api/v1/user/userName-check")) {
         if(jwtToken==null || !(tokenStatus=frontendService.isValidToken(jwtToken)).isStatus()) {
             response1.setContentType("application/json");
             PrintWriter writer = response1.getWriter();

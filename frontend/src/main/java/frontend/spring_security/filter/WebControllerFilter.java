@@ -4,8 +4,6 @@ import frontend.service.TokenStatus;
 import frontend.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.stereotype.Component;
-
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +12,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 public class WebControllerFilter implements Filter {
 
     @Autowired
@@ -40,6 +37,7 @@ public class WebControllerFilter implements Filter {
         List<String> list=null;
         if(cookies!=null) {
            list = Arrays.asList(cookies).stream().filter(cookie -> cookie.getName().equalsIgnoreCase("session_Token")).map(cookie -> cookie.getValue()).collect(Collectors.toList());
+           if(list.size()>0)
            isValidToken(list.get(0));
         }
         if(cookies!=null) {

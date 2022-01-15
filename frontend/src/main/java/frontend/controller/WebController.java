@@ -69,6 +69,7 @@ public class WebController {
     @GetMapping("/signout")
     public void signout(HttpServletRequest request,HttpServletResponse response) throws IOException {
         TokenStatus tokenStatus= TenantContext.getCurrentTokenStatus();
+        if(tokenStatus!=null)
         frontendService.invalidateToken(tokenStatus.getAccessToken());
         response.sendRedirect("/signin");
     }

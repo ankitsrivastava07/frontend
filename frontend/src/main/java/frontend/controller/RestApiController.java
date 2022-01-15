@@ -2,8 +2,6 @@ package frontend.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import frontend.api.dto.response.UnauthorizedRequestURL;
 import frontend.api.dto.response.UserDto;
 import frontend.api.error.ApiError;
@@ -13,7 +11,6 @@ import frontend.api.request.UserCredentialRequest;
 import frontend.api.request.UserNameExistRequest;
 import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
-import frontend.dto.AddToCartRequest;
 import frontend.dto.OrderRequest;
 import frontend.dto.OrderResponseDto;
 import frontend.response.ResetPasswordResponse;
@@ -32,21 +29,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.io.*;
 import java.util.*;
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping({"/api/v1/user/"})
+@RequestMapping({"/api/v1/user/","/api/v1/user/profile"})
 public class RestApiController {
-
 	@Autowired
 	private FrontendService frontendService;
     @Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private JwtAccessTokenUtil jwtAccessTokenUtil;
-
 	@RequestMapping(path = "/login",method=RequestMethod.POST)
 	public ResponseEntity<?> signIn(@RequestBody @Valid UserCredentialRequest userCredential, HttpServletRequest request,
 								   HttpServletResponse response) throws JsonProcessingException {
@@ -54,22 +47,14 @@ public class RestApiController {
         UserCredentialRequest userCredentialRequest= (UserCredentialRequest) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredential.getEmailOrMobile(),userCredential.getPassword()));
 		LoginStatus loginStatus= new LoginStatus();
 		loginStatus.setHttpStatus(userCredentialRequest.getHttpStatus());
-
 		if(loginStatus.getHttpStatus()==503)
 			loginStatus.setStatus(Boolean.FALSE);
 		  else
 			  loginStatus.setStatus(Boolean.TRUE);
-
 		loginStatus.setToken(userCredentialRequest.getToken());
 		loginStatus.setBrowser(userCredentialRequest.getBrowser());
 		loginStatus.setMessage(userCredentialRequest.getMessage());
-    	  response.addHeader("session_Token",loginStatus.getToken());
-		  response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-		  response.setHeader("Access-Control-Allow-Credentials", "true");
-		  response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-		  response.setHeader("Access-Control-Max-Age", "3600");
-		  response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
-		  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+		return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
 	  }catch (BadCredentialsException exception){
 		  LoginStatus loginStatus = new LoginStatus();
 		  loginStatus.setHttpStatus(HttpStatus.OK.value());
@@ -146,7 +131,7 @@ public class RestApiController {
 		return new ResponseEntity<>(addToCartCountProductsResponse,HttpStatus.valueOf(tokenStatus.getHttpStatus()));
 	}
 
-	@PostMapping("/userName/check")
+	@PostMapping("/userName-check")
 	public ResponseEntity<?> userNameCheck(@RequestBody @Valid UserNameExistRequest userNameExistRequest) {
 		ResetPasswordResponse resetPasswordResponse = frontendService.userNameCheck(userNameExistRequest.getEmail());
 		return new ResponseEntity<>(resetPasswordResponse, HttpStatus.valueOf(resetPasswordResponse.getHttpStatus()));
