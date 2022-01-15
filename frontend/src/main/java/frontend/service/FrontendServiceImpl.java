@@ -1,5 +1,4 @@
 package frontend.service;
-
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -7,7 +6,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.S3Object;
@@ -24,18 +22,15 @@ import frontend.dto.OrderRequest;
 import frontend.dto.OrderResponseDto;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
-import frontend.tenant.TenantContext;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import frontend.controller.LoginStatus;
 import frontend.dto.AddToCartRequest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.web.multipart.MultipartFile;
-
 @Service
 public class FrontendServiceImpl implements FrontendService {
 
@@ -66,6 +61,8 @@ public class FrontendServiceImpl implements FrontendService {
 				if (cookie.getName().equalsIgnoreCase(cookieName)) {
 					cookie.setValue(cookieValue);
 					cookie.setPath("/");
+					cookie.setMaxAge(0);
+					cookie.setHttpOnly(true);
 					response.addCookie(cookie);
 					return;
 				}

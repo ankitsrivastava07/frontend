@@ -15,7 +15,8 @@ public class AuthenticationEntryPointFilter implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        Logger logger = Logger.getLogger("Authentication entry point's commence method called authentication exception occured "+authException.getMessage());
+        Logger logger = Logger.getLogger(String.class);
+        logger.info("Authentication entry point's commence method called authentication exception occured "+authException.getMessage());
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
 }

@@ -10,9 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("")
@@ -45,7 +50,7 @@ public class WebController {
     }
 
     @GetMapping("/signin")
-    public ModelAndView signin(@RequestHeader(name = "Authentication",required = false)String authentication,@RequestHeader(value = "browser",required = false)String browser) {
+    public ModelAndView signin(@RequestHeader(name = "Authentication",required = false)String authentication,@RequestHeader(value = "browser",required = false)String browser,HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("login");
         TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
@@ -160,7 +165,6 @@ public class WebController {
             }
             return mv;
         }
-
         return mv;
     }
 
@@ -192,8 +196,6 @@ public class WebController {
     @GetMapping("/forget-password")
     public ModelAndView forgetPassword(@RequestParam(name = "code", required = false) String code, HttpServletRequest request, HttpServletResponse response) {
         TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
-        if(tokenStatus.isStatus())
-            return new ModelAndView("redirect:"+"/");
         ModelAndView mv = new ModelAndView();
         mv.setViewName("reset-password");
         return mv;

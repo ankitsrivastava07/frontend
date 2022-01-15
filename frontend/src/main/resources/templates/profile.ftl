@@ -91,7 +91,7 @@ display:none;
 </div>
 
 <hr>
-<#if userDto?has_content>
+<#if userDto?? && userDto?has_content>
 <div class="container bootstrap snippet">
     <div class="row">
   		<div class="col-sm-3"><!--left col-->

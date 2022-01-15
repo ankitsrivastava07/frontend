@@ -1,9 +1,9 @@
 package frontend.controller;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import frontend.api.dto.response.UnauthorizedRequestURL;
 import frontend.api.dto.response.UserDto;
 import frontend.api.error.ApiError;
@@ -36,9 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.util.*;
-
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping({"/","api/v1/user/"})
+@RequestMapping({"/api/v1/user/"})
 public class RestApiController {
 
 	@Autowired
@@ -65,12 +64,18 @@ public class RestApiController {
 		loginStatus.setBrowser(userCredentialRequest.getBrowser());
 		loginStatus.setMessage(userCredentialRequest.getMessage());
     	  response.addHeader("session_Token",loginStatus.getToken());
+		  response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+		  response.setHeader("Access-Control-Allow-Credentials", "true");
+		  response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		  response.setHeader("Access-Control-Max-Age", "3600");
+		  response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
 		  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
 	  }catch (BadCredentialsException exception){
 		  LoginStatus loginStatus = new LoginStatus();
 		  loginStatus.setHttpStatus(HttpStatus.OK.value());
 		  loginStatus.setMessage("Invalid email/mobile and password");
-		  return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+		 // return null;
+		 return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
 	  }
 	}
 
@@ -173,10 +178,6 @@ public class RestApiController {
 		unauthorizedRequest.setMessage(tokenStatus.getMessage());
 		unauthorizedRequest.setTitle(ResponseConstant.UNAUTHORIZE_REQUEST_DEAULT_MESSAGE);
 		return new ResponseEntity<>(unauthorizedRequest,HttpStatus.UNAUTHORIZED);
-	}
-
-	public void isValid(){
-		System.out.println("Is valid method called");
 	}
 
 }

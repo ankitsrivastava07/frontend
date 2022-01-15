@@ -55,7 +55,7 @@ function login(formData) {
 	if ($("#login-form").valid() && checkConnection()) {
 		$.ajax({
 			type: "POST",
-			url: "/login",
+			url: "/api/v1/user/login",
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			cache: false,

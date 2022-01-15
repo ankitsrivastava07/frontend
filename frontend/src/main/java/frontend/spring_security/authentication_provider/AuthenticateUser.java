@@ -1,7 +1,4 @@
 package frontend.spring_security.authentication_provider;
-
-import eu.bitwalker.useragentutils.Browser;
-import eu.bitwalker.useragentutils.UserAgent;
 import frontend.api.request.UserCredentialRequest;
 import frontend.controller.LoginStatus;
 import frontend.service.FrontendService;
@@ -14,7 +11,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
-
 @Component
 public class AuthenticateUser implements AuthenticationProvider {
     @Autowired private FrontendService frontendService;
