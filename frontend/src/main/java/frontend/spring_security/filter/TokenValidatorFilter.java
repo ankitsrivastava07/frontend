@@ -40,8 +40,9 @@ public class TokenValidatorFilter implements Filter {
             Map<String, Object> map = new HashMap<>();
             map.put("status", Boolean.FALSE);
             map.put("message", ResponseConstant.SESSION_EXPIRED_DEFAULT_MESSAGE);
-            map.put("errorCode", HttpStatus.UNAUTHORIZED.name());
+            map.put("errorCode", HttpStatus.UNAUTHORIZED.name()+"  Request");
             map.put("isSessionExpired", Boolean.TRUE);
+            map.put("redirectURL", "/signin");
             JSONObject jsonObject = new JSONObject(map);
             writer.print(jsonObject.toString());
             response1.setStatus(HttpStatus.UNAUTHORIZED.value());

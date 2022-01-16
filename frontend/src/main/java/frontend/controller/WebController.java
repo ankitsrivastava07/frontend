@@ -102,7 +102,7 @@ public class WebController {
         return mv;
     }
 
-    @GetMapping("/user/signout-from-all-devices")
+    @GetMapping("/signout-from-all-devices")
     public void signOutFromAllDevices(HttpServletResponse response) throws IOException {
         TokenStatus tokenStatus=TenantContext.getCurrentTokenStatus();
         if(tokenStatus.isStatus())

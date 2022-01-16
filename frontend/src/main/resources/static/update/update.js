@@ -89,14 +89,15 @@ $.ajax({
               console.log("ajax stoped");
               });
             }
-           else if(error.status==401 && error.responseJSON.redirect){
-               $("#modal_title").html(error.responseJSON.title);
+           else if(error.status==401 && error.responseJSON.isSessionExpired){
+               $("#modal_title").html(error.responseJSON.errorCode);
                $("#message").html(error.responseJSON.message);
                $('#server_error').modal('show');
                $(document).ajaxStop(function () {
                console.log("ajax stoped");
                });
-               window.location.href=error.responseJSON.redirectURL
+               //window.location.href=error.responseJSON.redirectURL
+               location.reload();
              }
            else if(error.status==400 && !error.responseJSON.validFile){
               $("#file_error").html(error.responseJSON.message);

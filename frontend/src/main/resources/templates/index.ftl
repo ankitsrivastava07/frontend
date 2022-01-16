@@ -120,7 +120,7 @@
                                    <li><a href="#">Save Address</a></li>
                                    <li><a href="/user/profile">Edit Profile</a></li>
                                    <li><a href="/signout">Sign out</a></li>
-                                   <li><a href="/user/signout-from-all-devices">Sign out from all devices</a></li>
+                                   <li><a href="/signout-from-all-devices">Sign out from all devices</a></li>
                     </ul>
                   </li>
                            </div><!-- /.navbar-collapse -->
