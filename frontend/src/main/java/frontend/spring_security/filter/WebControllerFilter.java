@@ -29,7 +29,9 @@ public class WebControllerFilter implements Filter {
         String uri=request1.getServletPath();
         Cookie cookies[]=request1.getCookies();
         String jwtToken=null;
-
+        if(cookies==null){
+            TenantContext.setTokenStatus(null);
+        }
         if(cookies==null && !uri.equals("/") && !uri.equals("/register") && !uri.equals("/forget-password") && !uri.equals("/signin")){
             ((HttpServletResponse) response).sendRedirect("/signin");
             return;
