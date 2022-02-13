@@ -44,8 +44,11 @@ public class WebControllerFilter implements Filter {
         }
         if(cookies!=null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equalsIgnoreCase("session_Token") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin") && list.size()>0 && (list.get(0)==null || !isValidToken(cookie.getValue()))) {
+                if (cookie.getName().equalsIgnoreCase("session_Token") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin") && list.size()>0 && !isValidToken(cookie.getValue())) {
                     jwtToken = cookie.getValue();
+                        ((HttpServletResponse) response).sendRedirect("/signin");
+                        return;
+                } else if(list.isEmpty() && !uri.equals("/signin")){
                     ((HttpServletResponse) response).sendRedirect("/signin");
                     return;
                 }
