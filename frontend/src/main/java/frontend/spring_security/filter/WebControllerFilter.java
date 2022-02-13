@@ -48,21 +48,16 @@ public class WebControllerFilter implements Filter {
                     jwtToken = cookie.getValue();
                         ((HttpServletResponse) response).sendRedirect("/signin");
                         return;
-                } else if(list.isEmpty() && !uri.equals("/signin")){
+                } else if(list.isEmpty() && !uri.equals("/signin") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin")){
                     ((HttpServletResponse) response).sendRedirect("/signin");
                     return;
                 }
             }
         }
-/*        if(jwtToken==null && !uri.equals("/") && !uri.equals("/register") && !uri.equals("/forget-password") && !uri.equals("/signin")){
-            ((HttpServletResponse) response).sendRedirect("/signin");
-            return;
-        }*/
-/*
-        if(cookies!=null && Arrays.asList(cookies).stream().filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).map(cookie->cookie.getValue()).findFirst().isPresent() && (jwtToken=Arrays.asList(cookies).stream().filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).map(cookie->cookie.getValue()).findFirst().get())!=null && isValidToken(jwtToken) && uri.equalsIgnoreCase("/register") && uri.equals("/signin") && uri.equalsIgnoreCase("/forget-password")){
+    if(cookies!=null && Arrays.asList(cookies).stream().filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).map(cookie->cookie.getValue()).findFirst().isPresent() && (jwtToken=Arrays.asList(cookies).stream().filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).map(cookie->cookie.getValue()).findFirst().get())!=null && isValidToken(jwtToken) && uri.equalsIgnoreCase("/register") && uri.equals("/signin") && uri.equalsIgnoreCase("/forget-password")){
             response1.sendRedirect("/");
         }
-*/
+
         chain.doFilter(request,response);
     }
 
