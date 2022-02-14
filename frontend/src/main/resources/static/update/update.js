@@ -96,8 +96,17 @@ $.ajax({
                $(document).ajaxStop(function () {
                console.log("ajax stoped");
                });
-               //window.location.href=error.responseJSON.redirectURL
-               location.reload();
+
+            $('body').click(function (event)
+            {
+               if(!$(event.target).closest('#server_error').length && !$(event.target).is('#server_error')) {
+                location.reload();
+               }
+            });
+
+              setTimeout(function() {
+                 location.reload();
+                }, 5500);
              }
            else if(error.status==400 && !error.responseJSON.validFile){
               $("#file_error").html(error.responseJSON.message);
