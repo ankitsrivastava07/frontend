@@ -26,29 +26,33 @@ public class WebControllerFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
       HttpServletRequest request1= (HttpServletRequest)request;
       HttpServletResponse response1 = (HttpServletResponse)response;
+        List<String> list=null;
         String uri=request1.getServletPath();
         Cookie cookies[]=request1.getCookies();
         String jwtToken=null;
         if(cookies==null){
-            TenantContext.setTokenStatus(null);
+            TenantContext.remove();
         }
         if(cookies==null && !uri.equals("/") && !uri.equals("/register") && !uri.equals("/forget-password") && !uri.equals("/signin")){
+            TenantContext.remove();
             ((HttpServletResponse) response).sendRedirect("/signin");
             return;
         }
-        List<String> list=null;
         if(cookies!=null) {
            list = Arrays.asList(cookies).stream().filter(cookie -> cookie.getName().equalsIgnoreCase("session_Token")).map(cookie -> cookie.getValue()).collect(Collectors.toList());
-           if(list.size()>0)
-           isValidToken(list.get(0));
+           if(!list.isEmpty() && !isValidToken(list.get(0))){
+             TenantContext.remove();
+           }
         }
         if(cookies!=null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equalsIgnoreCase("session_Token") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin") && list.size()>0 && !isValidToken(cookie.getValue())) {
                     jwtToken = cookie.getValue();
-                        ((HttpServletResponse) response).sendRedirect("/signin");
-                        return;
+                    TenantContext.remove();
+                    ((HttpServletResponse) response).sendRedirect("/signin");
+                    return;
                 } else if(list.isEmpty() && !uri.equals("/signin") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin")){
+                    TenantContext.remove();
                     ((HttpServletResponse) response).sendRedirect("/signin");
                     return;
                 }
