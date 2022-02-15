@@ -32,7 +32,7 @@ public class TokenValidatorFilter implements Filter {
     HttpServletRequest request1= (HttpServletRequest)request;
     HttpServletResponse response1= (HttpServletResponse)response;
     String jwtToken = (jwtToken =request1.getHeader("AuthToken"))!=null? (jwtToken.startsWith("Bearer ")? jwtToken.substring(7): null) : null;
-
+    TenantContext.remove();
     String uri=request1.getServletPath();
     TokenStatus tokenStatus = null;
     if(!uri.equalsIgnoreCase("/api/v1/user/register") && !uri.equalsIgnoreCase("/api/v1/user/change-password") && !uri.equalsIgnoreCase("/api/v1/user/login") && !uri.equals("/api/v1/user/userName-check")) {

@@ -36,6 +36,7 @@ public class WebControllerFilter implements Filter {
         String uri=request1.getServletPath();
         Cookie cookies[]=request1.getCookies();
         String jwtToken=null;
+        TenantContext.remove();
         if(cookies==null){
             TenantContext.remove();
         }
