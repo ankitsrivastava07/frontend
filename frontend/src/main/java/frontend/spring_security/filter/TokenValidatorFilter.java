@@ -30,7 +30,7 @@ public class TokenValidatorFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest request1= (HttpServletRequest)request;
     HttpServletResponse response1= (HttpServletResponse)response;
-    String jwtToken = request1.getHeader("Authentication");
+    String jwtToken = request1.getHeader("AuthToken");
     String uri=request1.getServletPath();
     TokenStatus tokenStatus = null;
     if(!uri.equalsIgnoreCase("/api/v1/user/register") && !uri.equalsIgnoreCase("/api/v1/user/change-password") && !uri.equalsIgnoreCase("/api/v1/user/login") && !uri.equals("/api/v1/user/userName-check")) {
