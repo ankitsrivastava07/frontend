@@ -55,6 +55,7 @@ public class TokenValidatorFilter implements Filter {
     chain.doFilter(request,response);
   }
     public void destroy(){
+        TenantContext.remove();
         System.out.println("Destroyed method called");
     }
 }
