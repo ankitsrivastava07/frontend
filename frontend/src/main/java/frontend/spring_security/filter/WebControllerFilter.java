@@ -21,6 +21,12 @@ public class WebControllerFilter implements Filter {
         this.frontendService=frontendService;
     }
 
+    @Override
+    public void init(FilterConfig filterConfig){
+        System.out.println("WebControllerFilter init method called ");
+        TenantContext.remove();
+    }
+
     @CacheEvict(cacheNames = {"session_Token","browser"},allEntries = true)
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -67,6 +73,8 @@ public class WebControllerFilter implements Filter {
 
     @Override
     public void destroy() {
+        System.out.println("WebControllerFilter Destroyed method called ");
+        TenantContext.remove();
         Filter.super.destroy();
     }
 
