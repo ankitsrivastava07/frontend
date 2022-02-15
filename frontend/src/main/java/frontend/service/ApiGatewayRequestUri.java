@@ -1,5 +1,4 @@
 package frontend.service;
-
 import frontend.api.dto.response.UserDto;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.ChangePasswordRequestDto;
@@ -11,7 +10,6 @@ import frontend.dto.OrderRequest;
 import frontend.response.ResetPasswordResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import frontend.controller.LoginStatus;
@@ -53,7 +51,7 @@ public interface ApiGatewayRequestUri {
 	public ResponseEntity<AddToCartResponse> addToCart(@RequestBody AddToCartRequest addToCartRequest);
 
 	@PostMapping("/users/userName/check")
-	public ResponseEntity<ResetPasswordResponse> userNameCheck(@RequestBody String email);
+	public ResponseEntity<ResetPasswordResponse> validateUser(@RequestBody String email);
 
 	@PostMapping("/users/auth/identity-token")
 	ResponseEntity<ResponseConstant> authenticateIdentityToken(@RequestBody String code);
