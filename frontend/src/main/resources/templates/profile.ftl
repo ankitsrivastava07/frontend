@@ -15,6 +15,28 @@
 </head>
 
 <style>
+button.btn.btn-primary.loginButton{
+    outline-color: #4a90e2;
+    margin-top: 15px;
+    text-transform: capitalize;
+    width: 20%;
+    display: inline-block;
+    background-color: #4a90e2;
+    /* border-radius: 2px; */
+    /* -webkit-box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%); */
+    box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%);
+    min-width: 123px;
+    padding: 8px 16px;
+    height: 36px;
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+    line-height: 18px;
+    cursor: pointer;
+    font-size: 14px;
+    border-width: 0;
+}
+
 #phone{
  cursor: pointer;
 }
@@ -177,7 +199,7 @@ display:none;
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button type="submit" class="btn-primary loginButton">Submit</button>
+                              	<button type="submit" class="btn btn-primary loginButton">Submit</button>
                             </div>
                       </div>
               	</form>
