@@ -47,7 +47,7 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .antMatchers("/ajax/*").permitAll()
                 .antMatchers("/user/profile").permitAll()
                 .antMatchers("/signin").permitAll()
-                .antMatchers("/api/v1/user/*","/api/v1/user/profile/*")
+                .antMatchers("/api/v1/user/*" ,"/api/v1/user/profile/*")
                 .permitAll()
                 .antMatchers("/change-password","/change-password?code=")
                 .permitAll()
