@@ -36,40 +36,43 @@ public class WebControllerFilter implements Filter {
         String uri=request1.getServletPath();
         Cookie cookies[]=request1.getCookies();
         String jwtToken=null;
-        TenantContext.remove();
-        if(cookies==null){
-            TenantContext.remove();
-        }
-        if(cookies==null && !uri.equals("/") && !uri.equals("/register") && !uri.equals("/forget-password") && !uri.equals("/signin")){
-            TenantContext.remove();
-            ((HttpServletResponse) response).sendRedirect("/signin");
-            return;
-        }
-        if(cookies!=null) {
-           list = Arrays.asList(cookies).stream().filter(cookie -> cookie.getName().equalsIgnoreCase("session_Token")).map(cookie -> cookie.getValue()).collect(Collectors.toList());
-           if(!list.isEmpty() && !isValidToken(list.get(0))){
-             TenantContext.remove();
-           }
-        }
-        if(cookies!=null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equalsIgnoreCase("session_Token") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin") && list.size()>0 && !isValidToken(cookie.getValue())) {
-                    jwtToken = cookie.getValue();
+        try {
+            if (cookies == null) {
+                TenantContext.remove();
+            }
+            if (cookies == null && !uri.equals("/") && !uri.equals("/register") && !uri.equals("/forget-password") && !uri.equals("/signin")) {
+                TenantContext.remove();
+                ((HttpServletResponse) response).sendRedirect("/signin");
+                return;
+            }
+            if (cookies != null) {
+                list = Arrays.asList(cookies).stream().filter(cookie -> cookie.getName().equalsIgnoreCase("session_Token")).map(cookie -> cookie.getValue()).collect(Collectors.toList());
+                if (!list.isEmpty() && !isValidToken(list.get(0))) {
                     TenantContext.remove();
-                    ((HttpServletResponse) response).sendRedirect("/signin");
-                    return;
-                } else if(list.isEmpty() && !uri.equals("/signin") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin")){
-                    TenantContext.remove();
-                    ((HttpServletResponse) response).sendRedirect("/signin");
-                    return;
                 }
             }
-        }
-    if(cookies!=null && Arrays.asList(cookies).stream().filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).map(cookie->cookie.getValue()).findFirst().isPresent() && (jwtToken=Arrays.asList(cookies).stream().filter(cookie->cookie.getName().equalsIgnoreCase("session_Token")).map(cookie->cookie.getValue()).findFirst().get())!=null && isValidToken(jwtToken) && uri.equalsIgnoreCase("/register") && uri.equals("/signin") && uri.equalsIgnoreCase("/forget-password")){
-            response1.sendRedirect("/");
-        }
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equalsIgnoreCase("session_Token") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin") && list.size() > 0 && !isValidToken(cookie.getValue())) {
+                        jwtToken = cookie.getValue();
+                        TenantContext.remove();
+                        ((HttpServletResponse) response).sendRedirect("/signin");
+                        return;
+                    } else if (list.isEmpty() && !uri.equals("/signin") && !uri.equals("/register") && !uri.equals("/") && !uri.equals("/forget-password") && !uri.equals("/signin")) {
+                        TenantContext.remove();
+                        ((HttpServletResponse) response).sendRedirect("/signin");
+                        return;
+                    }
+                }
+            }
+            if (cookies != null && Arrays.asList(cookies).stream().filter(cookie -> cookie.getName().equalsIgnoreCase("session_Token")).map(cookie -> cookie.getValue()).findFirst().isPresent() && (jwtToken = Arrays.asList(cookies).stream().filter(cookie -> cookie.getName().equalsIgnoreCase("session_Token")).map(cookie -> cookie.getValue()).findFirst().get()) != null && isValidToken(jwtToken) && uri.equalsIgnoreCase("/register") && uri.equals("/signin") && uri.equalsIgnoreCase("/forget-password")) {
+                response1.sendRedirect("/");
+            }
 
-        chain.doFilter(request,response);
+            chain.doFilter(request, response);
+        }finally {
+            TenantContext.remove();
+        }
     }
 
     @Override

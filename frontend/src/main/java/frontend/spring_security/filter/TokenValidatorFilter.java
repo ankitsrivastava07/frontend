@@ -32,27 +32,30 @@ public class TokenValidatorFilter implements Filter {
     HttpServletRequest request1= (HttpServletRequest)request;
     HttpServletResponse response1= (HttpServletResponse)response;
     String jwtToken = (jwtToken =request1.getHeader("AuthToken"))!=null? (jwtToken.startsWith("Bearer ")? jwtToken.substring(7): null) : null;
-    TenantContext.remove();
     String uri=request1.getServletPath();
     TokenStatus tokenStatus = null;
-    if(!uri.equalsIgnoreCase("/api/v1/user/register") && !uri.equalsIgnoreCase("/api/v1/user/change-password") && !uri.equalsIgnoreCase("/api/v1/user/login") && !uri.equals("/api/v1/user/userName-check")) {
-        if(jwtToken==null || !(tokenStatus=frontendService.isValidToken(jwtToken)).isStatus()) {
-            response1.setContentType("application/json");
-            PrintWriter writer = response1.getWriter();
-            Map<String, Object> map = new HashMap<>();
-            map.put("status", Boolean.FALSE);
-            map.put("message", ResponseConstant.SESSION_EXPIRED_DEFAULT_MESSAGE);
-            map.put("errorCode", HttpStatus.UNAUTHORIZED.name()+"  Request");
-            map.put("isSessionExpired", Boolean.TRUE);
-            map.put("redirectURL", "/signin");
-            JSONObject jsonObject = new JSONObject(map);
-            writer.print(jsonObject.toString());
-            response1.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return;
+    try {
+        if (!uri.equalsIgnoreCase("/api/v1/user/register") && !uri.equalsIgnoreCase("/api/v1/user/change-password") && !uri.equalsIgnoreCase("/api/v1/user/login") && !uri.equals("/api/v1/user/userName-check")) {
+            if (jwtToken == null || !(tokenStatus = frontendService.isValidToken(jwtToken)).isStatus()) {
+                response1.setContentType("application/json");
+                PrintWriter writer = response1.getWriter();
+                Map<String, Object> map = new HashMap<>();
+                map.put("status", Boolean.FALSE);
+                map.put("message", ResponseConstant.SESSION_EXPIRED_DEFAULT_MESSAGE);
+                map.put("errorCode", HttpStatus.UNAUTHORIZED.name() + "  Request");
+                map.put("isSessionExpired", Boolean.TRUE);
+                map.put("redirectURL", "/signin");
+                JSONObject jsonObject = new JSONObject(map);
+                writer.print(jsonObject.toString());
+                response1.setStatus(HttpStatus.UNAUTHORIZED.value());
+                return;
+            }
         }
+        TenantContext.setTokenStatus(tokenStatus);
+        chain.doFilter(request, response);
+    }finally {
+        TenantContext.remove();
     }
-    TenantContext.setTokenStatus(tokenStatus);
-    chain.doFilter(request,response);
   }
     public void destroy(){
         TenantContext.remove();
