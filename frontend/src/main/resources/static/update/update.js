@@ -47,7 +47,7 @@ $.ajax({
    processData: false,
    data: formData,
    beforeSend: function(request) {
-      request.setRequestHeader("Authentication", $.cookie("session_Token"));
+      request.setRequestHeader("AuthToken Bearer", $.cookie("session_Token"));
       request.setRequestHeader("browser", $.cookie("browser"));
     },
   success: function(response) {
