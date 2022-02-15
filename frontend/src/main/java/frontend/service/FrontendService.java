@@ -36,7 +36,7 @@ public interface FrontendService {
 
 	AddToCartCountProductsResponse addToCartProductCount(Long userId);
 
-	ResetPasswordResponse userNameCheck(String email);
+	ResetPasswordResponse validateUser(String email);
 
 	ResponseConstant authenticateIdentityToken(String code);
 

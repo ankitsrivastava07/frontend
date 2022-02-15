@@ -347,7 +347,7 @@ function userNameCheck(formData){
 
 $.ajax({
         type: "POST",
-        url: "/api/v1/user/userName-check",
+        url: "/user/validate",
         contentType: "application/json",
         data: JSON.stringify(formData),
         async: true,

@@ -238,7 +238,7 @@ public class FrontendServiceImpl implements FrontendService {
 	}
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "userNameCheckFallback")
-	public ResetPasswordResponse userNameCheck(String email){
+	public ResetPasswordResponse validateUser(String email){
 		ResetPasswordResponse resetPasswordResponse = apiGatewayRequestUri.userNameCheck(email).getBody();
 		return resetPasswordResponse;
 	}

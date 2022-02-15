@@ -32,7 +32,7 @@ import frontend.service.TokenStatus;
 import java.io.*;
 import java.util.*;
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping({"/api/v1/user/","/api/v1/user/profile"})
+@RequestMapping({"/api/v1/user/", "/user","/api/v1/user/profile"})
 public class RestApiController {
 	@Autowired
 	private FrontendService frontendService;
@@ -131,9 +131,9 @@ public class RestApiController {
 		return new ResponseEntity<>(addToCartCountProductsResponse,HttpStatus.valueOf(tokenStatus.getHttpStatus()));
 	}
 
-	@PostMapping("/userName-check")
-	public ResponseEntity<?> userNameCheck(@RequestBody @Valid UserNameExistRequest userNameExistRequest) {
-		ResetPasswordResponse resetPasswordResponse = frontendService.userNameCheck(userNameExistRequest.getEmail());
+	@PostMapping("/validate")
+	public ResponseEntity<?> validate(@RequestBody @Valid UserNameExistRequest userNameExistRequest) {
+		ResetPasswordResponse resetPasswordResponse = frontendService.validateUser(userNameExistRequest.getEmail());
 		return new ResponseEntity<>(resetPasswordResponse, HttpStatus.valueOf(resetPasswordResponse.getHttpStatus()));
 	}
 
