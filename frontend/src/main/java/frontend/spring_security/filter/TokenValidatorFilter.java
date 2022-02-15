@@ -31,7 +31,7 @@ public class TokenValidatorFilter implements Filter {
 
     HttpServletRequest request1= (HttpServletRequest)request;
     HttpServletResponse response1= (HttpServletResponse)response;
-    String jwtToken = request1.getHeader("AuthToken").startsWith("Bearer ")? request1.getHeader("AuthToken").substring(7): null;
+    String jwtToken = (jwtToken =request1.getHeader("AuthToken"))!=null? (jwtToken.startsWith("Bearer ")? jwtToken.substring(7): null) : null;
 
     String uri=request1.getServletPath();
     TokenStatus tokenStatus = null;
