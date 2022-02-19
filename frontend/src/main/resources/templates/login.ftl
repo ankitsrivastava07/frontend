@@ -30,7 +30,6 @@ margin-top: 5px;
 }
 .btn.btn-primary{
 background: #1089ff !important;
-
 }
 
 .form-control{
@@ -59,6 +58,7 @@ display: block;
     text-size-adjust: auto;
     font-size: 14px;
     text-align: center;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 40%);
 }
 
 span#txt {
@@ -77,6 +77,7 @@ margin-left: auto;
 margin-right: auto;
 width: fit-content;
 font-size : small;
+box-shadow: 0 25px 15px 0 rgb(0 0 0 / 40%);
 }
 </style>
 	<body>

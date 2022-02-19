@@ -57,6 +57,7 @@ margin-left: auto;
 margin-right: auto;
 width: fit-content;
 font-size : small;
+box-shadow: 0 25px 15px 0 rgb(0 0 0 / 40%);
 }
 
 #phone_verification{
