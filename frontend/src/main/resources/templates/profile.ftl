@@ -35,6 +35,7 @@ button.btn.btn-primary.loginButton{
     cursor: pointer;
     font-size: 14px;
     border-width: 0;
+    height: 42px;
 }
 
 #phone{
