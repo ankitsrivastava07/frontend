@@ -68,7 +68,6 @@ $.ajax({
           } else if (!response.status) {
               $(".alert").html(response.message);
           }
-          $(".alert").remove();
        setTimeout(function() {
          $(".alert").remove();
         location.reload();
