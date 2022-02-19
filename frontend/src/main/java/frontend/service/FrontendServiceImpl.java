@@ -333,7 +333,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "editProfileFallBack")
-	public UserDto editProfile(String authentication,UserDto userDto,MultipartFile multipartFile) {
+	public UserDto editProfile(String authentication ,String browserCode,UserDto userDto,MultipartFile multipartFile) {
 		try {
 			String alternateMobile = userDto.getAlternateMobile();
 			if (alternateMobile != null && userDto.getAlternateMobile().equals(""))
@@ -347,7 +347,7 @@ public class FrontendServiceImpl implements FrontendService {
 				userDto.setFileSize(Short.valueOf((short) ((short) multipartFile.getSize() * 0.00000095367432)));
 				userDto.setPath(multipartFile.getName());
 			}
-			UserDto userDto1 = apiGatewayRequestUri.editProfile(authentication, userDto).getBody();
+			UserDto userDto1 = apiGatewayRequestUri.editProfile(authentication,browserCode, userDto).getBody();
 		return userDto1;
 		}catch (IOException exception){
 			exception.printStackTrace();
@@ -355,7 +355,7 @@ public class FrontendServiceImpl implements FrontendService {
 		}
 	}
 
-	public UserDto editProfileFallBack(String authentication,UserDto userDto,MultipartFile multipartFile,Throwable exception) {
+	public UserDto editProfileFallBack(String authentication,String browserCode,UserDto userDto,MultipartFile multipartFile,Throwable exception) {
 		UserDto responseConstant = new UserDto();
 		responseConstant.setStatus(Boolean.FALSE);
 		responseConstant.setMessage("Server down please try again later.");

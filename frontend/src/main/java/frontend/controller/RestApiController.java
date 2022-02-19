@@ -96,7 +96,7 @@ public class RestApiController {
 	}
 
 	@PostMapping("/profile/edit")
-	public ResponseEntity<?> editProfile(UserDto userDto,@RequestParam(name="image",required = false) MultipartFile multipartFile) throws IOException {
+	public ResponseEntity<?> editProfile(@RequestHeader(value = "browser",required = false) String browser ,UserDto userDto,@RequestParam(name="image",required = false) MultipartFile multipartFile) throws IOException {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		if (tokenStatus!=null && tokenStatus.isStatus() ){
 			userDto.setBrowser(tokenStatus.getBrowser());
@@ -105,7 +105,7 @@ public class RestApiController {
 				  return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
 			}
 		}
-		userDto=frontendService.editProfile(tokenStatus.getAccessToken(),userDto,multipartFile);
+		userDto=frontendService.editProfile(tokenStatus.getAccessToken(), browser,userDto,multipartFile);
 		return new ResponseEntity<>(userDto, HttpStatus.valueOf(userDto.getHttpStatus()));
 	}
 
