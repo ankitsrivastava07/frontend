@@ -44,7 +44,7 @@ public interface FrontendService {
 
 	TokenStatus refreshToken(String authentication,String browser);
 
-	UserDto editProfile(String authentication, String browser, UserDto userDto, MultipartFile multipartFile);
+	Object editProfile(String authentication, String browser, UserDto userDto, MultipartFile multipartFile);
 	UserDto profile(String authentication,String browser);
 	String getToken(HttpServletRequest request);
 	boolean isValidFileExtension(MultipartFile multipartFile);

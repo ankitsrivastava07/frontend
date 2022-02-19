@@ -12,6 +12,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.IOUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import frontend.api.dto.response.UserDto;
+import frontend.api.error.ApiError;
 import frontend.api.request.ChangePasswordReqest;
 import frontend.api.request.ChangePasswordRequestDto;
 import frontend.api.request.CreateUserRequestDto;
@@ -333,7 +334,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "editProfileFallBack")
-	public UserDto editProfile(String authentication ,String browserCode,UserDto userDto,MultipartFile multipartFile) {
+	public Object editProfile(String authentication ,String browserCode,UserDto userDto,MultipartFile multipartFile) {
 		try {
 			String alternateMobile = userDto.getAlternateMobile();
 			if (alternateMobile != null && userDto.getAlternateMobile().equals(""))
@@ -348,7 +349,11 @@ public class FrontendServiceImpl implements FrontendService {
 				userDto.setPath(multipartFile.getName());
 			}
 			UserDto userDto1 = apiGatewayRequestUri.editProfile(authentication,browserCode, userDto).getBody();
-		return userDto1;
+			if(Objects.nonNull(userDto1.getIsSessionExpired()) && userDto1.getIsSessionExpired()){
+				ApiError apiError = new ApiError(new Date(), HttpStatus.UNAUTHORIZED.value(),ResponseConstant.SESSION_EXPIRED_DEFAULT_MESSAGE,null);
+				return apiError;
+			}
+			return userDto1;
 		}catch (IOException exception){
 			exception.printStackTrace();
 			return null;

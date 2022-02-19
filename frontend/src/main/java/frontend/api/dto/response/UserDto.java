@@ -36,5 +36,6 @@ public class UserDto implements Serializable {
     private Long userId;
     private String s3BucketFileName;
     private String bucketName;
+    private Boolean isSessionExpired;
 }
 
