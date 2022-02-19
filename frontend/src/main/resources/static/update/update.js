@@ -101,12 +101,12 @@ $.ajax({
             $('body').click(function (event)
             {
                if(!$(event.target).closest('#server_error').length && !$(event.target).is('#server_error')) {
-               // location.reload();
+                location.reload();
                }
             });
 
               setTimeout(function() {
-            //     location.reload();
+               location.reload();
                 }, 5500);
              }
            else if(error.status==400 && !error.responseJSON.validFile){
