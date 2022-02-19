@@ -65,6 +65,6 @@ public interface ApiGatewayRequestUri {
 	ResponseEntity<UserDto> profile(@RequestHeader("Authentication")String authentication);
 
 	@PostMapping("/users/profile/edit")
-	ResponseEntity<UserDto> editProfile(@RequestHeader("Authentication")String authentication,@RequestBody UserDto userDto);
+	ResponseEntity<UserDto> editProfile(@RequestHeader("Authentication")String authentication,@RequestHeader(name = "browserCode",required = false) String browserCode,@RequestBody UserDto userDto);
 
 }
