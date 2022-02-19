@@ -54,24 +54,25 @@ $.ajax({
     $(".alert").remove();
      setTimeout(function() {
          if (response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
-             $("#formGroup").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
+             $("#formGroup").prepend(("<div class='alert'>" + response.message + "</div>"));
              location.reload();
+             $(".alert").append("<span id ='txt'>"+ '  OK' +'</span>');
          } else if (!response.status) {
              $(".alert").html(response.message);
          }
-        // location.reload();
+         location.reload();
          }, 400);
          var duration = 300;
           if (!response.status && response.alternateMobileAlreadyExist || response.emailAlreadyExist && $(".alert").length == 0 || $(".input-group span").length == undefined) {
-              $("#formGroup").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));
+              $("#formGroup").prepend(("<div class='alert'>" + response.message + "</div>"));
           } else if (!response.status) {
               $(".alert").html(response.message);
           }
           $(".alert").remove();
-     setTimeout(function() {
-          $(".alert").remove();
-          location.reload();
-           }, 5500);
+       setTimeout(function() {
+         $(".alert").remove();
+        location.reload();
+      }, 5500);
   },
    error: function(error) {
            url = window.location.pathname.replace(/\/+$/, '') + "/error";
@@ -100,12 +101,12 @@ $.ajax({
             $('body').click(function (event)
             {
                if(!$(event.target).closest('#server_error').length && !$(event.target).is('#server_error')) {
-                location.reload();
+               // location.reload();
                }
             });
 
               setTimeout(function() {
-                 location.reload();
+            //     location.reload();
                 }, 5500);
              }
            else if(error.status==400 && !error.responseJSON.validFile){
@@ -120,6 +121,7 @@ return true;
 }
 return false;
 }
+
 $(document).ready(function() {
 imageUpload.onchange = evt => {
   const [file] = imageUpload.files
@@ -145,3 +147,11 @@ $.ajax('/check-connection', {
 });
 return true;
 }
+
+$(document).ready(function() {
+  $("#txt").click(function () {
+    //$(".alert").remove();
+    alert("Hello!");
+    //window.reload();
+  });
+});

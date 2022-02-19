@@ -40,9 +40,25 @@ button.btn.btn-primary.loginButton{
 #phone{
  cursor: pointer;
 }
+
+span#txt {
+color: salmon;
+cursor: pointer;
+}
+
 .alert{
 text-align: center;
+background-color: #545353;
+border-color: #545353;
+padding: 8px;
+color: white;
+font-weight: bold;
+margin-left: auto;
+margin-right: auto;
+width: fit-content;
+font-size : small;
 }
+
 #phone_verification{
 display:none;
 }
@@ -156,7 +172,6 @@ display:none;
                 <hr>
                   <form class="form" id="profile" method="post" name="profile">
                       <div class="form-group" id="formGroup">
-
                           <div class="col-xs-6">
                               <label for="first_name"><h4>First name</h4></label>
                               <input type="text" class="form-control" name="firstName" id="firstName" title="${userDto.firstName}" value="${userDto.firstName}">
