@@ -59,6 +59,7 @@ display: block;
     font-size: 14px;
     text-align: center;
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 40%);
+
 }
 
 span#txt {
