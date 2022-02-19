@@ -63,7 +63,10 @@ function login(formData) {
 			$(".error").remove();
 				$(".alert").remove();
 				if (response.status)
-					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
+					/*$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));*/
+                 $(".modal-body").prepend(("<div class='alert' id='alt'>" + response.message + "</div>"));
+                 $(".alert").append("<span id ='txt'>"+ '  OK' +'</span>');
+                  location.reload();
 				setTimeout(function() {
 					if (!response.status && $(".alert").length == 0 || $(".input-group span").length == undefined) {
 						$(".modal-body").prepend(("<div class='alert alert-danger' role='alert'>" + response.message + "</div>"));

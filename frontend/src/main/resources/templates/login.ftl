@@ -60,7 +60,25 @@ display: block;
     font-size: 14px;
     text-align: center;
 }
-	</style>
+
+span#txt {
+color: salmon;
+cursor: pointer;
+}
+
+#alt{
+text-align: center;
+background-color: #545353;
+border-color: #545353;
+padding: 8px;
+color: white;
+font-weight: bold;
+margin-left: auto;
+margin-right: auto;
+width: fit-content;
+font-size : small;
+}
+</style>
 	<body>
 
 <!-- Modal -->
