@@ -143,7 +143,7 @@ display:none;
         <span id="file_error" class="error"></span>
         <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar" id="img">
-       <input type="file" class="text-center center-block file-upload" name="imageUpload"  id="imageUpload">
+       <input type="file" class="text-center center-block file-upload" name="imageUpload" accept="image/*" id="imageUpload">
        <span id="file_error" class="error"></span>
         </#if>
         <h4>${userDto.firstName} ${userDto.lastName}</h4>
