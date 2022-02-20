@@ -147,22 +147,7 @@ function changePassword(formData) {
 						$(".alert").html(response.message);
 					}
 				}, 500);
-				if (response.status){
-				$.ajax({
-                   url: "/ajax/signin",
-                   type:'GET',
-                   success: function(page){
-                       $('#content').html(page);
-                       //$('#change-password-body').hide();
-                       $(".alert").remove();
-                       	if ($(".alert").length == 0 || $(".input-group span").length == undefined) {
-                                $(".modal-body").prepend(("<div class='alert alert-success' role='alert'>" + response.message + "</div>"));
-                            } else {
-                                $(".alert").html(response.message);
-                            }
-                   }
-                });
-		}
+
 				if (response.status){
 				$.cookie("session_Token",response.accessToken)
 				$.cookie("browser",response.browser)
