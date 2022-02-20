@@ -68,7 +68,7 @@ public class WebController {
         response.sendRedirect("/signin");
     }
 
-    @GetMapping("/register")
+    @GetMapping("/sign-up")
     public ModelAndView register(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("sign-up");

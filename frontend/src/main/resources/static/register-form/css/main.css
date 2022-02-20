@@ -124,10 +124,16 @@ button {
   min-height: 100vh;
 }
 
+span#message {
+block-size: fit-content;
+text-align: justify;
+word-spacing: 16px;
+}
+
 body {
-  font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
   font-weight: 400;
   font-size: 14px;
+  color: slategray;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -255,9 +261,14 @@ h6 {
   -moz-transition: all 0.4s ease;
   transition: all 0.4s ease;
   cursor: pointer;
-  font-size: 18px;
   color: #fff;
   font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+}
+
+.btn-primary {
+color: #fff;
+background-color: #5da2f1;
+border-color: #5da2f1;
 }
 
 .btn--radius {
@@ -278,20 +289,19 @@ h6 {
   border-radius: 20px;
 }
 
-.btn--green {
-  background: #57b846;
-}
-
-.btn--green:hover {
-  background: #4dae3c;
+.btn-primary:hover {
+    color: #fff;
+    background-color: #5da2f1;
+    border-color: #5da2f1;
 }
 
 .btn--blue {
-  background: #4272d7;
+  background-color: #5da2f1;
 }
 
 .btn--blue:hover {
-  background: #3868cd;
+  background-color: #5da2f1;
+  color: #fff;
 }
 
 /* ==========================================================================
@@ -406,7 +416,7 @@ input {
 
 .label {
   font-size: 16px;
-  color: #555;
+  color: slategray;
   text-transform: capitalize;
   display: block;
   margin-bottom: 5px;

@@ -123,11 +123,12 @@ function changePassword(formData) {
 			cache: false,
 			success: function(response) {
 		    $(".alert").remove();
-				if (response.status)
-					$(".modal-body").prepend(("<div class='alert alert-success' role='alert' data-fade='3000' >" + response.message + "</div>"));
+				if (response.status){
+                     $(".modal-body").prepend(("<div class='alert' id='alt'>" + response.message + "</div>"));
+                     $(".alert").append("<span id ='txt'>"+ '  OK' +'</span>');
+					}
 				setTimeout(function() {
 					$.each(response.errorMessage, function(key, value) {
-
 						if (!response.status && $(".input-group span").length == 0 || $(".input-group span").length == undefined) {
 							var span = $('<span />').addClass(key + '-error error').html(value);
 							$("#" + key).after(span);

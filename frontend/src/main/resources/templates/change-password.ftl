@@ -17,11 +17,28 @@
 
 	</head>
 	<style>
-	
-	.error{
-    font-size: 14px;
-    color: #da534d;
-    padding: 3px 0px;
+span#txt {
+color: salmon;
+cursor: pointer;
+}
+
+#alt{
+text-align: center;
+background-color: #545353;
+border-color: #545353;
+padding: 8px;
+color: white;
+font-weight: bold;
+margin-left: auto;
+margin-right: auto;
+width: fit-content;
+font-size : small;
+box-shadow: 0 25px 15px 0 rgb(0 0 0 / 40%);
+}
+.error{
+font-size: 14px;
+color: #da534d;
+padding: 3px 0px;
 }
 
 

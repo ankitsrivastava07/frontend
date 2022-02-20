@@ -134,7 +134,7 @@ box-shadow: 0 25px 15px 0 rgb(0 0 0 / 40%);
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Login</button>
 	            	<span id="create_account">Don't have an account?
-	            	<a href="/register">Create Account</a>
+	            	<a href="/sign-up">Create Account</a>
 	            	</span>
 	           </div>
 	          </form>

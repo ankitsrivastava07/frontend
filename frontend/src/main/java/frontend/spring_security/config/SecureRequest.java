@@ -41,7 +41,7 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/validate").permitAll()
                 .antMatchers("/signout-from-all-devices")
                 .permitAll()
-                .antMatchers("/register","/forget-password")
+                .antMatchers("/sign-up","/forget-password")
                 .permitAll()
                 .antMatchers("/check-connection").permitAll()
                 .antMatchers("/ajax/*").permitAll()
