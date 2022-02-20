@@ -150,6 +150,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "registerFallBack")
 	public CreateUserResponseStatus register(CreateUserRequestDto createUserRequestDto) {
+		createUserRequestDto.setBrowser(UUID.randomUUID().toString());
 		CreateUserResponseStatus responseStatus=apiGatewayRequestUri.register(createUserRequestDto).getBody();
 	 return responseStatus;
  }
