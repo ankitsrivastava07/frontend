@@ -1,5 +1,9 @@
 jQuery.validator.addMethod("filesize", function(value, element,param) {
-  return (element.files[0].size < 3000);
+
+  if(element.files.length == 0 ){
+      return true;
+  }
+  return (element.files[0].size < 3000000);
 }, 'Image size must be less than 3MB ');
 
 $(document).ready(function() {
@@ -23,7 +27,7 @@ $(document).ready(function() {
                 },
           imageUpload:{
              required: false,
-             filesize: 1,
+             filesize: true
           }
 		},
 		messages: {
