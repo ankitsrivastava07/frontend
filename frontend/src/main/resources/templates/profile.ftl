@@ -1,20 +1,25 @@
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="/login-form/js/jquery.min.js"></script>
-<script src="/login-form/js/validate.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
+    <script src ="/login-form/js/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <!------ Include the above in your HEAD tag ---------->
 <head>
   <title>Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <style>
+.col-xs-6 {
+ width: 85%;
+}
+.col-xs-6{
+  float: none;
+}
 button.btn.btn-primary.loginButton{
     outline-color: #4a90e2;
     margin-top: 15px;
@@ -59,7 +64,6 @@ margin-right: auto;
 width: fit-content;
 font-size : small;
 box-shadow: 0 25px 15px 0 rgb(0 0 0 / 40%);
-
 }
 
 #phone_verification{
@@ -130,7 +134,7 @@ display:none;
     </div>
   </div>
 </div>
-
+<form class="form" id="profile" method="post" name="profile">
 <hr>
 <#if userDto?? && userDto?has_content>
 <div class="container bootstrap snippet">
@@ -139,7 +143,7 @@ display:none;
       <div class="text-center">
       <#if fileStream?has_content>
         <img src="${fileStream}" class="avatar img-circle img-thumbnail" id="img">
-        <input type="file" accept="image/*" class="text-center center-block file-upload" name="imageUpload" id="imageUpload" onchange="validateFileExtension(this.value)">
+        <input type="file" accept="image/*" class="text-center center-block file-upload" name="imageUpload" id="imageUpload">
         <span id="file_error" class="error"></span>
         <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar" id="img">
@@ -173,7 +177,6 @@ display:none;
           <div class="tab-content" id="update_profile_popup">
             <div class="tab-pane active" id="home">
                 <hr>
-                  <form class="form" id="profile" method="post" name="profile">
                       <div class="form-group" id="formGroup">
                           <div class="col-xs-6">
                               <label for="first_name"><h4>First name</h4></label>
@@ -394,8 +397,8 @@ display:none;
       });
       </#if>
       </script>
-
     <script src="/ecommerce/js/cookie.js"></script>
+    <script src="/login-form/js/validate.js"></script>
     <script src="/update/update.js"></script>
 </body>
 </html>

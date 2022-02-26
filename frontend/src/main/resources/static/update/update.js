@@ -1,4 +1,9 @@
+jQuery.validator.addMethod("filesize", function(value, element,param) {
+  return (element.files[0].size < 3000);
+}, 'Image size must be less than 3MB ');
+
 $(document).ready(function() {
+  "use strict";
 	$("#profile").validate({
 		rules: {
 			firstName: {
@@ -15,25 +20,29 @@ $(document).ready(function() {
             },
            address: {
                  required: false,
-                   },
+                },
+          imageUpload:{
+             required: true,
+             filesize: 1,
+          }
 		},
 		messages: {
-			firstName: {
-				required: "Please enter your first name",
-			},
-			lastName: {
-				required: "Please enter your last name",
-			   },
-            email: {
-                required: "Please enter your email",
-              },
+        firstName: {
+            required: "Please enter your first name",
+        },
+        lastName: {
+            required: "Please enter your last name",
+           },
+        email: {
+            required: "Please enter your email",
+          },
 		},
 		submitHandler: function(form) {
-            var formTag = $("#profile")[0];
-            var formData = new FormData(formTag);
-            formData.append('image', $('#imageUpload')[0].files[0]);
-            $("#file_error").html("");
-            updateUser(formData);
+        var formTag = $("#profile")[0];
+        var formData = new FormData(formTag);
+        formData.append('image', $('#imageUpload')[0].files[0]);
+        $("#file_error").html("");
+        updateUser(formData);
 	}
 	})
 })
@@ -155,3 +164,13 @@ $(document).ready(function() {
     //window.reload();
   });
 });
+
+//function validateFileSize(){
+//$('#imageUpload').bind('change', function() {
+//alert("hh")
+//  //this.files[0].size gets the size of your file.
+//  if(this.files[0].size<5000){
+//
+//  }
+//});
+//}
