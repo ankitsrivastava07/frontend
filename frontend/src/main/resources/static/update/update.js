@@ -22,7 +22,7 @@ $(document).ready(function() {
                  required: false,
                 },
           imageUpload:{
-             required: true,
+             required: false,
              filesize: 1,
           }
 		},
