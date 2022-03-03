@@ -28,7 +28,7 @@ public class TokenValidatorFilter implements Filter {
     }
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+    TenantContext.remove();
     HttpServletRequest request1= (HttpServletRequest)request;
     HttpServletResponse response1= (HttpServletResponse)response;
     String jwtToken = (jwtToken =request1.getHeader("AuthToken"))!=null? (jwtToken.startsWith("Bearer ")? jwtToken.substring(7): null) : null;
