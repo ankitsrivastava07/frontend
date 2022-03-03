@@ -53,16 +53,16 @@ cursor: pointer;
 }
 
 .alert{
-text-align: center;
-background-color: #545353;
-border-color: #545353;
-padding: 8px;
-color: white;
-font-weight: bold;
-margin-left: auto;
-margin-right: auto;
-width: fit-content;
-font-size : small;
+    text-align: center;
+    background-color: #545353;
+    border-color: #545353;
+    color: white;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    word-spacing: 7px;
+    width: fit-content;
+    font-size: small;
 box-shadow: 0 25px 15px 0 rgb(0 0 0 / 40%);
 }
 
