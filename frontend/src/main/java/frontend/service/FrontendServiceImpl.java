@@ -385,6 +385,5 @@ public class FrontendServiceImpl implements FrontendService {
 	public boolean isValidFileExtension(MultipartFile multipartFile){
 		return fileExtension.contains(multipartFile.getContentType());
 	}
-
 }
 
