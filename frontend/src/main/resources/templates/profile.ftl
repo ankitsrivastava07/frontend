@@ -134,6 +134,7 @@ display:none;
     </div>
   </div>
 </div>
+
 <form class="form" id="profile" method="post" name="profile">
 <hr>
 <#if userDto?? && userDto?has_content>

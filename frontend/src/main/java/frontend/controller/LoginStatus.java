@@ -10,7 +10,7 @@ import java.util.Collection;
 @Data
 public class LoginStatus implements Serializable {
 
-	private boolean status;
+	private boolean status= Boolean.FALSE;
 	private String message;
 	private String token;
 	private Integer httpStatus=200;

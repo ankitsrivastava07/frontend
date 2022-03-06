@@ -1,5 +1,6 @@
 package frontend.service;
 import java.io.*;
+import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Logger;
@@ -23,6 +24,8 @@ import frontend.dto.OrderRequest;
 import frontend.dto.OrderResponseDto;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +33,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import frontend.controller.LoginStatus;
 import frontend.dto.AddToCartRequest;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FrontendServiceImpl implements FrontendService {
@@ -135,14 +137,22 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "loginFallBack")
+	//@Async
 	public LoginStatus createAuthenticationToken(UserCredentialRequest userCredential) {
 		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
 		return loginStatus;
 	}
 
 	public LoginStatus loginFallBack(UserCredentialRequest userCredential,Throwable exception) {
+		Throwable throwable=exception.getCause();
+		String message=null;
+ 	for (StackTraceElement stackTraceElement : exception.getStackTrace()) {
+		if (stackTraceElement.getMethodName()!=null && stackTraceElement.getMethodName().equals("createCallNotPermittedException")) {
+    		message = exception.getMessage();
+		  }
+		}
 		LoginStatus loginStatus = new LoginStatus();
-		loginStatus.setMessage("Sorry Server is currently down.Please try again later");
+		loginStatus.setMessage(message!=null?message:"Sorry Server is currently down.Please try again later");
 		loginStatus.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
 		logger.info(exception.getMessage());
 		return loginStatus;
@@ -338,7 +348,7 @@ public class FrontendServiceImpl implements FrontendService {
 	public Object editProfile(String authentication ,String browserCode,UserDto userDto,MultipartFile multipartFile) {
 		try {
 			String alternateMobile = userDto.getAlternateMobile();
-			if (alternateMobile != null && userDto.getAlternateMobile().equals(""))
+			if (alternateMobile != null && userDto.getAlternateMobile().isEmpty())
 				userDto.setAlternateMobile(null);
 			if (userDto.getEmail() != null && userDto.getEmail().equals(""))
 				userDto.setEmail(null);
@@ -364,8 +374,10 @@ public class FrontendServiceImpl implements FrontendService {
 	public UserDto editProfileFallBack(String authentication,String browserCode,UserDto userDto,MultipartFile multipartFile,Throwable exception) {
 		UserDto responseConstant = new UserDto();
 		responseConstant.setStatus(Boolean.FALSE);
-		responseConstant.setMessage("Server down please try again later.");
-		responseConstant.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+		String msg=exception.getCause() instanceof java.net.SocketTimeoutException? "Request has been timeout" : "Server down please try again later";
+		int statusCode= exception.getCause() instanceof SocketTimeoutException?HttpStatus.REQUEST_TIMEOUT.value() : HttpStatus.SERVICE_UNAVAILABLE.value();
+		responseConstant.setMessage(msg);
+		responseConstant.setHttpStatus(statusCode);
 		return responseConstant;
 	}
 

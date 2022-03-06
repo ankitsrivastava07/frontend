@@ -105,10 +105,8 @@ public class RestApiController {
 				  return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
 			}
 		}
-         int statusCode=200;
-		Object obj=null;
-		if((obj=frontendService.editProfile(tokenStatus.getAccessToken(), browser,userDto,multipartFile)) instanceof ApiError)
-			statusCode=401;
+		Object obj = frontendService.editProfile(tokenStatus.getAccessToken(), browser,userDto,multipartFile);
+		int statusCode = obj instanceof ApiError?((ApiError)obj).getStatus(): ((UserDto)obj).getHttpStatus();
 		return new ResponseEntity<>(obj, HttpStatus.valueOf(statusCode));
 	}
 
