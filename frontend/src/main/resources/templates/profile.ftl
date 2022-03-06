@@ -200,7 +200,7 @@ display:none;
                       <div class="form-group">
                           <div class="col-xs-6">
                              <label for="mobile"><h4>Alternate Mobile number</h4></label>
-                              <input type="text" class="form-control" name="alternate_mobile" id="alternate_mobile" placeholder="enter mobile number" title="<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>" value=<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>>
+                              <input type="text" class="form-control" name="alternateMobile" id="alternateMobile" placeholder="enter mobile number" title="<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>" value=<#if userDto.alternateMobile?has_content>${userDto.alternateMobile}</#if>>
                           </div>
                       </div>
                       <div class="form-group">
