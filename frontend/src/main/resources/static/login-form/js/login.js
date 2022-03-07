@@ -7,32 +7,25 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-
 	$("#login-form").validate({
-
 		rules: {
-
 			emailOrMobile: {
 				required: true,
 			},
-
 			password: {
 				required: true,
 			},
 
 		},
 		messages: {
-
 			emailOrMobile: {
 				required: "Please enter your email/mobile number",
 			},
-
 			password: {
 				required: "Please enter your password",
 			},
 		},
 		submitHandler: function(form) {
-
 			var formData = {
 				"emailOrMobile": $("#emailOrMobile").val(),
 				"password": $("#password").val()
@@ -82,8 +75,10 @@ function login(formData) {
 				}
 			},
 			error: function(error) {
-          if(error.status==503){
-          $(".alert").remove();
+          if(error.status==503 || error.status==408){
+              $(".alert").remove();
+              $("#modal_title").html(error.responseJSON.title)
+              $("#message").html(error.responseJSON.message);
              $('#server_error').modal('show');
              }
                  if(error.responseJSON.validationFailed)    {
@@ -324,7 +319,6 @@ jQuery('#reset-password').validate({
 		}
 	},
 	submitHandler: function(form) {
-
 		var formData = {
 			"email": $("#emailOrMobile").val(),
 		}

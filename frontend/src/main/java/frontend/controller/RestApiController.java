@@ -47,10 +47,12 @@ public class RestApiController {
         UserCredentialRequest userCredentialRequest= (UserCredentialRequest) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredential.getEmailOrMobile(),userCredential.getPassword()));
 		LoginStatus loginStatus= new LoginStatus();
 		loginStatus.setHttpStatus(userCredentialRequest.getHttpStatus());
-		if(loginStatus.getHttpStatus()==503)
+		if(loginStatus.getHttpStatus()==503 || loginStatus.getHttpStatus()==408) {
 			loginStatus.setStatus(Boolean.FALSE);
+			loginStatus.setTitle(userCredentialRequest.getTitle());
+		}
 		  else
-			  loginStatus.setStatus(Boolean.TRUE);
+			 loginStatus.setStatus(Boolean.TRUE);
 		loginStatus.setToken(userCredentialRequest.getToken());
 		loginStatus.setBrowser(userCredentialRequest.getBrowser());
 		loginStatus.setMessage(userCredentialRequest.getMessage());
@@ -59,8 +61,7 @@ public class RestApiController {
 		  LoginStatus loginStatus = new LoginStatus();
 		  loginStatus.setHttpStatus(HttpStatus.OK.value());
 		  loginStatus.setMessage("Invalid email/mobile and password");
-		 // return null;
-		 return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
+    		 return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
 	  }
 	}
 

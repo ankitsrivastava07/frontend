@@ -137,23 +137,17 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "loginFallBack")
-	//@Async
 	public LoginStatus createAuthenticationToken(UserCredentialRequest userCredential) {
 		LoginStatus loginStatus = apiGatewayRequestUri.createAuthenticationToken(userCredential).getBody();
 		return loginStatus;
 	}
-
 	public LoginStatus loginFallBack(UserCredentialRequest userCredential,Throwable exception) {
-		Throwable throwable=exception.getCause();
-		String message=null;
- 	for (StackTraceElement stackTraceElement : exception.getStackTrace()) {
-		if (stackTraceElement.getMethodName()!=null && stackTraceElement.getMethodName().equals("createCallNotPermittedException")) {
-    		message = exception.getMessage();
-		  }
-		}
+		String message =exception.getCause() instanceof SocketTimeoutException? "Request has been time out ": "Our website is currently undergoing scheduled maintenance .We'll be here soon with our new awesome site or function subscribe to get notified ";
+		int statusCode=exception.getCause() instanceof SocketTimeoutException ? 408 : 503;
 		LoginStatus loginStatus = new LoginStatus();
-		loginStatus.setMessage(message!=null?message:"Sorry Server is currently down.Please try again later");
-		loginStatus.setHttpStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+		loginStatus.setTitle(statusCode==408? " Request Time out ": "Website Under Maintenance ");
+		loginStatus.setMessage(message);
+		loginStatus.setHttpStatus(statusCode);
 		logger.info(exception.getMessage());
 		return loginStatus;
 	}

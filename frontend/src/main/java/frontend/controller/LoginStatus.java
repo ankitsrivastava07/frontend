@@ -1,11 +1,6 @@
 package frontend.controller;
-
 import lombok.Data;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.io.Serializable;
-import java.util.Collection;
 
 @Data
 public class LoginStatus implements Serializable {
@@ -13,12 +8,13 @@ public class LoginStatus implements Serializable {
 	private boolean status= Boolean.FALSE;
 	private String message;
 	private String token;
+	private String title;
 	private Integer httpStatus=200;
 	private String browser;
 
 	public LoginStatus(){}
 
-	public LoginStatus(Boolean status,String message,String token,String browser){
+	public LoginStatus(Boolean status,String message,String token,String browser,String title){
 		this.status=status;
 		this.message=message;
 		this.token=token;
