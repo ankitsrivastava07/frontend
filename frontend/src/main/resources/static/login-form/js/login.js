@@ -79,6 +79,7 @@ function login(formData) {
               $(".alert").remove();
               $("#modal_title").html(error.responseJSON.title)
               $("#message").html(error.responseJSON.message);
+              $("#message").append('<img src="/images/timeout.jpg" />')
              $('#server_error').modal('show');
              }
                  if(error.responseJSON.validationFailed)    {
