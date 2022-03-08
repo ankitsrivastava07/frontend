@@ -13,7 +13,7 @@ feign:
        default:
         loggerLevel: basic
         connectTimeout: 8000
-        readTimeout: 8000
+        readTimeout: 1000
         logger-level: FULL 
   ratelimiter:
     instances:
