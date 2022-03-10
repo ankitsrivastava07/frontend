@@ -59,13 +59,14 @@ public class FrontendServiceImpl implements FrontendService {
 				if (cookie.getName().equalsIgnoreCase(cookieName)) {
 					cookie.setValue(cookieValue);
 					cookie.setPath("/");
-					cookie.setMaxAge(0);
+					cookie.setMaxAge(30 * 60);
 					cookie.setHttpOnly(true);
 					response.addCookie(cookie);
 					return;
 				}
 		}
 		Cookie cookie = new Cookie(cookieName, cookieValue);
+		cookie.setMaxAge(30 * 60);
 		response.addCookie(cookie);
 	}
 
