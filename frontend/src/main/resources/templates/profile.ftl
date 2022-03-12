@@ -1,6 +1,6 @@
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!------ Include the above in your HEAD tag ---------->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src ="/login-form/js/jquery.min.js"></script>
@@ -20,6 +20,12 @@
 .col-xs-6{
   float: none;
 }
+#icon{
+color:red;
+font-size:17px;
+cursor:pointer;
+}
+
 button.btn.btn-primary.loginButton{
     outline-color: #4a90e2;
     margin-top: 15px;
