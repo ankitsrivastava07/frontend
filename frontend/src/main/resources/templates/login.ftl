@@ -22,7 +22,7 @@
     color: #da534d;
     padding: 3px 0px;
 }
-.fa{
+#icon{
 color:red;
 font-size:17px;
 cursor:pointer;

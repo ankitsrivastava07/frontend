@@ -11,9 +11,9 @@ function login(e) {
                 success: function (e, r, a) {
                     $(".error").remove(),
                         $(".alert").remove(),
-                        e.status && ($(".modal-body").prepend("<div class='alert' id='alt'>" + e.message + "</div>"), $(".alert").append("<span id ='txt'>  OK</span>"), location.reload()),
+                        e.status && ($(".modal-body").prepend("<div class='alert' id='alt'>" + e.message + "&nbsp;&nbsp;&nbsp;<i class='fa fa-times' id='icon' aria-hidden='true'></i></div>"), location.reload()),
                         setTimeout(function () {
-                            (!e.status && 0 == $(".alert").length) || null == $(".input-group span").length ? $(".modal-body").prepend("<div class='alert' id='alt'>" + e.message + "&nbsp;&nbsp;&nbsp;<i class='fa fa-times' aria-hidden='true'></i></div>") : e.status || $(".alert").html(e.message);
+                            (!e.status && 0 == $(".alert").length) || null == $(".input-group span").length ? $(".modal-body").prepend("<div class='alert' id='alt'>" + e.message + "&nbsp;&nbsp;&nbsp;<i class='fa fa-times' id='icon' aria-hidden='true'></i></div>") : e.status || $(".alert").html(e.message);
                         }, 500),
                         e.status && ($.cookie("browser", e.browser), $.cookie("session_Token", e.token), (window.location.href = "/"));
                 },
@@ -255,6 +255,6 @@ $(document).ready(function () {
         window.location = "/";
     });
 
-$(document).on('click', '.fa', function () {
+$(document).on('click', '#icon', function () {
 $(".alert").remove()
 });
