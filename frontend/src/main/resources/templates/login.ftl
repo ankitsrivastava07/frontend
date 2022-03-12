@@ -109,6 +109,10 @@ box-shadow: 0 25px 15px 0 rgb(0 0 0 / 40%);
   </div>
 </div>
 
+<div class="social-icon">
+<object data="assets/twitter-wrap.svg" type="image/svg+xml"></object>
+</div>
+
 <form id="login-form" action="/" name="login-form" autocomplete="on">
 	<section class="ftco-section">
 		<div class="container">
