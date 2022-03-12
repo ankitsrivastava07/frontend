@@ -1,17 +1,16 @@
 package frontend.exceptionHandle;
-
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import frontend.api.error.ApiError;
 import frontend.api.response.AbstractResponse;
 import frontend.constant.ConstantResponse;
 import frontend.constant.ResponseConstant;
+import frontend.controller.LoginStatus;
+import frontend.exceptionHandle.exception.InvalidCredentialException;
 import frontend.service.TokenStatus;
 import frontend.validation.ValidationError;
 import frontend.validation.ValidationUtil;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +25,14 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @ControllerAdvice
-//@EnableWebMvc
 public class GlobalExceptionHandle {
     @Autowired
     HttpServletRequest request;
@@ -119,6 +113,14 @@ public class GlobalExceptionHandle {
         ApiError apiError = new ApiError(new Date(),HttpStatus.BAD_REQUEST.value(), ResponseConstant.FILE_LIMIT_EXCEED_DEAULT_MESSAGE,request.getRequestURI());
         apiError.setValidFile(Boolean.FALSE);
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidCredentialException.class)
+    public ResponseEntity<?> invalidCredentialException(InvalidCredentialException invalidCredentialsException){
+        LoginStatus loginStatus = new LoginStatus();
+        loginStatus.setStatus(Boolean.FALSE);
+        loginStatus.setMessage(invalidCredentialsException.getMessage());
+        return new ResponseEntity<>(loginStatus,HttpStatus.UNAUTHORIZED);
     }
 
 }

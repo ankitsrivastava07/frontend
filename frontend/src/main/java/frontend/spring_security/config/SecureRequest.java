@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +17,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 @EnableGlobalAuthentication
-//@EnableGlobalMethodSecurity(prePostEnabled=true)
 @EnableWebSecurity(debug = true)
 public class SecureRequest extends WebSecurityConfigurerAdapter {
     @Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
@@ -47,7 +45,8 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .antMatchers("/ajax/*").permitAll()
                 .antMatchers("/user/profile").permitAll()
                 .antMatchers("/signin").permitAll()
-                .antMatchers("/api/v1/user/*" ,"/api/v1/user/profile/*")
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/v1/user/profile/*")
                 .permitAll()
                 .antMatchers("/change-password","/change-password?code=")
                 .permitAll()
@@ -57,7 +56,6 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().cors().disable().csrf().disable();
                  httpSecurity.authenticationProvider(authenticateUser);
-                 httpSecurity.exceptionHandling().authenticationEntryPoint(authenticationEntryPointFilter).and().headers().cacheControl();
     }
     @Override
     public void configure(WebSecurity webSecurity) {

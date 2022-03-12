@@ -13,6 +13,7 @@ import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
 import frontend.dto.OrderRequest;
 import frontend.dto.OrderResponseDto;
+import frontend.exceptionHandle.exception.InvalidCredentialException;
 import frontend.response.ResetPasswordResponse;
 import frontend.service.AddToCartCountProductsResponse;
 import frontend.session_validator.JwtAccessTokenUtil;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -43,26 +43,21 @@ public class RestApiController {
 	@RequestMapping(path = "/login",method=RequestMethod.POST)
 	public ResponseEntity<?> signIn(@RequestBody @Valid UserCredentialRequest userCredential, HttpServletRequest request,
 								   HttpServletResponse response) throws JsonProcessingException {
-      try {
+
         UserCredentialRequest userCredentialRequest= (UserCredentialRequest) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredential.getEmailOrMobile(),userCredential.getPassword()));
 		LoginStatus loginStatus= new LoginStatus();
 		loginStatus.setHttpStatus(userCredentialRequest.getHttpStatus());
 		if(loginStatus.getHttpStatus()==503 || loginStatus.getHttpStatus()==408) {
 			loginStatus.setStatus(Boolean.FALSE);
 			loginStatus.setTitle(userCredentialRequest.getTitle());
+			loginStatus.setMessage(userCredentialRequest.getMessage());
+			return new ResponseEntity<>(loginStatus,HttpStatus.valueOf(loginStatus.getHttpStatus()));
 		}
-		  else
-			 loginStatus.setStatus(Boolean.TRUE);
+		loginStatus.setStatus(Boolean.TRUE);
 		loginStatus.setToken(userCredentialRequest.getToken());
 		loginStatus.setBrowser(userCredentialRequest.getBrowser());
 		loginStatus.setMessage(userCredentialRequest.getMessage());
 		return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
-	  }catch (BadCredentialsException exception){
-		  LoginStatus loginStatus = new LoginStatus();
-		  loginStatus.setHttpStatus(HttpStatus.OK.value());
-		  loginStatus.setMessage("Invalid email/mobile and password");
-    		 return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
-	  }
 	}
 
 	@PostMapping("/register")
