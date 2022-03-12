@@ -120,7 +120,7 @@ public class GlobalExceptionHandle {
         LoginStatus loginStatus = new LoginStatus();
         loginStatus.setStatus(Boolean.FALSE);
         loginStatus.setMessage(invalidCredentialsException.getMessage());
-        return new ResponseEntity<>(loginStatus,HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(loginStatus,HttpStatus.OK);
     }
 
 }
