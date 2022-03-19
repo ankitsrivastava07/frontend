@@ -1,4 +1,5 @@
-
+<!DOCTYPE html>
+<html>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!------ Include the above in your HEAD tag ---------->
@@ -150,7 +151,7 @@ display:none;
       <div class="text-center">
       <#if fileStream?has_content>
         <img src="${fileStream}" class="avatar img-circle img-thumbnail" id="img">
-        <input type="file" accept="image/*" class="text-center center-block file-upload" capture name="imageUpload" id="imageUpload">
+        <input type="file" accept="image/*" class="text-center center-block file-upload" name="imageUpload" id="imageUpload">
         <span id="file_error" class="error"></span>
         <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar" id="img">
