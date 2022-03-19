@@ -150,7 +150,7 @@ display:none;
       <div class="text-center">
       <#if fileStream?has_content>
         <img src="${fileStream}" class="avatar img-circle img-thumbnail" id="img">
-        <input type="file" accept="image/*" class="text-center center-block file-upload" capture="camera" name="imageUpload" id="imageUpload">
+        <input type="file" accept="image/*" class="text-center center-block file-upload" capture name="imageUpload" id="imageUpload">
         <span id="file_error" class="error"></span>
         <#else>
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar" id="img">
