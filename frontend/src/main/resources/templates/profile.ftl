@@ -406,6 +406,7 @@ display:none;
       </script>
     <script src="/ecommerce/js/cookie.js"></script>
     <script src="/login-form/js/validate.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script src="/update/update.js"></script>
 </body>
 </html>
