@@ -98,7 +98,7 @@ public class RestApiController {
 			ApiError apiError = new ApiError(new Date(),HttpStatus.BAD_REQUEST.value(),ResponseConstant.FILE_EXTENSION_VALIDATION_FAILED_DEFAULT_MESSAGE,null);
 			return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
 		}
-		UserDto userDto1 = frontendService.editProfile(authToken,browser,userDto,multipartFile);
+		UserDto userDto1 = frontendService.editProfile(tokenStatus.getAccessToken(),browser,userDto,multipartFile);
 		if(userDto1.getApiError()!=null)
 			return new ResponseEntity<>(userDto1.getApiError(), HttpStatus.valueOf(userDto1.getApiError().getHttpStatus()));
 
