@@ -5,6 +5,7 @@
 <!------ Include the above in your HEAD tag ---------->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src ="/login-form/js/jquery.min.js"></script>
+    <script src="/ecommerce/js/cookie.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <!------ Include the above in your HEAD tag ---------->
 <head>
@@ -405,7 +406,7 @@ display:none;
       });
       </#if>
       </script>
-    <script src="/ecommerce/js/cookie.js"></script>
+
     <script src="/login-form/js/validate.js"></script>
     <script src="/login-form/js/additional-methods.js"></script>
     <script src="/update/update.js"></script>

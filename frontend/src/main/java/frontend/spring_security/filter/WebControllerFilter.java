@@ -85,6 +85,7 @@ public class WebControllerFilter implements Filter {
 
     private boolean isValidToken(String jwtToken){
         TokenStatus tokenStatus = frontendService.isValidToken(jwtToken);
+        TenantContext.remove();
         TenantContext.setTokenStatus(tokenStatus);
         return tokenStatus.isStatus();
     }

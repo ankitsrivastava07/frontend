@@ -92,18 +92,17 @@ public class RestApiController {
 	}
 
 	@PostMapping("/profile/edit")
-	public ResponseEntity<?> editProfile(@RequestHeader(value = "browser",required = false) String browser ,UserDto userDto,@RequestParam(name="image",required = false) MultipartFile multipartFile) throws IOException {
+	public ResponseEntity<?> editProfile(@RequestHeader("AuthToken")String authToken,@RequestHeader(value = "browser",required = false) String browser ,UserDto userDto,@RequestParam(name="image",required = false) MultipartFile multipartFile) throws IOException {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
-		if (tokenStatus!=null && tokenStatus.isStatus() ){
-			userDto.setBrowser(tokenStatus.getBrowser());
-			if(multipartFile!=null && !frontendService.isValidFileExtension(multipartFile)){
-				ApiError apiError = new ApiError(new Date(),HttpStatus.BAD_REQUEST.value(),ResponseConstant.FILE_EXTENSION_VALIDATION_FAILED_DEFAULT_MESSAGE,null);
-				  return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
-			}
+		if(multipartFile!=null && !frontendService.isValidFileExtension(multipartFile)){
+			ApiError apiError = new ApiError(new Date(),HttpStatus.BAD_REQUEST.value(),ResponseConstant.FILE_EXTENSION_VALIDATION_FAILED_DEFAULT_MESSAGE,null);
+			return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
 		}
-		Object obj = frontendService.editProfile(tokenStatus.getAccessToken(), browser,userDto,multipartFile);
-		int statusCode = obj instanceof ApiError?((ApiError)obj).getStatus(): ((UserDto)obj).getHttpStatus();
-		return new ResponseEntity<>(obj, HttpStatus.valueOf(statusCode));
+		UserDto userDto1 = frontendService.editProfile(authToken,browser,userDto,multipartFile);
+		if(userDto1.getApiError()!=null)
+			return new ResponseEntity<>(userDto1.getApiError(), HttpStatus.valueOf(userDto1.getApiError().getHttpStatus()));
+
+		return new ResponseEntity<>(userDto1, HttpStatus.valueOf(userDto1.getHttpStatus()));
 	}
 
 /*

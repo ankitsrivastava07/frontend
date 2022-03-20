@@ -24,9 +24,11 @@ import frontend.dto.OrderRequest;
 import frontend.dto.OrderResponseDto;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
+import frontend.tenant.TenantContext;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -84,6 +86,7 @@ public class FrontendServiceImpl implements FrontendService {
 	@Override
 	@CircuitBreaker(name = "cloud-gateway-spring", fallbackMethod = "isValidTokenFallback")
 	public TokenStatus isValidToken(String jwtToken) {
+		TenantContext.remove();
 		TokenStatus tokenStatus = apiGatewayRequestUri.isValidToken(jwtToken).getBody();
 			if (tokenStatus!=null && tokenStatus.isStatus() && tokenStatus.getIsAccessTokenNewCreated())
 				setCookie(httpServletRequest, httpServletResponse,"session_Token", tokenStatus.getAccessToken());
@@ -340,7 +343,7 @@ public class FrontendServiceImpl implements FrontendService {
 
 	@Override
 	@CircuitBreaker(name="cloud-gateway-spring",fallbackMethod = "editProfileFallBack")
-	public Object editProfile(String authentication ,String browserCode,UserDto userDto,MultipartFile multipartFile) {
+	public UserDto editProfile(String authentication ,String browserCode,UserDto userDto,MultipartFile multipartFile) {
 		try {
 			String alternateMobile = userDto.getAlternateMobile();
 			if (alternateMobile != null && userDto.getAlternateMobile().isEmpty())
@@ -355,10 +358,6 @@ public class FrontendServiceImpl implements FrontendService {
 				userDto.setPath(multipartFile.getName());
 			}
 			UserDto userDto1 = apiGatewayRequestUri.editProfile(authentication,browserCode, userDto).getBody();
-			if(Objects.nonNull(userDto1.getIsSessionExpired()) && userDto1.getIsSessionExpired()){
-				ApiError apiError = new ApiError(new Date(), HttpStatus.UNAUTHORIZED.value(),ResponseConstant.SESSION_EXPIRED_DEFAULT_MESSAGE,null);
-				return apiError;
-			}
 			return userDto1;
 		}catch (IOException exception){
 			exception.printStackTrace();
