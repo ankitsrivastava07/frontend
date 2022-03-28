@@ -30,7 +30,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandle {
@@ -44,7 +46,9 @@ public class GlobalExceptionHandle {
         Logger logger = LoggerFactory.getLogger(MissingServletRequestParameterException.class);
         logger.error("invalid request parameter is missing "+exception.getMessage());
         ApiError apiError= new ApiError(new Date(),HttpStatus.METHOD_NOT_ALLOWED.value(),exception.getMessage(),request.getRequestURI());
-        return new ResponseEntity<>(apiError,HttpStatus.METHOD_NOT_ALLOWED);
+        Map<String,String> map = new HashMap<>();
+        map.put("error",exception.getMessage());
+        return new ResponseEntity<>(map,HttpStatus.METHOD_NOT_ALLOWED);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> validationError(MethodArgumentNotValidException ex) {
