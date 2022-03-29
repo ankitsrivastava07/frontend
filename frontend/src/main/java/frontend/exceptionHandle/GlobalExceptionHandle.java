@@ -87,7 +87,7 @@ public class GlobalExceptionHandle {
         Throwable cause = exception.getCause();
         if(cause instanceof JsonMappingException){
             JsonMappingException jpe = (JsonMappingException) cause;
-            String msg="Invalid request field : ";
+            String msg="Correct field : ";
             if (jpe.getPath() != null && jpe.getPath().size() > 0) {
                 msg = msg+jpe.getPath().get(0).getFieldName();
             }
