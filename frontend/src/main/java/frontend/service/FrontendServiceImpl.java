@@ -4,6 +4,8 @@ import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,11 +26,13 @@ import frontend.dto.OrderResponseDto;
 import frontend.response.AddToCartResponse;
 import frontend.response.ResetPasswordResponse;
 import frontend.tenant.TenantContext;
+import frontend.validation.ValidationError;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.internal.CircuitBreakerStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import frontend.controller.LoginStatus;
 import frontend.dto.AddToCartRequest;
@@ -42,6 +46,9 @@ public class FrontendServiceImpl implements FrontendService {
 	@Autowired private AmazonS3 amazonS3;
 	@Value("${aws.s3.bucket}")
 	@Autowired private String bucketName;
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+			Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
 	private List<String> fileExtension= new ArrayList<>();
 	private ObjectMapper mapper = new ObjectMapper();
 	public FrontendServiceImpl(){
@@ -375,6 +382,37 @@ public class FrontendServiceImpl implements FrontendService {
 	@Override
 	public boolean isValidFileExtension(MultipartFile multipartFile){
 		return fileExtension.contains(multipartFile.getContentType());
+	}
+
+
+	public static boolean validate(String email) {
+		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+		return matcher.find();
+	}
+
+	public static CreateUserResponseStatus checkError(CreateUserRequestDto createUserRequestDto){
+		CreateUserResponseStatus status = new CreateUserResponseStatus();
+		status.setStatus(Boolean.FALSE);
+		status.setMessage("Validation Failed");
+		status.setHttpStatus(HttpStatus.BAD_REQUEST.value());
+		List<ValidationError> errors = new ArrayList<>();
+		if(!createUserRequestDto.getPassword().equals(createUserRequestDto.getConfirmPassword())){
+			ValidationError validationError = new ValidationError();
+			validationError.setMessage("Password not matched ");
+			errors.add(validationError);
+			status.setValidationFailed(Boolean.TRUE);
+		}
+		if(!validate(createUserRequestDto.getEmail())){
+			ValidationError validationError = new ValidationError();
+			validationError.setMessage("Please enter valid email ");
+			errors.add(validationError);
+			status.setValidationFailed(Boolean.TRUE);
+		}
+
+		if(status.getValidationFailed()){
+            status.setErrors(errors);
+		}
+            return status;
 	}
 }
 

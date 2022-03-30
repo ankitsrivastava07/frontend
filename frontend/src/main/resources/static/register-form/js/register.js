@@ -75,7 +75,8 @@ $(document).ready(function() {
 					"mobile": $("#mobile").val(),
 					"password": $("#password").val(),
 					"browserName" : getBrowserName(),
-					"osname" : getOSName()
+					"osname" : getOSName(),
+					"confirmPassword" : $("#confirmPassword").val(),
 				}
 				register(formData);
 			}
@@ -130,7 +131,13 @@ $(document).ready(function() {
 					error: function(xhr, ajaxOptions, thrownError) {
 						if(xhr.status==503){
                			$('#server_error').modal('show');
+                       }
+                if(xhr.responseJSON.validationFailed){
+                 xhr.responseJSON.errors.forEach(function(e) {
+                  $('.title').after("<div class='alert alert-danger'>"+ e.message +"</div>")
+                 });
                }
+
                $('#close').click(function(){
                  $('#server_error').modal('hide');
                 });

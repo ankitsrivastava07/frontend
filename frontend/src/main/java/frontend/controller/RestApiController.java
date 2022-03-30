@@ -16,6 +16,7 @@ import frontend.dto.OrderResponseDto;
 import frontend.exceptionHandle.exception.InvalidCredentialException;
 import frontend.response.ResetPasswordResponse;
 import frontend.service.AddToCartCountProductsResponse;
+import frontend.service.FrontendServiceImpl;
 import frontend.session_validator.JwtAccessTokenUtil;
 import frontend.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,11 @@ public class RestApiController {
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody @Valid CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
-		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
+		CreateUserResponseStatus status= FrontendServiceImpl.checkError(createUserRequestDto);
+		if(status.getValidationFailed()){
+			return new ResponseEntity<>(status, HttpStatus.valueOf(status.getHttpStatus()));
+		}
+         status= frontendService.register(createUserRequestDto);
 		return new ResponseEntity<>(status, HttpStatus.valueOf(status.getHttpStatus()));
 	}
 

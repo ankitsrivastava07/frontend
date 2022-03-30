@@ -162,6 +162,14 @@ display: none;
 											name="password" maxlength="20">
 									</div>
 								</div>
+                    <div class="col-2">
+                        <div class="input-group">
+                            <label class="label">Confirm Password</label> <input
+                                class="input--style-4" type="password" autocomplete=on minlength="8" id="confirmPassword"
+                                name="confirmPassword" maxlength="20">
+                        </div>
+                    </div>
+
 							</div>
 							<div class="p-t-15">
 									<button class="btn btn--radius-2 btn--blue" id="submit" type="submit">Submit</button>

@@ -1,5 +1,4 @@
 package frontend.validation;
-
 import lombok.Data;
 
 @Data
