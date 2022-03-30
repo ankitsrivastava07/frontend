@@ -17,7 +17,7 @@ public class CreateUserRequestDto implements Serializable {
 	private String mobile;
 	@Pattern(regexp = ".+@.+\\..+",message = "Please enter valid email id")
 	private String email;
-	@NotBlank(message = "Please enter valid is Blocked value")
+	//@NotBlank(message = "Please enter valid is Blocked value")
 	private Boolean isBlocked=Boolean.FALSE;
 	@NotBlank(message = "Please enter valid password")
 	@Size(min=6,max = 30,message = "Password minimum 6 characters and maximum 30 characters long")
