@@ -5,6 +5,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<div class="icon-box">
+				<i class="material-icons"></i>
 				</div>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
