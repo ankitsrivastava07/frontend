@@ -36,6 +36,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import frontend.controller.LoginStatus;
 import frontend.dto.AddToCartRequest;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FrontendServiceImpl implements FrontendService {
@@ -402,7 +403,7 @@ public class FrontendServiceImpl implements FrontendService {
 			errors.add(validationError);
 			status.setValidationFailed(Boolean.TRUE);
 		}
-		if(!validate(createUserRequestDto.getEmail())){
+		if(!StringUtils.isEmpty(createUserRequestDto.getEmail()) && !validate(createUserRequestDto.getEmail())){
 			ValidationError validationError = new ValidationError();
 			validationError.setMessage("Please enter valid email ");
 			errors.add(validationError);
