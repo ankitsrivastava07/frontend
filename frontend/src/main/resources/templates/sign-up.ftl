@@ -15,6 +15,9 @@
 <!-- Title Page-->
 <title>Sign up Form</title>
 <script src="/register-form/vendor/jquery/jquery.min.js"></script>
+   <script type="text/javascript" src="/test/wp-content/themes/child/script/jquery.jcarousel.min.js"></script>
+   <script src="https://code.jquery.com/jquery-migrate-1.3.0.js"></script>
+
 <script src="/login-form/js/validate.js"></script>
 <script src="/login-form/js/cookie.js" type="text/javascript"></script>
 <!-- Icons font CSS-->

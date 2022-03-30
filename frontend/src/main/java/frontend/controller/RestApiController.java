@@ -61,7 +61,7 @@ public class RestApiController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
+	public ResponseEntity<?> register(@RequestBody @Valid CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
 		CreateUserResponseStatus status = frontendService.register(createUserRequestDto);
 		return new ResponseEntity<>(status, HttpStatus.valueOf(status.getHttpStatus()));
 	}

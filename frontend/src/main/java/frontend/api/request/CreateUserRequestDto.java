@@ -26,5 +26,9 @@ public class CreateUserRequestDto implements Serializable {
 	@Size(min=6, max=30, message = "Confirm Password minimum 6 characters and maximum 30 characters long")
 	private String confirmPassword;
 	@NotBlank(message = "Please enter browser name")
+	private String browserName;
+	@NotBlank(message = "Please enter browser token")
 	private String browser;
+	@NotBlank(message = "Please enter os name")
+	private String osname;
 }

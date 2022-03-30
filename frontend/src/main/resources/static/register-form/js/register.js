@@ -1,9 +1,6 @@
-
 $(document).ready(function() {
-
 	$.validator.addMethod("mobileNumberVaildation", function(value) {
 		return /^(?=.*[a-z])[A-Za-z0-9\d=!\-@$&!%#()<>._*]+$/.test(value) // consists of only these
-
 	});
 
 	$(document).ready(function() {
@@ -58,7 +55,6 @@ $(document).ready(function() {
 
 				password: {
 					required: "Please enter  password",
-
 					minlength: "Please enter password atleast 8 characters long",
 				},
 
@@ -69,17 +65,17 @@ $(document).ready(function() {
 				mobile: {
 					required: "Please enter mobile number",
 				},
-
 			},
 
 			submitHandler: function(form) {
-
 				var formData = {
 					"firstName": $("#firstName").val(),
 					"lastName": $("#lastName").val(),
 					"email": $("#email").val(),
 					"mobile": $("#mobile").val(),
 					"password": $("#password").val(),
+					"browserName" : getBrowserName(),
+					"osname" : getOSName()
 				}
 				register(formData);
 			}
@@ -144,3 +140,32 @@ $(document).ready(function() {
 		}
 	});
 });
+
+function getBrowserName() {
+        if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ){
+            return 'Opera';
+        }
+        else if(navigator.userAgent.indexOf("Chrome") != -1 ){
+            return 'Chrome';
+        }
+        else if(navigator.userAgent.indexOf("Safari") != -1){
+            return 'Safari';
+        }
+        else if(navigator.userAgent.indexOf("Firefox") != -1 ){
+             return 'Firefox';
+        }
+        else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )){
+          return 'IE';
+        }
+        else{
+           return 'unknown';
+        }
+    }
+function getOSName(){
+var OSName="Unknown OS";
+if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
+if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
+if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
+if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
+return OSName;
+}
