@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @EnableFeignClients("frontend.*")
-@EnableCaching
+//@EnableCaching
 public class FrontendApplication {
 @Autowired private ApiGatewayRequestUri apiGatewayRequestUri;
      @Autowired

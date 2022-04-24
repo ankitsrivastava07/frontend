@@ -196,4 +196,11 @@ public class WebController {
         return mv;
     }
 
+    @GetMapping("/chat")
+    public ModelAndView chatPage(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("chat");
+        return mv;
+    }
+
 }

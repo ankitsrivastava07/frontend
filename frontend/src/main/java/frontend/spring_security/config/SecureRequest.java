@@ -36,7 +36,7 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/")
                 .permitAll()
-                .antMatchers("/home").permitAll()
+                .antMatchers("/home","/book/*").permitAll()
                 .antMatchers("/popup").permitAll()
                 .antMatchers("/signout").permitAll()
                 .antMatchers("/user/validate").permitAll()

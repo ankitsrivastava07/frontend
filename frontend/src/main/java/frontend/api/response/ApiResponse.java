@@ -16,6 +16,7 @@ public class ApiResponse {
     private List<ValidationError> errors;
     private LocalDateTime timestamp;
     private Boolean validationFailed=Boolean.FALSE;
+    private Object data;
     public ApiResponse() {
     }
 
