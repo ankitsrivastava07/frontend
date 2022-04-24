@@ -199,7 +199,7 @@ public class WebController {
     @GetMapping("/chat")
     public ModelAndView chatPage(){
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("chat");
+        mv.setViewName("chat_msg");
         return mv;
     }
 

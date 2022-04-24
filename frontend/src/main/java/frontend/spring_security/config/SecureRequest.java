@@ -36,7 +36,7 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/")
                 .permitAll()
-                .antMatchers("/home","/book/*").permitAll()
+                .antMatchers("/home","/book/*","/chat/**","/ws/**").permitAll()
                 .antMatchers("/popup").permitAll()
                 .antMatchers("/signout").permitAll()
                 .antMatchers("/user/validate").permitAll()
@@ -63,7 +63,7 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().
-         antMatchers( "/images/**","/css/**","/ecommerce/**","/login-form/**","/register-form/**","/response-popup/css/**","/update/**");
+         antMatchers( "/images/**","/css/**","/ecommerce/**","/login-form/**","/register-form/**","/response-popup/css/**","/update/**","app.js");
     }
 
     @Bean

@@ -6,6 +6,7 @@ import frontend.api.request.CreateUserRequestDto;
 import frontend.api.request.UserCredentialRequest;
 import frontend.api.response.CreateUserResponseStatus;
 import frontend.constant.ResponseConstant;
+import frontend.dto.ChatMessage;
 import frontend.dto.OrderRequest;
 import frontend.response.ResetPasswordResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name = "cloud-gateway-spring", url = "http://cloud-gateway-spring.herokuapp.com/")
 public interface ApiGatewayRequestUri {
+
+	@PostMapping("/users/save-message")
+	public ResponseEntity<ChatMessage> saveMessage(@RequestBody ChatMessage chatMessage);
 
 	@PostMapping("/users/login")
 	public ResponseEntity<LoginStatus> createAuthenticationToken(@RequestBody UserCredentialRequest userCredential);

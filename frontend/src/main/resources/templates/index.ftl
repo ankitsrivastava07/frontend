@@ -137,6 +137,7 @@
                                                     <li><a href="#">Wishlist</a></li>
                                                     <li><a href="#">Gift Cards</a></li>
                                                     <li><a href="#">Saved Address</a></li>
+                                                    <li><a href="/chat">Chat Message</a></li>
                                                    <li>
                                                     <span class="new_customer"> New Customer ?
                                                      <a href="/register">Start Here</a></span>
