@@ -63,13 +63,6 @@ public class RestApiController {
 		loginStatus.setMessage(userCredentialRequest.getMessage());
 		return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
 	}
-	@RequestMapping(path = "/login" , method = RequestMethod.OPTIONS)
-	public ResponseEntity<?> login(HttpServletRequest request , HttpServletResponse response){
-		Logger log = Logger.getLogger("");
-	    log.info("OPTIONS api called " + request.getRequestURI());
-		response.setHeader("Allow","HEAD,GET,PUT,POST,DELETE,OPTIONS");
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody @Valid CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
 		CreateUserResponseStatus status= FrontendServiceImpl.checkError(createUserRequestDto);

@@ -85,17 +85,6 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
         return new AuthenticationEntryPointFilter();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE").allowedOrigins("*")
-                        .allowedHeaders("*");
-            }
-        };
-    }
-
    /* @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticateUser);
