@@ -32,6 +32,8 @@ import frontend.service.FrontendService;
 import frontend.service.TokenStatus;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
+
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping({"/api/v1/user/", "/user","/api/v1/user/profile"})
 @CrossOrigin("*")
@@ -61,7 +63,13 @@ public class RestApiController {
 		loginStatus.setMessage(userCredentialRequest.getMessage());
 		return new ResponseEntity<>(loginStatus, HttpStatus.valueOf(loginStatus.getHttpStatus()));
 	}
-
+	@RequestMapping(path = "/login" , method = RequestMethod.OPTIONS)
+	public ResponseEntity<?> login(HttpServletRequest request , HttpServletResponse response){
+		Logger log = Logger.getLogger("");
+	    log.info("OPTIONS api called " + request.getRequestURI());
+		response.setHeader("Allow","HEAD,GET,PUT,POST,DELETE,OPTIONS");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody @Valid CreateUserRequestDto createUserRequestDto,HttpServletRequest request,HttpServletResponse response) {
 		CreateUserResponseStatus status= FrontendServiceImpl.checkError(createUserRequestDto);
@@ -71,13 +79,11 @@ public class RestApiController {
          status= frontendService.register(createUserRequestDto);
 		return new ResponseEntity<>(status, HttpStatus.valueOf(status.getHttpStatus()));
 	}
-
 	@PostMapping(path = "/product/add-to-cart")
 	public ResponseEntity<?> addToCart(HttpServletResponse response) {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
 		return new ResponseEntity<>(tokenStatus.getMessage(),HttpStatus.valueOf(tokenStatus.getHttpStatus()));
 	}
-
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestHeader(name = "uriToken") String uriToken, @RequestBody ChangePasswordReqest req, HttpServletRequest request){
 		String browser=UUID.randomUUID().toString();
@@ -85,7 +91,6 @@ public class RestApiController {
 		ResponseConstant responseConstant = frontendService.changePassword(req);
 		return new ResponseEntity<>(responseConstant, HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
-
 	@PostMapping("/save-order")
 	public ResponseEntity<?> saveOrder(@RequestBody @Valid OrderRequest orderRequest){
      TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
@@ -96,7 +101,6 @@ public class RestApiController {
 		OrderResponseDto responseConstant = frontendService.saveOrder(tokenStatus.getAccessToken(),orderRequest);
 		return new ResponseEntity<>(responseConstant,HttpStatus.valueOf(responseConstant.getHttpStatus()));
 	}
-
 	@PostMapping("/profile/edit")
 	public ResponseEntity<?> editProfile(@RequestHeader("AuthToken")String authToken,@RequestHeader(value = "browser",required = false) String browser ,UserDto userDto,@RequestParam(name="image",required = false) MultipartFile multipartFile) throws IOException {
 		TokenStatus tokenStatus = TenantContext.getCurrentTokenStatus();
@@ -132,13 +136,11 @@ public class RestApiController {
 		}
 		return new ResponseEntity<>(addToCartCountProductsResponse,HttpStatus.valueOf(tokenStatus.getHttpStatus()));
 	}
-
 	@PostMapping("/validate")
 	public ResponseEntity<?> validate(@RequestBody @Valid UserNameExistRequest userNameExistRequest) {
 		ResetPasswordResponse resetPasswordResponse = frontendService.validateUser(userNameExistRequest.getEmail());
 		return new ResponseEntity<>(resetPasswordResponse, HttpStatus.valueOf(resetPasswordResponse.getHttpStatus()));
 	}
-
 	@PostMapping("/validate-session")
 	public ResponseEntity<?> validateSession(@RequestHeader(name = "Authentication", required = false) String authentication) {
 		if(authentication==null)
