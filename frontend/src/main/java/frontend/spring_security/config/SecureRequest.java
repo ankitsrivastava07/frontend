@@ -84,14 +84,14 @@ public class SecureRequest extends WebSecurityConfigurerAdapter {
     public AuthenticationEntryPointFilter authentionEntryPoint() throws Exception {
         return new AuthenticationEntryPointFilter();
     }
-
-   /* @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticateUser);
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE").allowedOrigins("*")
+                        .allowedHeaders("*");
+            }
+        };
     }
-*/
-   /* @Override
-    public void configure(AuthenticationProvider authenticationProvider){
-        authenticationProvider.authenticate(new UserCredentialRequest());
-    }*/
 }
