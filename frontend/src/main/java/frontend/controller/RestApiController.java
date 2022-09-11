@@ -34,6 +34,7 @@ import java.io.*;
 import java.util.*;
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping({"/api/v1/user/", "/user","/api/v1/user/profile"})
+@CrossOrigin("*")
 public class RestApiController {
 	@Autowired
 	private FrontendService frontendService;
