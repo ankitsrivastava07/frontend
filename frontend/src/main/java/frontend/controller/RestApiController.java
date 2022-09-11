@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping({"/api/v1/user/", "/user","/api/v1/user/profile"})
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class RestApiController {
 	@Autowired
 	private FrontendService frontendService;
